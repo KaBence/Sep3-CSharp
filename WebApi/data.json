@@ -1,0 +1,12 @@
+{
+  "Aliens": [
+    {
+      "Id": 1,
+      "Name": "Martian"
+    },
+    {
+      "Id": 2,
+      "Name": "Wookie"
+    }
+  ]
+}
