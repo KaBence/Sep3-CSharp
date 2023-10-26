@@ -2,6 +2,8 @@
 using System.Net.Http.Json;
 using System.Text.Json;
 using HttpClients.ClientInterfaces;
+using Shared.DTOs;
+using Shared.Models;
 
 namespace HttpClients.Implementations
 {
@@ -14,9 +16,9 @@ namespace HttpClients.Implementations
             this.client = client;
         }
         
-        public async Task CreateAsync(string dto)
+        public async Task CreateAsync(AlienCreationDto dto)
         {
-            HttpResponseMessage response = await client.PostAsJsonAsync("/string",dto);
+            HttpResponseMessage response = await client.PostAsJsonAsync("/aliens",dto);
             if (!response.IsSuccessStatusCode)
             {
                 string content = await response.Content.ReadAsStringAsync();
@@ -24,16 +26,16 @@ namespace HttpClients.Implementations
             }
         }
 
-        public async Task<ICollection<string>> GetAsync()
+        public async Task<ICollection<Alien>> GetAsync()
         {
-            HttpResponseMessage response = await client.GetAsync("/post");
+            HttpResponseMessage response = await client.GetAsync("/aliens");
             string content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception(content);
             }
 
-            ICollection<string> posts = JsonSerializer.Deserialize<ICollection<string>>(content, new JsonSerializerOptions
+            ICollection<Alien> posts = JsonSerializer.Deserialize<ICollection<Alien>>(content, new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             })!;

@@ -1,5 +1,6 @@
 ﻿@page "/GetString"
 @using HttpClients.ClientInterfaces
+@using global::Shared.Models
 @inject IStringService stringService;
 <h3>GetString</h3>
 
@@ -34,7 +35,7 @@
         }
 
 @code {
-    private IEnumerable<string>? strings;
+    private IEnumerable<Alien>? strings;
     private string msg = ""; 
     
     protected override async Task OnInitializedAsync()
