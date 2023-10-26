@@ -1,0 +1,37 @@
+﻿@page "/SendString"
+@using HttpClients.ClientInterfaces
+@inject IStringService stringService;
+<h3>SendString</h3>
+
+<div class="card">
+    <div class="form-group field">
+        <label>The ominous String:</label>
+        <input type="text" @bind="particularString"/>
+    </div>
+    <div class="button-row">
+        @if (!string.IsNullOrEmpty(msg))
+        {
+            <label style="color: red">@msg</label>
+        }
+        <button @onclick="Create" class="acceptbtn">Create Post</button>
+    </div>
+</div>
+
+@code {
+    private string particularString;
+
+    private string msg;
+
+    private async Task Create()
+    {
+        try
+        {
+            await stringService.CreateAsync(particularString);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+}

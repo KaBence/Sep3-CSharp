@@ -1,0 +1,57 @@
+﻿@page "/GetString"
+@using HttpClients.ClientInterfaces
+@inject IStringService stringService;
+<h3>GetString</h3>
+
+@if (strings == null)
+        {
+        }
+        else if (!strings.Any())
+        {
+            <p>No Todos to display</p>
+        }
+        else
+        {
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Title</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in strings)
+                {
+                    <tr>
+                        <td>@item</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        }
+        @if (!string.IsNullOrEmpty(msg))
+        {
+            <label style="color: red">@msg</label>
+        }
+
+@code {
+    private IEnumerable<string>? strings;
+    private string msg = ""; 
+    
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadStrings();
+    }
+    
+    private async Task LoadStrings()
+    {
+        try
+        {
+            strings = await stringService.GetAsync();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            msg = e.Message;
+        }
+    }
+}
