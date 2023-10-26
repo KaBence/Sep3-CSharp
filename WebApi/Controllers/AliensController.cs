@@ -1,5 +1,6 @@
 ﻿
 using Application.LogicInterfaces;
+using GrpcDemo;
 using Shared.DTOs;
 using Shared.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +12,8 @@ namespace WebAPI.Controllers;
 public class AliensController : ControllerBase
 {
     private readonly IAlienLogic alienLogic;
+
+    private readonly Client _client;
 
     public AliensController(IAlienLogic alienLogic)
     {
