@@ -1,6 +1,5 @@
 ﻿
 using Application.LogicInterfaces;
-using GrpcDemo;
 using Shared.DTOs;
 using Shared.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -13,8 +12,6 @@ public class AliensController : ControllerBase
 {
     private readonly IAlienLogic alienLogic;
 
-    private readonly Client _client;
-
     public AliensController(IAlienLogic alienLogic)
     {
         this.alienLogic = alienLogic;
@@ -25,8 +22,8 @@ public class AliensController : ControllerBase
     {
         try
         {
-            Alien alien = await alienLogic.CreateAsync(dto);
-            return Created($"/aliens/{alien.Id}", alien);
+            await alienLogic.CreateAsync(dto);
+            return Created($"/aliens/{dto.Name}", dto);
         }
         catch (Exception e)
         {

@@ -22,7 +22,7 @@ namespace HttpClients.Implementations
             if (!response.IsSuccessStatusCode)
             {
                 string content = await response.Content.ReadAsStringAsync();
-                throw new Exception(content);
+                //throw new Exception(content);
             }
         }
 

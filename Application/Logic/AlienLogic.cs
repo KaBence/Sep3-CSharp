@@ -1,7 +1,11 @@
 ﻿using Application.DaoInterfaces;
 using Application.LogicInterfaces;
+using Grpc.Core;
+using Grpc.Net.Client;
+using SEP3;
 using Shared.DTOs;
 using Shared.Models;
+
 
 namespace Application.Logic;
 
@@ -24,8 +28,18 @@ public class AlienLogic : IAlienLogic
 
     }
 
-    public async Task<Alien> CreateAsync(AlienCreationDto dto)
+    public async Task CreateAsync(AlienCreationDto dto)
     {
+        using var chanel = GrpcChannel.ForAddress("http://localhost:1337",new GrpcChannelOptions
+        {
+            Credentials = ChannelCredentials.Insecure
+        });
+        var client = new ProofService.ProofServiceClient(chanel);
+        await client.putStringAsync(new putStringReq
+        {
+            Ominous = dto.Name
+        });
+        
         Alien? existing = await AlienDao.GetByNameAsync(dto.Name);
         if (existing != null)
             throw new Exception("Username already taken!");
@@ -37,8 +51,8 @@ public class AlienLogic : IAlienLogic
         };
 
         Alien created = await AlienDao.CreateAsync(toCreate);
-        
-        return created;
+
+        //return created;
     }
 
     public Task<IEnumerable<Alien>> GetAsync(SearchAlienParametersDto searchParameters)
