@@ -55,8 +55,24 @@ public class AlienLogic : IAlienLogic
         //return created;
     }
 
-    public Task<IEnumerable<Alien>> GetAsync(SearchAlienParametersDto searchParameters)
+    public async Task<IEnumerable<Alien>> GetAsync(SearchAlienParametersDto searchParameters)
     {
-        return AlienDao.GetAsync(searchParameters);
+        using var chanel = GrpcChannel.ForAddress("http://localhost:1337",new GrpcChannelOptions
+        {
+            Credentials = ChannelCredentials.Insecure
+        });
+        var client = new ProofService.ProofServiceClient(chanel);
+        GetStringRes strings = client.getStrings(new GetStringsReq());
+        List<Alien> aliens = new List<Alien>();
+        foreach (var item in strings.Ominous)
+        {
+            aliens.Add(new Alien
+            {
+                Name = item
+            });
+        }
+
+        return aliens;
+        //return AlienDao.GetAsync(searchParameters);
     }
 }
