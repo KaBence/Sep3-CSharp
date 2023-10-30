@@ -2,7 +2,7 @@
 using Application.LogicInterfaces;
 using Grpc.Core;
 using Grpc.Net.Client;
-using SEP3;
+using Sep3;
 using Shared.DTOs;
 using Shared.Models;
 
@@ -35,11 +35,11 @@ public class AlienLogic : IAlienLogic
             Credentials = ChannelCredentials.Insecure
         });
         var client = new ProofService.ProofServiceClient(chanel);
-        await client.putStringAsync(new putStringReq
+        await client.putStringAsync(new PutStringReq
         {
             Ominous = dto.Name
         });
-        
+        /*
         Alien? existing = await AlienDao.GetByNameAsync(dto.Name);
         if (existing != null)
             throw new Exception("Username already taken!");
@@ -51,7 +51,7 @@ public class AlienLogic : IAlienLogic
         };
 
         Alien created = await AlienDao.CreateAsync(toCreate);
-
+        */
         //return created;
     }
 
