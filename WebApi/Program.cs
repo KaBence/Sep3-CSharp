@@ -1,8 +1,7 @@
 using Application.DaoInterfaces;
 using Application.Logic;
 using Application.LogicInterfaces;
-using FileData;
-using FileData.DAOs;
+
 using gRPCData.DAOs;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,10 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
-
-builder.Services.AddScoped<FileContext>();
-builder.Services.AddScoped<IALienDao, AlienFileDao>();
-builder.Services.AddScoped<IAlienLogic, AlienLogic>();
+//builder.Services.AddScoped<IAlienLogic, AlienLogic>();
 builder.Services.AddScoped<ICustomerDao, CustomerDao>();
 builder.Services.AddScoped<ICustomerLogic, CustomerLogic>();
 builder.Services.AddScoped<IFarmerDao, FarmerDao>();

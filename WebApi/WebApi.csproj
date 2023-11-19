@@ -7,13 +7,13 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Google.Protobuf" Version="3.25.1" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.10"/>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0"/>
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\Application\Application.csproj" />
-      <ProjectReference Include="..\FileData\FileData.csproj" />
       <ProjectReference Include="..\gRPCData\gRPCData.csproj" />
       <ProjectReference Include="..\Shared\Shared.csproj" />
     </ItemGroup>

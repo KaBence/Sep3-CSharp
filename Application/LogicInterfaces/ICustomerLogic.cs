@@ -1,4 +1,5 @@
-﻿using Shared.DTOs.Create;
+﻿using Shared.DTOs;
+using Shared.DTOs.Create;
 using Shared.DTOs.Search;
 using Shared.Models;
 
@@ -6,7 +7,7 @@ namespace Application.LogicInterfaces;
 
 public interface ICustomerLogic
 {
-    Task<Customer> CreateAsync(CustomerCreateDto dto);
+    Task<Customer> CreateAsync(RegisterCustomerDto customerDto);
     
     Task<IEnumerable<Customer>> GetAsync(SearchCustomerDto searchParameters);
     Task<Customer?> GetByIdAsync(int id);

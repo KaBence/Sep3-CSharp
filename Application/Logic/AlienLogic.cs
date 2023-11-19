@@ -1,4 +1,4 @@
-﻿using Application.DaoInterfaces;
+﻿/*using Application.DaoInterfaces;
 using Application.LogicInterfaces;
 using Grpc.Core;
 using Grpc.Net.Client;
@@ -53,7 +53,7 @@ public class AlienLogic : IAlienLogic
         Alien created = await AlienDao.CreateAsync(toCreate);
         */
         //return created;
-    }
+   /* }
 
     public async Task<IEnumerable<Alien>> GetAsync(SearchAlienParametersDto searchParameters)
     {
@@ -73,6 +73,6 @@ public class AlienLogic : IAlienLogic
         }
 
         return aliens;
-        //return AlienDao.GetAsync(searchParameters);
+        return AlienDao.GetAsync(searchParameters);
     }
-}
+}*/

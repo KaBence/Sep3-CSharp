@@ -1,4 +1,5 @@
 ﻿using Application.LogicInterfaces;
+using Shared.DTOs;
 using Shared.DTOs.Create;
 using Shared.DTOs.Search;
 using Shared.Models;
@@ -7,7 +8,7 @@ namespace Application.Logic;
 
 public class FarmerLogic:IFarmerLogic
 {
-    public Task<Farmer> CreateAsync(FarmerCreateDto dto)
+    public Task<Farmer> CreateAsync(RegisterCustomerDto customerDto)
     {
         throw new NotImplementedException();
     }
