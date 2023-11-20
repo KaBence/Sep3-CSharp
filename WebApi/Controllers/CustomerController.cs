@@ -16,12 +16,12 @@ public class CustomerController: ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<Customer>> CreateAsync(RegisterCustomerDto customerDto)
+    public async Task<ActionResult<string>> CreateAsync(RegisterCustomerDto customerDto)
     {
         try
         {
-            Customer customer = await customerLogic.CreateAsync(customerDto);
-            return Created($"/customer/{customer.Phonenumber}", customer);
+            string customer = await customerLogic.CreateAsync(customerDto);
+            return Ok(customer);
         }
         catch (Exception e)
         {

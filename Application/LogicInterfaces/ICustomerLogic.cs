@@ -7,7 +7,7 @@ namespace Application.LogicInterfaces;
 
 public interface ICustomerLogic
 {
-    Task<Customer> CreateAsync(RegisterCustomerDto customerDto);
+    Task<string> CreateAsync(RegisterCustomerDto customerDto);
     
     Task<IEnumerable<Customer>> GetAsync(SearchCustomerDto searchParameters);
     Task<Customer?> GetByIdAsync(int id);

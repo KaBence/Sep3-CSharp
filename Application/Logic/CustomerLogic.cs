@@ -16,17 +16,14 @@ public class CustomerLogic:ICustomerLogic
     {
         CustomerDao = customerDao;
     }
-    public async Task<Customer> CreateAsync(RegisterCustomerDto customerDto)
+    public async Task<string> CreateAsync(RegisterCustomerDto customerDto)
     {
         
         
-        Customer toCreate = new Customer()
-        {
-            Phonenumber = customerDto.Phonenumber
-        };
+        
         try
         {
-            Customer created = await CustomerDao.CreateAsync(toCreate);
+            string created = await CustomerDao.CreateAsync(customerDto);
             return created;
         }
         catch (Exception e)

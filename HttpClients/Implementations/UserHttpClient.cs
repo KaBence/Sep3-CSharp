@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Net.Http.Json;
+using System.Text;
 using System.Text.Json;
 using HttpClients.ClientInterfaces;
 using Shared.DTOs;
@@ -15,9 +16,16 @@ public class UserHttpClient: IUserService
         this.client = client;
     }
 
-    public Task Register(RegisterCustomerDto dto)
+    public async  Task<string> Register(RegisterCustomerDto dto)
     {
-        throw new NotImplementedException();
+        HttpResponseMessage responseMessage = await client.PostAsJsonAsync("/customer", dto);
+        string content = await responseMessage.Content.ReadAsStringAsync();
+        if (!responseMessage.IsSuccessStatusCode)
+        {
+            throw new Exception(content);
+        }
+
+        return content;
     }
 
     public Task Register(RegisterFarmerDto dto)

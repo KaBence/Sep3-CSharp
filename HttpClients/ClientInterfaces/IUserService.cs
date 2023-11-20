@@ -6,7 +6,7 @@ namespace HttpClients.ClientInterfaces;
 
 public interface IUserService
 {
-    Task Register(RegisterCustomerDto dto);
+    Task<string> Register(RegisterCustomerDto dto);
     Task Register(RegisterFarmerDto dto);
 
     Task EditUser(EditUserDto dto);
