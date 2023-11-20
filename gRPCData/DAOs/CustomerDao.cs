@@ -4,56 +4,43 @@ using Grpc.Net.Client;
 using Sep;
 using Shared.DTOs.Search;
 using Shared.Models;
-
+using Sep;
 namespace gRPCData.DAOs;
 
 public class CustomerDao:ICustomerDao
 {
-
-    public async Task<Customer> CreateAsync(Customer customer)
-    {  // put the grpc shit here
-        //this has to be redone 
-        //why is it ambiguous?
-        //potrebujem tuto metodu aby to malo sancu fungovat
-        using var channel= GrpcChannel.ForAddress("http://localhost:1337",new GrpcChannelOptions
+    public async Task<Customer> CreateAsync(Customer alien)
+    {
+        using var chanel = GrpcChannel.ForAddress("http://localhost:1337",new GrpcChannelOptions
         {
             Credentials = ChannelCredentials.Insecure
         });
-        var client = new SepService.SepServiceClient(channel);
-         client.registerCustomer(new registerCustomerRequest
+        var client = new SepService.SepServiceClient(chanel);
+        var request = new registerCustomerRequest
         {
-            NewCustomer = 
-        });
+            NewCustomer = new DtoRegisterCustomer
+            {
+                PhoneNumber = alien.Phonenumber
+            }
+        };
         try
         {
-            var response = await client.registerCustomer(request);
-                
-            // Convert the gRPC response back to your local Customer object
-            var createdCustomer 
-                
-                
-                
-                
-                = new Customer
+            
+            var response = client.registerCustomer(request);
+            var createdCustomer = new Customer
             {
-                // Map properties from DtoRegisterCustomer to Customer
-                Phonenumber = response.5,
-                // Map other properties as needed
+                Phonenumber = response.Resp
             };
-
             return createdCustomer;
         }
-        catch (RpcException ex)
+        catch (RpcException e)
         {
-            // Handle gRPC communication errors
-            // Log the error or take appropriate action
-            Console.WriteLine($"gRPC Error: {ex.Status}");
+            Console.WriteLine($"gRPC Error: {e.Status}");
             throw;
         }
-    }
-
 
     }
+
 
     public Task<Customer?> GetByIdAsync(string phonenumber)
     {
