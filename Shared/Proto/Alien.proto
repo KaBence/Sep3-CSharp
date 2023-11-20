@@ -1,5 +1,5 @@
 syntax = "proto3";
-option csharp_namespace = "UFO";
+option csharp_namespace = "Sep";
 
 
 package sep;
@@ -24,9 +24,10 @@ message DtoRegisterCustomer
 {
   string phoneNumber = 1;
   string password = 2;
-  string firstName = 3;
-  string lastName = 4;
-  string address = 5;
+  string repeatPassword=3;
+  string firstName = 4;
+  string lastName = 5;
+  string address = 6;
 }
 
 message registerCustomerRequest

@@ -1,5 +1,5 @@
 syntax = "proto3";
-option csharp_namespace = "Sep3";
+option csharp_namespace = "alien";
 
 package proof;
 

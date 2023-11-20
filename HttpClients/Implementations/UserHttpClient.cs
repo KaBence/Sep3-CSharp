@@ -15,7 +15,12 @@ public class UserHttpClient: IUserService
         this.client = client;
     }
 
-    public Task Register(RegisterDto dto)
+    public Task Register(RegisterCustomerDto dto)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task Register(RegisterFarmerDto dto)
     {
         throw new NotImplementedException();
     }
