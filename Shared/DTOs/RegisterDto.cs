@@ -2,8 +2,16 @@
 
 public class RegisterDto
 {
-    public string Phonenumber { get; set; }
-    public string Password { get; set; }
-    public string RepeatPassword { get; set; }
-    public bool isFarmer { get; set; }
+    public string Phonenumber { get; }
+    public string Password { get; }
+    public string RepeatPassword { get; }
+    public bool isFarmer { get; }
+
+    public RegisterDto(string phonenumber, string password, string repeatPassword, bool isFarmer)
+    {
+        Phonenumber = phonenumber;
+        Password = password;
+        RepeatPassword = repeatPassword;
+        this.isFarmer = isFarmer;
+    }
 }

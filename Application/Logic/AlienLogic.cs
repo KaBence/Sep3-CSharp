@@ -62,6 +62,7 @@ public class AlienLogic : IAlienLogic
             Credentials = ChannelCredentials.Insecure
         });
         var client = new ProofService.ProofServiceClient(chanel);
+        
         GetStringRes strings = client.getStrings(new GetStringsReq());
         List<Alien> aliens = new List<Alien>();
         foreach (var item in strings.Ominous)
