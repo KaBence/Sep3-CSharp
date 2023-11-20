@@ -26,9 +26,9 @@
             </div>
             <div class="field">
                 <label class="col-5">Pesticides: </label>
-                <input type="radio" name="pest" value="True"  onclick="@(()=>IDK())" />
+                <input type="radio" name="pest" onchange="@(()=>IDK())" />
                 <label>True</label>
-                <input type="radio" name="pest" value="False" onclick="@(()=>IDK())"/>
+                <input type="radio" name="pest" onchange="@(()=>IDK())"/>
                 <label>False</label>
             </div>
             <div class="field">
@@ -69,6 +69,7 @@
     public string phoneNumber { get; set; }
 
     private EditUserDto dto;
+    private bool asd;
     
 
     private string msg = "";
@@ -80,7 +81,7 @@
         dto = new EditUserDto("11111111");
         try
         {
-            dto = await userService.GetByIdAsync(phoneNumber);
+           // dto = await userService.GetByIdAsync(phoneNumber);
         }
         catch (Exception e)
         {
@@ -94,8 +95,9 @@
     {
         try
         {
-            await userService.EditUser(dto);
-            navMgr.NavigateTo("/");
+            Console.WriteLine(asd);
+            /*await userService.EditUser(dto);
+            navMgr.NavigateTo("/");*/
         }
     catch
         (Exception e)
@@ -112,13 +114,13 @@
 
     private void IDK()
     {
-        if (dto.Pesticides==true)
+        if (asd)
         {
-            dto.Pesticides = false;
+            asd = false;
         }
         else
         {
-            dto.Pesticides = true;
+            asd = true;
         }
     }
 
