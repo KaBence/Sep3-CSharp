@@ -1,0 +1,62 @@
+﻿@inject NavigationManager navMgr;
+@page "/Register"
+
+<AuthorizeView>
+    <NotAuthorized>
+        <div class="card">
+            <h3>Register</h3>
+            <div class="field">
+                <label class="col-5">User name:</label>
+                <input class="col-5" type="text" @bind="userName"/>
+            </div>
+            <div class="field">
+                <label class="col-5" style="text-align: center">Password:</label>
+                <input class="col-5" type="password" @bind="password"/>
+            </div>
+            <div class="field">
+                <label class="col-5" style="text-align: center">Repeat Password:</label>
+                <input class="col-5" type="password" @bind="Repeatpassword"/>
+            </div>
+            
+            @if (!string.IsNullOrEmpty(errorLabel))
+            {
+                <div class="field">
+                    <label style="color: red">
+                        @errorLabel
+                    </label>
+                </div>
+            }
+            <div class="field">
+                <button class="btn" @onclick="RegisterAsync">Register</button>
+            </div>
+        </div>
+    </NotAuthorized>
+    <Authorized>
+        <div class="card">
+            <h3>Hello, @context.User.Identity!.Name</h3>
+        </div>
+    </Authorized>
+</AuthorizeView>
+
+
+@code {
+    private string userName;
+    private string password;
+    private string Repeatpassword;
+    private string errorLabel;
+    
+    private async Task RegisterAsync()
+    {
+        errorLabel = "";
+        try
+        {
+            //await authService.RegisterAsync(new UserCreationDto(userName, password,Repeatpassword));
+            navMgr.NavigateTo("/Login");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            errorLabel = $"Error: {e.Message}";
+        }
+    }
+}
