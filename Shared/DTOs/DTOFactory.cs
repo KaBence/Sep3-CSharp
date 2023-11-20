@@ -9,6 +9,15 @@ public class DTOFactory
 
     public static DtoRegisterCustomer ToDtoCustomer(Customer x)
     {
-        
+        var DtoRegisterCustomer = new DtoRegisterCustomer
+        {
+            PhoneNumber = x.Phonenumber,
+            Password = x.Password,
+            RepeatPassword = x.RepeatPassword,
+            FirstName = x.FirstName,
+            LastName = x.LastName,
+            Address = x.Address
+        };
+        return DtoRegisterCustomer;
     }
 }

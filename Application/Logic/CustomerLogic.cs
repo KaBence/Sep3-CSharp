@@ -10,18 +10,23 @@ namespace Application.Logic;
 
 public class CustomerLogic:ICustomerLogic
 {
-    private readonly ICustomerDao customerDao;
+    private readonly ICustomerDao CustomerDao;
+
+    public CustomerLogic(ICustomerDao customerDao)
+    {
+        CustomerDao = customerDao;
+    }
     public async Task<Customer> CreateAsync(RegisterCustomerDto customerDto)
     {
         
         
-        Customer toCreate = new Customer
+        Customer toCreate = new Customer()
         {
             Phonenumber = customerDto.Phonenumber
         };
         try
         {
-            Customer created = await customerDao.CreateAsync(toCreate);
+            Customer created = await CustomerDao.CreateAsync(toCreate);
             return created;
         }
         catch (Exception e)
