@@ -3,7 +3,6 @@ option csharp_namespace = "Sep3";
 
 package proof;
 
-
 message GetStringsReq{
 
 }
