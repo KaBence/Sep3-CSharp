@@ -24,13 +24,22 @@
                 <label class="col-5">Address: </label>
                 <input class="col-5" type="text" @bind="dto.Address"/>
             </div>
-            <div class="field">
-                <label class="col-5">Pesticides: </label>
-                <input type="radio" name="pest" value="True"  onclick="@(()=>IDK())" />
-                <label>True</label>
-                <input type="radio" name="pest" value="False" onclick="@(()=>IDK())"/>
-                <label>False</label>
-            </div>
+            @if (identity)
+            {
+                <div class="field">
+                    <label class="col-5">Pesticides: </label>
+                    <input type="radio" name="pest" onchange="@(()=>IDK())" />
+                    <label>True</label>
+                    <input type="radio" name="pest" onchange="@(()=>IDK())"/>
+                    <label>False</label>
+                </div>
+                <div class="field">
+                    <label class="col-5">Farm name:  </label>
+                    <input class="col-5" type="text" @bind="dto.FarmName"/>
+                </div>
+            }
+            
+            
             <div class="field">
                 <h3>Change Password</h3>
                 <label class="col-5">Password: </label>
@@ -40,6 +49,14 @@
                 <label class="col-5">Repeat Password: </label>
                 <input class="col-5" type="password" @bind="dto.RepeatPassword"/>
             </div>
+            <div class="field">
+                <label class="col-5" style="text-align: center">I am a Farmer</label>
+                <input type="radio" name="isFarmer" checked="true" @onchange="changeIdentity"/>
+                <label class="col-5" style="text-align: center">I am a Customer</label>
+                <input type="radio" name="isFarmer"  @onchange="changeIdentity"/>
+            </div>
+            
+            
             <div class="field">
                 <button class="btn" @onclick="EditUserAsync">Edit</button>
                 <button class="btn" @onclick="DeleteUserAsync">Delete</button>
@@ -69,6 +86,8 @@
     public string phoneNumber { get; set; }
 
     private EditUserDto dto;
+    private bool asd;
+    private bool identity=true;
     
 
     private string msg = "";
@@ -80,7 +99,7 @@
         dto = new EditUserDto("11111111");
         try
         {
-            dto = await userService.GetByIdAsync(phoneNumber);
+           // dto = await userService.GetByIdAsync(phoneNumber);
         }
         catch (Exception e)
         {
@@ -94,8 +113,9 @@
     {
         try
         {
-            await userService.EditUser(dto);
-            navMgr.NavigateTo("/");
+            Console.WriteLine(asd);
+            /*await userService.EditUser(dto);
+            navMgr.NavigateTo("/");*/
         }
     catch
         (Exception e)
@@ -112,14 +132,12 @@
 
     private void IDK()
     {
-        if (dto.Pesticides==true)
-        {
-            dto.Pesticides = false;
-        }
-        else
-        {
-            dto.Pesticides = true;
-        }
+        asd = !asd;
+    }
+
+    private void changeIdentity()
+    {
+        identity = !identity;
     }
 
 }

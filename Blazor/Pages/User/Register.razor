@@ -44,7 +44,9 @@
             </div>
             <div class="field">
                 <label class="col-5" style="text-align: center">Customer:</label>
-                <input type="radio" name="isFarmer" @onclick="@(()=>IDK())"/>
+                <input type="radio" name="isFarmer" checked="true" @onchange="@(()=>IDK())"/>
+                <label class="col-5" style="text-align: center">Farmer</label>
+                <input type="radio" name="isFarmer"  @onchange="@(()=>IDK())"/>
             </div>
             
             
