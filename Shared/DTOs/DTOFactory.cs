@@ -32,7 +32,7 @@ public class DTOFactory
             LastName = x.LastName,
             Address = x.Address,
             Pesticides = x.Pesticides,
-          
+            FarmName = x.FarmName
         };
         return DtoRegisterFarmer;
     }

@@ -9,10 +9,11 @@ public class RegisterFarmerDto
     public string LastName { get; set; }
     public string Address { get; set; }
     public bool Pesticides { get; set; }
+    public string FarmName { get; set; }
  
 
     public RegisterFarmerDto(string phoneNumber, string password, string repeatPassword, string firstName,
-        string lastName, string address, bool pesticides)
+        string lastName, string address, bool pesticides,string farmName)
     {
         PhoneNumber = phoneNumber;
         Password = password;
@@ -21,6 +22,7 @@ public class RegisterFarmerDto
         LastName = lastName;
         Address = address;
         Pesticides = pesticides;
+        FarmName = farmName;
     }
     
 }
