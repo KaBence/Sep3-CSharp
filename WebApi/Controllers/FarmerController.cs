@@ -11,7 +11,7 @@ public class FarmerController: ControllerBase
 {
     private readonly IFarmerLogic FarmerLogic;
 
-    private FarmerController(IFarmerLogic farmerLogic)
+    public FarmerController(IFarmerLogic farmerLogic)
     {
         this.FarmerLogic = farmerLogic;
     }
