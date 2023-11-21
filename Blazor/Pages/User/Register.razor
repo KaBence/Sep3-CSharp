@@ -33,14 +33,20 @@
                 <label class="col-5" style="text-align: center">Last Name:</label>
                 <input class="col-5" type="text" @bind="lastName"/>
             </div>
-            <div class="field">
-                <label class="col-5" style="text-align: center">Pesticides:</label>
-                <input class="col-5" type="text" @bind="pesticides"/>
-            </div>
-            <div class="field">
-                <label class="col-5" style="text-align: center">Farm Name:</label>
-                <input class="col-5" type="text" @bind="farmName"/>
-            </div>
+            @if (isFarmer)
+            {
+                <div class="field">
+                    <label class="col-5">Pesticides: </label>
+                    <input type="radio" name="pest" onchange="@(()=>changePest())" />
+                    <label>True</label>
+                    <input type="radio" name="pest" checked="true" onchange="@(()=>changePest())"/>
+                    <label>False</label>
+                </div>
+                <div class="field">
+                    <label class="col-5" style="text-align: center">Farm Name:</label>
+                    <input class="col-5" type="text" @bind="farmName"/>
+                </div>
+            }
             <div class="field">
                 <label class="col-5" style="text-align: center">Customer:</label>
                 <input type="radio" name="isFarmer" checked="true" @onchange="@(()=>IDK())"/>
@@ -80,10 +86,11 @@
     private string address="";
     private string firstName="";
     private string lastName="";
-    private bool pesticides;
+    private bool pesticides=false;
     private string farmName;
     private bool isFarmer;
 
+    private bool identity=true;
 
 
     private void IDK()
@@ -94,6 +101,11 @@
         }
         else
             isFarmer = true;
+    }
+    
+    private void changePest()
+    {
+        pesticides = !pesticides;
     }
     
     private async Task RegisterAsync()
