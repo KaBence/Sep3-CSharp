@@ -28,9 +28,17 @@ public class UserHttpClient: IUserService
         return content;
     }
 
-    public Task Register(RegisterFarmerDto dto)
+    public async  Task <string> Register(RegisterFarmerDto dto)
     {
-        throw new NotImplementedException();
+        HttpResponseMessage responseMessage = await client.PostAsJsonAsync("/farmer", dto);
+        string content = await responseMessage.Content.ReadAsStringAsync();
+        if (!responseMessage.IsSuccessStatusCode)
+        {
+            throw new Exception(content);
+            
+        }
+
+        return content;
     }
 
     public async Task EditUser(EditUserDto dto)

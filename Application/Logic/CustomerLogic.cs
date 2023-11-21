@@ -18,9 +18,6 @@ public class CustomerLogic:ICustomerLogic
     }
     public async Task<string> CreateAsync(RegisterCustomerDto customerDto)
     {
-        
-        
-        
         try
         {
             string created = await CustomerDao.CreateAsync(customerDto);

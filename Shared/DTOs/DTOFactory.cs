@@ -21,11 +21,35 @@ public class DTOFactory
         return DtoRegisterCustomer;
     }
 
+    public static DtoRegisterFarmer ToDtoFarmer(RegisterFarmerDto x)
+    {
+        var DtoRegisterFarmer = new DtoRegisterFarmer
+        {
+            PhoneNumber = x.PhoneNumber,
+            Password = x.Password,
+            RepeatPassword = x.RepeatPassword,
+            FirstName = x.FirstName,
+            LastName = x.LastName,
+            Address = x.Address,
+            Pesticides = x.Pesticides,
+          
+        };
+        return DtoRegisterFarmer;
+    }
+
     public static registerCustomerRequest CreateRegisterCustomerRequest(DtoRegisterCustomer dto)
     {
         return new registerCustomerRequest
         {
             NewCustomer = dto
+        };
+    }
+
+    public static registerFarmerRequest CreateRegisterFarmerRequest(DtoRegisterFarmer dto)
+    {
+        return new registerFarmerRequest
+        {
+            NewFarmer = dto
         };
     }
 }

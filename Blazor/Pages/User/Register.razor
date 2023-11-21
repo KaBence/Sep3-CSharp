@@ -3,6 +3,7 @@
 @using HttpClients.ClientInterfaces
 @using Sep
 @using global::Shared.DTOs
+@using Application.LogicInterfaces
 @inject IUserService userService
 
 <AuthorizeView>
@@ -101,15 +102,27 @@
         {
             if (isFarmer == false)
             {
-                RegisterCustomerDto dto = new RegisterCustomerDto(phoneNumber, password, repeatpassword, firstName, lastName, address);
-                string message= await userService.Register(dto);
-                errorLabel = message;
-                if (message=="Success!")
+                RegisterCustomerDto customerDto = new RegisterCustomerDto(phoneNumber, password, repeatpassword, firstName, lastName, address);
+                string customerMessage= await userService.Register(customerDto);
+                errorLabel = customerMessage;
+                if (customerMessage=="Success!")
                 {
                     navMgr.NavigateTo("/");
                 }
                 
             }
+            else
+            {
+                //should the rating be deleted from the dto so it would not make problems here?
+                            RegisterFarmerDto farmerDto = new RegisterFarmerDto(phoneNumber, password, repeatpassword, firstName, lastName, address, pesticides);
+                            string farmerMessage = await userService.Register(farmerDto);
+                            errorLabel = farmerMessage;
+                            if (farmerMessage == "Succes!")
+                            {
+                                navMgr.NavigateTo("/");
+                            }
+            }
+            
         }
         catch (Exception e)
         {

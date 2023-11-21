@@ -7,7 +7,7 @@ namespace Application.LogicInterfaces;
 
 public interface IFarmerLogic
 {
-    Task<Farmer> CreateAsync(RegisterCustomerDto customerDto);
+    Task<string> CreateAsync(RegisterFarmerDto farmerDto);
     
     Task<IEnumerable<Farmer>> GetAsync(SearchFarmerDto searchParameters);
     Task<Farmer?> GetByIdAsync(int id);

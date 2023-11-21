@@ -1,4 +1,5 @@
-﻿using Application.LogicInterfaces;
+﻿using Application.DaoInterfaces;
+using Application.LogicInterfaces;
 using Shared.DTOs;
 using Shared.DTOs.Create;
 using Shared.DTOs.Search;
@@ -7,10 +8,26 @@ using Shared.Models;
 namespace Application.Logic;
 
 public class FarmerLogic:IFarmerLogic
+
 {
-    public Task<Farmer> CreateAsync(RegisterCustomerDto customerDto)
+    private readonly IFarmerDao FarmerDao;
+
+    public FarmerLogic(IFarmerDao farmerDao)
     {
-        throw new NotImplementedException();
+        FarmerDao = farmerDao;
+    }
+    public  async Task<string> CreateAsync(RegisterFarmerDto farmerDto)
+    {
+        try
+        {
+            string created = await FarmerDao.CreateAsync(farmerDto);
+            return created;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     public Task<IEnumerable<Farmer>> GetAsync(SearchFarmerDto searchParameters)
