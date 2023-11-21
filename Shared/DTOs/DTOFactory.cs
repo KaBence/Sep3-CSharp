@@ -37,6 +37,24 @@ public class DTOFactory
         return DtoRegisterFarmer;
     }
 
+    public static DtoLogin toDtoLogin(LoginDto x)
+    {
+        var dtoLogin = new DtoLogin
+        {
+            Password = x.Password,
+            PhoneNumber = x.Phonenumber
+        };
+        return dtoLogin;
+    }
+
+    public static loginRequest CreateLoginRequest(DtoLogin dto)
+    {
+        return new loginRequest
+        {
+            Login = dto
+        };
+    }
+
     public static registerCustomerRequest CreateRegisterCustomerRequest(DtoRegisterCustomer dto)
     {
         return new registerCustomerRequest

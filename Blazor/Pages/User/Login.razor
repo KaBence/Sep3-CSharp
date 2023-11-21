@@ -1,5 +1,8 @@
 ﻿@inject NavigationManager navMgr;
+@inject IAuthService authService;
 @page "/Login"
+@using Blazor.Services
+@using global::Shared.DTOs
 
 
 <AuthorizeView>
@@ -7,8 +10,8 @@
         <div class="card">
             <h3>Please login</h3>
             <div class="field">
-                <label>Username:</label>
-                <input type="text" @bind="userName"/>
+                <label>Phone Number:</label>
+                <input type="text" @bind="phoneNumber"/>
             </div>
             <div class="field">
                 <label style="text-align: center">Password:</label>
@@ -37,7 +40,7 @@
 
 
 @code {
-    private string userName;
+    private string phoneNumber;
     private string password;
     private string errorLabel;
     
@@ -46,7 +49,12 @@
         errorLabel = "";
         try
         {
-            //await authService.LoginAsync(userName, password);
+            LoginDto dto = new LoginDto
+            {
+                Password = password,
+                Phonenumber = phoneNumber
+            };
+            await authService.LoginAsync(dto);
             navMgr.NavigateTo("/");
         }
         catch (Exception e)
