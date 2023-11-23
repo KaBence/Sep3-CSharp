@@ -1,15 +1,16 @@
 ﻿using Shared.DTOs.Create;
 using Shared.DTOs.Search;
+using Shared.DTOs.Update;
 using Shared.Models;
 
 namespace Application.LogicInterfaces;
 
 public interface IProductLogic
 {
-    Task<Product> CreateAsync(ProductCreateDto dto);
+    Task<string> CreateAsync(ProductCreateDto dto);
     
     Task<IEnumerable<Product>> GetAsync(SearchProductDto searchParameters);
-    Task<Product?> GetByIdAsync(int id);
+    Task<Product> GetByIdAsync(int id);
     
-    Task UpdateAsync(Product dto);
+    Task<string> UpdateAsync(UpdateProductDto dto);
 }

@@ -6,6 +6,11 @@
 
 <AuthorizeView>
     <NotAuthorized>
+        <div>
+            <p>You are not logged in!</p>
+        </div>
+    </NotAuthorized>
+    <Authorized>
         <div class="card">
             <h3>Edit User</h3>
             <div class="field">
@@ -38,8 +43,8 @@
                     <input class="col-5" type="text" @bind="dto.FarmName"/>
                 </div>
             }
-            
-            
+                    
+                    
             <div class="field">
                 <h3>Change Password</h3>
                 <label class="col-5">Password: </label>
@@ -55,26 +60,18 @@
                 <label class="col-5" style="text-align: center">I am a Customer</label>
                 <input type="radio" name="isFarmer"  @onchange="changeIdentity"/>
             </div>
-            
-            
+                    
+                    
             <div class="field">
                 <button class="btn" @onclick="EditUserAsync">Edit</button>
                 <button class="btn" @onclick="DeleteUserAsync">Delete</button>
             </div>
             @if (!string.IsNullOrEmpty(msg))
-                {
-                    <label style="color: red">@msg</label>
-                }
-
+            {
+                <label style="color: red">@msg</label>
+            }
+        
         </div>
-        
-        
-    </NotAuthorized>
-    <Authorized>
-        <div>
-            <p>You are not logged in!</p>
-        </div>
-        
     </Authorized>
 </AuthorizeView>
 

@@ -1,12 +1,15 @@
-﻿using Shared.Models;
+﻿using Shared.DTOs.Create;
+using Shared.Models;
 using Shared.DTOs.Search;
+using Shared.DTOs.Update;
+
 namespace Application.DaoInterfaces;
 
 public interface IProductDao
 {
-    Task<Product> CreateAsync(Product alien);
-    Task<Product?> GetByIdAsync(int id);
+    Task<string> CreateAsync(ProductCreateDto alien);
+    Task<Product> GetByIdAsync(int id);
     Task<IEnumerable<Product>> GetAsync(SearchProductDto searchParameters);
 
-    Task UpdateAsync(Product alien);
+    Task<string> UpdateAsync(UpdateProductDto alien);
 }

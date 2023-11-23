@@ -1,29 +1,49 @@
-﻿using Application.LogicInterfaces;
+﻿using Application.DaoInterfaces;
+using Application.LogicInterfaces;
 using Shared.DTOs.Create;
 using Shared.DTOs.Search;
+using Shared.DTOs.Update;
 using Shared.Models;
 
 namespace Application.Logic;
 
 public class ProductLogic:IProductLogic
 {
-    public Task<Product> CreateAsync(ProductCreateDto dto)
+
+    private readonly IProductDao productDao;
+
+    public ProductLogic(IProductDao productDao)
     {
-        throw new NotImplementedException();
+        this.productDao = productDao;
+    }
+
+    public async Task<string> CreateAsync(ProductCreateDto dto)
+    {
+        try
+        {
+            string created = await productDao.CreateAsync(dto);
+            return created;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     public Task<IEnumerable<Product>> GetAsync(SearchProductDto searchParameters)
     {
-        throw new NotImplementedException();
+        return productDao.GetAsync(searchParameters);
     }
 
-    public Task<Product?> GetByIdAsync(int id)
+    public async Task<Product> GetByIdAsync(int id)
     {
-        throw new NotImplementedException();
+        return await productDao.GetByIdAsync(id);
+        
     }
 
-    public Task UpdateAsync(Product dto)
+    public async Task<string> UpdateAsync(UpdateProductDto dto)
     {
-        throw new NotImplementedException();
+        return await productDao.UpdateAsync(dto);
     }
 }

@@ -3,10 +3,10 @@
 public class Product
 {
     public int ProductID { get; set; }
-    public bool availability { get; set; }
-    public int amount { get; set; }
-    public string type { get; set; }
-    public double price { get; set; }
+    public bool Availability { get; set; }
+    public double Amount { get; set; }
+    public string Type { get; set; }
+    public double Price { get; set; }
     public string PickedDate { get; set; }
     public string ExpirationDate { get; set; }
     public string FarmerID { get; set; }

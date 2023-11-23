@@ -1,11 +1,16 @@
 ﻿using Shared.Models;
 using Sep;
+using Shared.DTOs.Create;
+using Shared.DTOs.Search;
+
 namespace Shared.DTOs;
 
 
 public class DTOFactory
 {
-    //convert from dto to object and other
+    //** Creating The Dtos **\\ 
+    
+    //** Users **\\ 
 
     public static DtoRegisterCustomer ToDtoCustomer(RegisterCustomerDto x)
     {
@@ -47,6 +52,50 @@ public class DTOFactory
         return dtoLogin;
     }
 
+    //** Products **\\ 
+    
+    public static DtoProduct toDtoProduct(ProductCreateDto x)
+    {
+        return new DtoProduct
+        {
+            Amount = x.Amount,
+            ExpirationDate = x.ExpirationDate,
+            FarmerId = x.FarmerID,
+            PickedDate = x.PickedDate,
+            Price = x.Price,
+            Type = x.Type
+        };
+    }
+
+    public static Product toProduct(DtoProduct dto)
+    {
+        return new Product
+        {
+            Amount = dto.Amount,
+            Availability = dto.Availability,
+            ExpirationDate = dto.ExpirationDate,
+            FarmerID = dto.FarmerId,
+            PickedDate = dto.PickedDate,
+            Price = dto.Price,
+            ProductID = dto.Id,
+            Type = dto.Type
+        };
+    }
+
+    public static ProductSearchParameters ToProductSearchParameters(SearchProductDto x)
+    {
+        return new ProductSearchParameters
+        {
+            Amount = x.Amount,
+            Price = x.Price,
+            Type = x.Type
+        };
+    }
+
+    //** Creating the requests ** \\
+    
+    //** Users **\\ 
+    
     public static loginRequest CreateLoginRequest(DtoLogin dto)
     {
         return new loginRequest
@@ -68,6 +117,32 @@ public class DTOFactory
         return new registerFarmerRequest
         {
             NewFarmer = dto
+        };
+    }
+    
+    //** Products **\\ 
+
+    public static createProductRequest CreateProductRequest(DtoProduct dto)
+    {
+        return new createProductRequest
+        {
+            NewProduct = dto
+        };
+    }
+
+    public static getAllProductsRequest CreateAllProductsRequest(ProductSearchParameters dto)
+    {
+        return new getAllProductsRequest
+        {
+            Parameters = dto
+        };
+    }
+
+    public static getProductByIdRequest CreateGetProductByIdRequest(int id)
+    {
+        return new getProductByIdRequest
+        {
+            Id = id
         };
     }
 }
