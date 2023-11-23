@@ -7,6 +7,7 @@ using Blazor.Services.Http;
 using HttpClients.ClientInterfaces;
 using HttpClients.Implementations;
 using Microsoft.AspNetCore.Components.Authorization;
+using Shared.Auth;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +25,8 @@ builder.Services.AddScoped(
             BaseAddress = new Uri("http://localhost:5239") 
         }
 );
+
+AuthorizationPolicies.AddPolicies(builder.Services);
 
 var app = builder.Build();
 

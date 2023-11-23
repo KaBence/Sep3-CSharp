@@ -3,6 +3,7 @@
 @using global::Shared.DTOs
 @inject IUserService userService;
 @inject NavigationManager navMgr;
+@attribute [Authorize("Farmer")]
 
 <AuthorizeView>
     <NotAuthorized>
