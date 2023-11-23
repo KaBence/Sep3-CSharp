@@ -3,9 +3,8 @@
 @using global::Shared.DTOs
 @inject IUserService userService;
 @inject NavigationManager navMgr;
-@attribute [Authorize("Farmer")]
 
-<AuthorizeView>
+<AuthorizeView Roles="Farmer">
     <NotAuthorized>
        
         <div>
@@ -97,9 +96,10 @@
     protected override async Task OnInitializedAsync()
     {
         msg = "";
+        dto = new EditUserDto("1111111");
         try
         {
-            dto = await userService.GetByIdAsync(phoneNumber);
+            //dto = await userService.GetByIdAsync(phoneNumber);
         }
         catch (Exception e)
         {
