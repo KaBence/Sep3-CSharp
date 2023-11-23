@@ -9,11 +9,11 @@
 
 
 <AuthorizeView>
-     <NotAuthorized>
-         <div class="card">
-             <h3>You are not logged in as a Farmer!</h3>
-         </div>
-     </NotAuthorized>
+    <NotAuthorized>
+        <div class="card">
+            <h3>You are not logged in as a Farmer!</h3>
+        </div>
+    </NotAuthorized>
     <Authorized>
         <div class="card">
             <h3>Add Product</h3>
@@ -51,59 +51,64 @@
             </div>
         </div>
     </Authorized>
- </AuthorizeView>
- 
- 
- @code {
-     private string type = "";
-     private double? amount;
-     private double? price;
-     private string tempPickedDate ;
-     private string tempExpirationDate ;     
-     private string errorLabel = "";
-     private string? farmerId = "";
-     private string pickedDate;
-     private string expirationDate;
+</AuthorizeView>
 
 
-     private async Task CreateAsync()
-     {
-         errorLabel = "";
-         try
-         {
-             farmerId = authService.GetAuthAsync().Result.Identity!.Name;
+@code {
+    private string type = "";
+    private double? amount;
+    private double? price;
+    private string tempPickedDate;
+    private string tempExpirationDate;
+    private string errorLabel = "";
+    private string? farmerId = "";
+    private string pickedDate;
+    private string expirationDate;
 
-             ProductCreateDto productCreateDto = new ProductCreateDto
-             {
-                 Amount = amount ?? 0,
-                 ExpirationDate = getDate(tempExpirationDate),
-                 FarmerID = farmerId,
-                 PickedDate = getDate(tempPickedDate),
-                 Price = price ?? 0,
-                 Type = type
-             };
+
+    private async Task CreateAsync()
+    {
+        errorLabel = "";
+        try
+        {
+            farmerId = authService.GetAuthAsync().Result.Identity!.Name;
+
+            ProductCreateDto productCreateDto = new ProductCreateDto
+            {
+                Amount = amount ?? 0,
+                ExpirationDate = getDate(tempExpirationDate),
+                FarmerID = farmerId,
+                PickedDate = getDate(tempPickedDate),
+                Price = price ?? 0,
+                Type = type
+            };
             string customerMessage = await productService.CreateProductAsync(productCreateDto);
-             errorLabel = customerMessage;
-             if (customerMessage == "Success!")
-             {
-                 navMgr.NavigateTo("/");
-             }
-            
-         }
-         catch (Exception e)
-         {
-             Console.WriteLine(e);
-             errorLabel = $"Error: {e.Message}";
-         }
-     }
+            errorLabel = customerMessage;
+            if (customerMessage == "Success!")
+            {
+                navMgr.NavigateTo("/");
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            errorLabel = $"Error: {e.Message}";
+        }
+    }
 
-     private string getDate(string date)
-     {
-         if (date==null)
-         {
-             return "0001-01-01";
-         }
-         string[] x = date.Split("/");
-         return x[2]+"-" + x[1] +"-"+ x[0];
-     }
- }
+    private string getDate(string date)
+    {
+        if (date == null)
+        {
+            return "0001-01-01";
+        }
+        string[] x = date.Split("/");
+        Console.WriteLine(x.Length);
+        if (x.Length != 3)
+        {
+            return "9999-12-12";
+        }
+        return x[2] + "-" + x[1] + "-" + x[0];
+    }
+
+}
