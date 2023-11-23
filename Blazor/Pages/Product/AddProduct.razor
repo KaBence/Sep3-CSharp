@@ -1,0 +1,109 @@
+﻿@inject NavigationManager navMgr
+@page "/AddProduct"
+@using HttpClients.ClientInterfaces
+@using Blazor.Services
+@using global::Shared.DTOs.Create
+@using System.Collections
+@inject IProductService productService
+@inject IAuthService authService
+
+
+<AuthorizeView>
+     <NotAuthorized>
+         <div class="card">
+             <h3>You are not logged in as a Farmer!</h3>
+         </div>
+     </NotAuthorized>
+    <Authorized>
+        <div class="card">
+            <h3>Add Product</h3>
+            <div class="field">
+                <label class="col-5">Type:</label>
+                <input class="col-5" type="text" @bind="type"/>
+            </div>
+            <div class="field">
+                <label class="col-5">Price:</label>
+                <input class="col-5" type="text" @bind="price"/>
+            </div>
+            <div class="field">
+                <label class="col-5">Picked date:</label>
+                <input class="col-5" type="text" @bind="tempPickedDate"/>
+            </div>
+            <div class="field">
+                <label class="col-5">Expiration date:</label>
+                <input class="col-5" type="text" @bind="tempExpirationDate"/>
+            </div>
+            <div class="field">
+                <label class="col-5">Amount:</label>
+                <input class="col-5" type="text" @bind="amount"/>
+            </div>
+
+            @if (!string.IsNullOrEmpty(errorLabel))
+            {
+                <div class="field">
+                    <label style="color: red">
+                        @errorLabel
+                    </label>
+                </div>
+            }
+            <div class="field">
+                <button class="btn" @onclick="CreateAsync">Create</button>
+            </div>
+        </div>
+    </Authorized>
+ </AuthorizeView>
+ 
+ 
+ @code {
+     private string type = "";
+     private double? amount;
+     private double? price;
+     private string tempPickedDate ;
+     private string tempExpirationDate ;     
+     private string errorLabel = "";
+     private string? farmerId = "";
+     private string pickedDate;
+     private string expirationDate;
+
+
+     private async Task CreateAsync()
+     {
+         errorLabel = "";
+         try
+         {
+             farmerId = authService.GetAuthAsync().Result.Identity!.Name;
+
+             ProductCreateDto productCreateDto = new ProductCreateDto
+             {
+                 Amount = amount ?? 0,
+                 ExpirationDate = getDate(tempExpirationDate),
+                 FarmerID = farmerId,
+                 PickedDate = getDate(tempPickedDate),
+                 Price = price ?? 0,
+                 Type = type
+             };
+            string customerMessage = await productService.CreateProductAsync(productCreateDto);
+             errorLabel = customerMessage;
+             if (customerMessage == "Success!")
+             {
+                 navMgr.NavigateTo("/");
+             }
+            
+         }
+         catch (Exception e)
+         {
+             Console.WriteLine(e);
+             errorLabel = $"Error: {e.Message}";
+         }
+     }
+
+     private string getDate(string date)
+     {
+         if (date==null)
+         {
+             return "0001-01-01";
+         }
+         string[] x = date.Split("/");
+         return x[2]+"-" + x[1] +"-"+ x[0];
+     }
+ }
