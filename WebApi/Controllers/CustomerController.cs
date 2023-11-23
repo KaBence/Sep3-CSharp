@@ -1,6 +1,9 @@
-﻿using Application.LogicInterfaces;
+﻿using Application.Logic;
+using Application.LogicInterfaces;
 using Microsoft.AspNetCore.Mvc;
 using Shared.DTOs;
+using Shared.DTOs.Basics;
+using Shared.DTOs.Search;
 using Shared.Models;
 
 namespace WebAPI.Controllers; 
@@ -29,5 +32,53 @@ public class CustomerController: ControllerBase
             return StatusCode(500, e.Message);
         }
     }
+
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<Customer>>> GetAsync()
+    {
+        try
+        {
+
+            IEnumerable<Customer> customers = await customerLogic.GetAsync();
+            return Ok(customers);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return StatusCode(500, e.Message);
+        }
+        
+    }
+
+   [HttpGet("{phoneNumer:int}")]
+    public async Task<ActionResult<Customer>> GetAsync([FromRoute]string phoneNumer)
+    {
+        try
+        {
+            CustomerBasicDto result = await customerLogic.GetByIdAsync(phoneNumer);
+            return Ok(result);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return StatusCode(500, e.Message);
+        }
+    }
+
+    [HttpPatch]
+    public async Task<ActionResult<string>> UpdateAsync(EditCustomerDto dto)
+    {
+        try
+        {
+           string updatedCustomer= await customerLogic.UpdateAsync(dto);
+            return Ok(dto);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return StatusCode(500, e.Message);
+        }
+    }
+    
 
 }

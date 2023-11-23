@@ -85,6 +85,10 @@ message getCustomerByPhoneResponse
 {
   DtoCustomer customer = 1;
 }
+message editCustomerRequest
+{
+  DtoRegisterCustomer editedCustomer = 1;
+}
 
 
 //----------Farmer----------\\
@@ -96,7 +100,8 @@ message DtoFarmer
   string lastName = 3;
   string address = 4;
   bool pesticides = 5;
-  double rating = 6;
+  string farmName= 6;
+  double rating = 7;
 }
 
 message getAllFarmersRequest{}
@@ -114,6 +119,10 @@ message getFarmerByPhoneRequest
 message getFarmerByPhoneResponse
 {
   DtoFarmer farmer = 1;
+}
+message editFarmerRequest
+{
+  DtoRegisterFarmer editedFarmer = 1;
 }
 
 //----------Order----------\\
@@ -326,10 +335,11 @@ service SepService
   //--------Customer--------\\
   rpc getAllCustomers(getAllCustomersRequest) returns (getAllCustomersResponse);
   rpc getCustomerByPhone(getCustomerByPhoneRequest) returns (getCustomerByPhoneResponse);
-
+  rpc editCustomer(editCustomerRequest) returns (generalPutResponse);
   //--------Farmer--------\\
   rpc getAllFarmers(getAllFarmersRequest) returns (getAllFarmersResponse);
   rpc getFarmerByPhone(getCustomerByPhoneRequest) returns (getCustomerByPhoneResponse);
+  rpc editFarmer(editFarmerRequest) returns (generalPutResponse);
 
   //--------Order--------\\
   rpc createNewOrder(createOrderRequest) returns (generalPutResponse);

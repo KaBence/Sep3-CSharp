@@ -20,6 +20,19 @@ public class DTOFactory
         };
         return DtoRegisterCustomer;
     }
+    public static DtoRegisterCustomer ToDtoCustomerForEditing(EditCustomerDto x)
+    {
+        var DtoRegisterCustomer = new DtoRegisterCustomer
+        {
+            PhoneNumber = x.PhoneNumber,
+            Password = x.Password,
+            RepeatPassword = x.RepeatPassword,
+            FirstName = x.FirstName,
+            LastName = x.LastName,
+            Address = x.Address
+        };
+        return DtoRegisterCustomer;
+    }
 
     public static DtoRegisterFarmer ToDtoFarmer(RegisterFarmerDto x)
     {
@@ -47,6 +60,17 @@ public class DTOFactory
         return dtoLogin;
     }
 
+    public static Customer toCustomer(DtoCustomer x)
+    {
+        var customer = new Customer
+        {
+            Address = x.Address,
+            FirstName = x.FirstName,
+            LastName = x.LastName,
+            Phonenumber = x.PhoneNumber
+        };
+        return customer;
+    }
     public static loginRequest CreateLoginRequest(DtoLogin dto)
     {
         return new loginRequest
@@ -70,4 +94,26 @@ public class DTOFactory
             NewFarmer = dto
         };
     }
+
+    public static getAllCustomersRequest CreateGetAllCustomersRequest()
+    {
+        return new getAllCustomersRequest();
+    }
+
+    public static getCustomerByPhoneRequest CreateGetCustomerByPhoneRequest(string phoneNumber)
+    {
+        return new getCustomerByPhoneRequest
+        {
+            CustomersPhone = phoneNumber
+        };
+    }
+
+    public static editCustomerRequest CreateEditCustomerRequest(DtoRegisterCustomer dto)
+    {
+        return new editCustomerRequest
+        {
+            EditedCustomer = dto
+        };
+    }
+    
 }
