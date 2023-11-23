@@ -193,4 +193,12 @@ public class DTOFactory
             Id = id
         };
     }
+
+    public static updateProductRequest CreateUpdateProductRequest(DtoProduct dto)
+    {
+        return new updateProductRequest
+        {
+            Product = dto
+        };
+    }
 }

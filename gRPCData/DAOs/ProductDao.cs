@@ -87,8 +87,37 @@ public class ProductDao: IProductDao
         }
     }
 
-    public Task<string> UpdateAsync(UpdateProductDto alien)
+    public async Task<string> UpdateAsync(UpdateProductDto alien)
     {
-        throw new NotImplementedException();
+        Product existing = await GetByIdAsync(alien.Id);
+        using var chanel= GrpcChannel.ForAddress("http://localhost:1337",new GrpcChannelOptions
+        {
+            Credentials = ChannelCredentials.Insecure
+        });
+        DtoProduct dto = new DtoProduct
+        {
+            FarmerId = existing.FarmerID,
+            Id = existing.ProductID,
+            Amount = alien.Amount ?? existing.Amount,
+            Availability = alien.Availability ?? existing.Availability,
+            ExpirationDate = alien.ExpirationDate ?? existing.ExpirationDate,
+            PickedDate = alien.PickedDate ?? existing.PickedDate,
+            Price = alien.Price ?? existing.Price,
+            Type = alien.Type ?? existing.Type
+        };
+        
+        
+        var client = new SepService.SepServiceClient(chanel);
+        var request = DTOFactory.CreateUpdateProductRequest(dto);
+        try
+        {
+            var response = client.updateProduct(request);
+            return response.Resp;
+        }
+        catch (RpcException e)
+        {
+            Console.WriteLine($"gRPC Error: {e.Status}");
+            throw;
+        }
     }
 }
