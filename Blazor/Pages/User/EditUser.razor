@@ -1,131 +1,127 @@
 ﻿@page "/EditUser"
 @using HttpClients.ClientInterfaces
 @using global::Shared.DTOs
+@using System.Security.Claims
+@using Blazor.Services
+@using global::Shared.Models
 @inject IUserService userService;
+@inject IAuthService authService;
 @inject NavigationManager navMgr;
 
-<AuthorizeView Roles="Farmer">
+<AuthorizeView Roles="Customer">
     <NotAuthorized>
-       
+
         <div>
             <p>You are not logged in!</p>
         </div>
-        
+
     </NotAuthorized>
     <Authorized>
-      
-         <div class="card">
-                    <h3>Edit User</h3>
-                    <div class="field">
-                        <label class="col-5">Phone Number: </label>
-                        <label>@dto.PhoneNumber</label>
-                    </div>
-                    <div class="field">
-                        <label class="col-5">Firstname: </label>
-                        <input class="col-5" type="text" @bind="dto.FirstName"/>
-                    </div>
-                    <div class="field">
-                        <label class="col-5">Lastname: </label>
-                        <input class="col-5" type="text" @bind="dto.LastName"/>
-                    </div>
-                    <div class="field">
-                        <label class="col-5">Address: </label>
-                        <input class="col-5" type="text" @bind="dto.Address"/>
-                    </div>
-                    @if (identity)
-                    {
-                        <div class="field">
-                            <label class="col-5">Pesticides: </label>
-                            <input type="radio" name="pest" onchange="@(()=>IDK())" />
-                            <label>True</label>
-                            <input type="radio" name="pest" onchange="@(()=>IDK())"/>
-                            <label>False</label>
-                        </div>
-                        <div class="field">
-                            <label class="col-5">Farm name:  </label>
-                            <input class="col-5" type="text" @bind="dto.FarmName"/>
-                        </div>
-                    }
-                    
-                    
-                    <div class="field">
-                        <h3>Change Password</h3>
-                        <label class="col-5">Password: </label>
-                        <input class="col-5" type="password" @bind="dto.Password"/>
-                    </div>
-                    <div class="field">
-                        <label class="col-5">Repeat Password: </label>
-                        <input class="col-5" type="password" @bind="dto.RepeatPassword"/>
-                    </div>
-                    <div class="field">
-                        <label class="col-5" style="text-align: center">I am a Farmer</label>
-                        <input type="radio" name="isFarmer" checked="true" @onchange="changeIdentity"/>
-                        <label class="col-5" style="text-align: center">I am a Customer</label>
-                        <input type="radio" name="isFarmer"  @onchange="changeIdentity"/>
-                    </div>
-                    
-                    
-                    <div class="field">
-                        <button class="btn" @onclick="EditUserAsync">Edit</button>
-                       
-                    </div>
-                    @if (!string.IsNullOrEmpty(msg))
-                        {
-                            <label style="color: red">@msg</label>
-                        }
-        
+        <div class="card">
+            <h3>Edit User</h3>
+            <div class="field">
+                <label class="col-5">Phone Number: </label>
+                <label class="col-5">@phoneNumber</label>
+            </div>
+            <div class="field">
+                <label class="col-5">Password: </label>
+                <input class="col-5" type="password" @bind="password"/>
+            </div>
+            <div class="field">
+                <label class="col-5">Repeat Password: </label>
+                <input class="col-5" type="password" @bind="repeatpassword"/>
+            </div>
+            <div class="field">
+                <label class="col-5">Firstname: </label>
+                <input class="col-5" type="text" @bind="firstName"/>
+            </div>
+            <div class="field">
+                <label class="col-5">Lastname: </label>
+                <input class="col-5" type="text" @bind="lastName"/>
+            </div>
+            <div class="field">
+                <label class="col-5">Address: </label>
+                <input class="col-5" type="text" @bind="address"/>
+            </div>
+            @if (role.Equals("Farmer"))
+            {
+                <div class="field">
+                    <label class="col-5">Pesticides: </label>
+                    <input type="radio" name="pest" onchange="@(() => IDK())"/>
+                    <label>True</label>
+                    <input type="radio" name="pest" onchange="@(() => IDK())"/>
+                    <label>False</label>
                 </div>
+                <div class="field">
+                    <label class="col-5">Farm name: </label>
+                    <input class="col-5" type="text" @bind="farmName"/>
+                </div>
+            }
+            <div class="field">
+                <button class="btn" @onclick="EditUserAsync">Edit</button>
+            </div>
+            @if (!string.IsNullOrEmpty(msg))
+            {
+                <label style="color: red">@msg</label>
+            }
+
+        </div>
     </Authorized>
 </AuthorizeView>
 
 
-
-
 @code {
-    [Parameter]
-    public string phoneNumber { get; set; }
+    private string? phoneNumber;
+    private string password = "";
+    private string repeatpassword = "";
+    private string errorLabel = "";
+    private string address = "";
+    private string firstName = "";
+    private string lastName = "";
+    private bool pesticides = false;
+    private string farmName;
+    private bool isFarmer;
+    private string role ;
 
-    private EditUserDto dto;
     private bool asd;
-    private bool identity=true;
-    
+
 
     private string msg = "";
 
-    
     protected override async Task OnInitializedAsync()
     {
-        msg = "";
-        dto = new EditUserDto("1111111");
-        try
+        phoneNumber = authService.GetAuthAsync().Result.Identity!.Name;
+        role =  authService.GetAuthAsync().Result.Claims.First(claim => claim.Type.Equals(ClaimTypes.Role)).Value;
+        if (role.Equals("Farmer"))
         {
-            //dto = await userService.GetByIdAsync(phoneNumber);
+            EditFarmerDto farmer = await userService.GetFarmerByIdAsync(phoneNumber);
         }
-        catch (Exception e)
+        else
         {
-            Console.WriteLine(e);
-            msg = e.Message;
+            EditCustomerDto customer = await userService.GetCustomerByIdAsync(phoneNumber);
+            password = customer.Password;
+            repeatpassword = customer.Password;
+            firstName = customer.FirstName;
+            lastName = customer.LastName;
+            address = customer.Address;
         }
     }
-    
 
     private async Task EditUserAsync()
     {
-        try
+        if (role.Equals("Farmer"))
         {
-            // if identity is true send editrequest to farmercotntroller 
-            // if not to the customer controller
-            
-            await userService.EditUser(dto);
-            navMgr.NavigateTo("/");
+           msg = await userService.EditFarmer(new EditFarmerDto(phoneNumber,password,repeatpassword,firstName,lastName,address,pesticides,farmName));
         }
-    catch
-        (Exception e)
+        else
         {
-            Console.WriteLine(e);
-            msg = e.Message;
+            msg = await userService.EditCustomer(new EditCustomerDto(phoneNumber,password,repeatpassword,firstName,lastName,address));
         }
+        navMgr.NavigateTo("/");
     }
+
+
+   
 
 
     // for pesticides
@@ -133,10 +129,4 @@
     {
         asd = !asd;
     }
-
-    private void changeIdentity()
-    {
-        identity = !identity;
-    }
-
 }

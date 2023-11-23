@@ -11,6 +11,12 @@
         <div class="card">
             <h3>Register</h3>
             <div class="field">
+                <label class="col-5" style="text-align: center">Customer:</label>
+                <input type="radio" name="isFarmer" checked="true" @onchange="@(() => IDK())"/>
+                <label class="col-5" style="text-align: center">Farmer</label>
+                <input type="radio" name="isFarmer" @onchange="@(() => IDK())"/>
+            </div>
+            <div class="field">
                 <label class="col-5">User name:</label>
                 <input class="col-5" type="text" @bind="phoneNumber"/>
             </div>
@@ -38,9 +44,9 @@
             {
                 <div class="field">
                     <label class="col-5">Pesticides: </label>
-                    <input type="radio" name="pest" onchange="@(()=>changePest())" />
+                    <input type="radio" name="pest" onchange="@(() => changePest())"/>
                     <label>True</label>
-                    <input type="radio" name="pest" checked="true" onchange="@(()=>changePest())"/>
+                    <input type="radio" name="pest" checked="true" onchange="@(() => changePest())"/>
                     <label>False</label>
                 </div>
                 <div class="field">
@@ -48,16 +54,10 @@
                     <input class="col-5" type="text" @bind="farmName"/>
                 </div>
             }
-            <div class="field">
-                <label class="col-5" style="text-align: center">Customer:</label>
-                <input type="radio" name="isFarmer" checked="true" @onchange="@(()=>IDK())"/>
-                <label class="col-5" style="text-align: center">Farmer</label>
-                <input type="radio" name="isFarmer"  @onchange="@(()=>IDK())"/>
-            </div>
-            
-            
-            
-            
+
+
+
+
             @if (!string.IsNullOrEmpty(errorLabel))
             {
                 <div class="field">
@@ -80,18 +80,18 @@
 
 
 @code {
-    private string phoneNumber="";
-    private string password="";
-    private string repeatpassword="";
-    private string errorLabel="";
-    private string address="";
-    private string firstName="";
-    private string lastName="";
-    private bool pesticides=false;
+    private string phoneNumber = "";
+    private string password = "";
+    private string repeatpassword = "";
+    private string errorLabel = "";
+    private string address = "";
+    private string firstName = "";
+    private string lastName = "";
+    private bool pesticides = false;
     private string farmName;
     private bool isFarmer;
 
-    private bool identity=true;
+    private bool identity = true;
 
 
     private void IDK()
@@ -103,12 +103,12 @@
         else
             isFarmer = true;
     }
-    
+
     private void changePest()
     {
         pesticides = !pesticides;
     }
-    
+
     private async Task RegisterAsync()
     {
         errorLabel = "";
@@ -117,18 +117,17 @@
             if (isFarmer == false)
             {
                 RegisterCustomerDto customerDto = new RegisterCustomerDto(phoneNumber, password, repeatpassword, firstName, lastName, address);
-                string customerMessage= await userService.Register(customerDto);
+                string customerMessage = await userService.Register(customerDto);
                 errorLabel = customerMessage;
-                if (customerMessage=="Success!")
+                if (customerMessage == "Success!")
                 {
                     navMgr.NavigateTo("/");
                 }
-                
             }
             else
             {
-                //should the rating be deleted from the dto so it would not make problems here?
-                RegisterFarmerDto farmerDto = new RegisterFarmerDto(phoneNumber, password, repeatpassword, firstName, lastName, address, pesticides,farmName);
+    //should the rating be deleted from the dto so it would not make problems here?
+                RegisterFarmerDto farmerDto = new RegisterFarmerDto(phoneNumber, password, repeatpassword, firstName, lastName, address, pesticides, farmName);
                 string farmerMessage = await userService.Register(farmerDto);
                 errorLabel = farmerMessage;
                 if (farmerMessage == "Success!")
@@ -136,7 +135,6 @@
                     navMgr.NavigateTo("/");
                 }
             }
-            
         }
         catch (Exception e)
         {
@@ -144,4 +142,5 @@
             errorLabel = $"Error: {e.Message}";
         }
     }
+
 }

@@ -22,19 +22,19 @@
             </div>
             <div class="field">
                 <label class="col-5">Price:</label>
-                <input class="col-5" type="text" @bind="price"/>
+                <input class="col-5" type="text" placeholder="$$.¢¢" @bind="price"/>
             </div>
             <div class="field">
                 <label class="col-5">Picked date:</label>
-                <input class="col-5" type="text" @bind="tempPickedDate"/>
+                <input class="col-5" type="text" placeholder="DD/MM/YYYY" @bind="tempPickedDate"/>
             </div>
             <div class="field">
                 <label class="col-5">Expiration date:</label>
-                <input class="col-5" type="text" @bind="tempExpirationDate"/>
+                <input class="col-5" type="text" placeholder="DD/MM/YYYY" @bind="tempExpirationDate"/>
             </div>
             <div class="field">
                 <label class="col-5">Amount:</label>
-                <input class="col-5" type="text" @bind="amount"/>
+                <input class="col-5" type="text" placeholder="x.xx KG" @bind="amount"/>
             </div>
 
             @if (!string.IsNullOrEmpty(errorLabel))

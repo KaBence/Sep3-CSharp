@@ -44,29 +44,64 @@ public class UserHttpClient: IUserService
         return content;
     }
 
-    public async Task EditUser(EditUserDto dto)
+    public async Task<string> EditFarmer(EditFarmerDto dto)
     {
         string dtoAsJson = JsonSerializer.Serialize(dto);
         StringContent body = new StringContent(dtoAsJson, Encoding.UTF8, "application/json");
 
-        HttpResponseMessage res = await client.PatchAsync("/!!!!!!!!!", body);
+        HttpResponseMessage res = await client.PatchAsync("/farmer", body);
+        string content = await res.Content.ReadAsStringAsync();
         if (!res.IsSuccessStatusCode)
         {
-            string content = await res.Content.ReadAsStringAsync();
             throw new Exception(content);
         }
+        
+        return content;
     }
 
-    public async Task<EditUserDto> GetByIdAsync(string phoneNumber)
+    public async Task<string> EditCustomer(EditCustomerDto dto)
     {
-        HttpResponseMessage response = await client.GetAsync($"!!!!!!!!!");
+        //Console.WriteLine(dto.FirstName);
+        string dtoAsJson = JsonSerializer.Serialize(dto);
+        StringContent body = new StringContent(dtoAsJson, Encoding.UTF8, "application/json");
+
+        HttpResponseMessage res = await client.PatchAsync("/customer", body);
+        string content = await res.Content.ReadAsStringAsync();
+        
+        if (!res.IsSuccessStatusCode)
+        {
+            throw new Exception(content);
+        }
+        
+        return content;
+    }
+
+    public async Task<EditCustomerDto> GetCustomerByIdAsync(string phoneNumber)
+    {
+        HttpResponseMessage response = await client.GetAsync($"/Customer/{phoneNumber}");
         string content = await response.Content.ReadAsStringAsync();
         if (!response.IsSuccessStatusCode)
         {
             throw new Exception(content);
         }
 
-        EditUserDto user = JsonSerializer.Deserialize<EditUserDto>(content, new JsonSerializerOptions
+        EditCustomerDto user = JsonSerializer.Deserialize<EditCustomerDto>(content, new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        })!;
+        return user;
+    }
+    
+    public async Task<EditFarmerDto> GetFarmerByIdAsync(string phoneNumber)
+    {
+        HttpResponseMessage response = await client.GetAsync($"/Farmer/{phoneNumber}");
+        string content = await response.Content.ReadAsStringAsync();
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception(content);
+        }
+
+        EditFarmerDto user = JsonSerializer.Deserialize<EditFarmerDto>(content, new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true
         })!;

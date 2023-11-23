@@ -50,7 +50,7 @@ public class CustomerController: ControllerBase
         
     }
 
-   [HttpGet("{phoneNumer:int}")]
+   [HttpGet("{phoneNumer:required}")]
     public async Task<ActionResult<Customer>> GetAsync([FromRoute]string phoneNumer)
     {
         try
@@ -66,12 +66,12 @@ public class CustomerController: ControllerBase
     }
 
     [HttpPatch]
-    public async Task<ActionResult<string>> UpdateAsync(EditCustomerDto dto)
+    public async Task<ActionResult<string>> UpdateAsync([FromBody] EditCustomerDto dto)
     {
         try
         {
            string updatedCustomer= await customerLogic.UpdateAsync(dto);
-            return Ok(dto);
+            return Ok(updatedCustomer);
         }
         catch (Exception e)
         {

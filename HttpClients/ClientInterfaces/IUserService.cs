@@ -10,7 +10,9 @@ public interface IUserService
     Task<string> Register(RegisterCustomerDto dto);
     Task<string> Register(RegisterFarmerDto dto);
 
-    Task EditUser(EditUserDto dto);
-
-    Task<EditUserDto> GetByIdAsync(string phoneNumber);
+    Task<string> EditFarmer(EditFarmerDto dto);
+    Task<string> EditCustomer(EditCustomerDto dto);
+    
+    Task<EditCustomerDto> GetCustomerByIdAsync(string phoneNumber);
+    Task<EditFarmerDto> GetFarmerByIdAsync(string phoneNumber);
 }

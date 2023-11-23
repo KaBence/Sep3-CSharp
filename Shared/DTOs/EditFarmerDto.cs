@@ -24,7 +24,10 @@ public class EditFarmerDto
         Address = address;
         Pesticides = pesticides;
         FarmName = farmName;
+    }
 
-
+    public EditFarmerDto()
+    {
+        
     }
 }
