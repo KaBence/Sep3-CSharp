@@ -41,7 +41,7 @@
 
 @code {
     private string phoneNumber;
-    private string password;
+    private string password="";
     private string errorLabel;
     
     private async Task LoginAsync()
@@ -60,7 +60,7 @@
         catch (Exception e)
         {
             Console.WriteLine(e);
-            errorLabel = $"Error: {e.Message}";
+            errorLabel = e.Message;
         }
     }
 }

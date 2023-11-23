@@ -21,6 +21,11 @@ public class AuthService:IAuthService
             throw new Exception("User not found");
         }
 
+        if (existingUser.PhoneNumber.Contains("Exception"))
+        {
+            throw new Exception(existingUser.PhoneNumber);
+        }
+
         return existingUser;
     }
 }
