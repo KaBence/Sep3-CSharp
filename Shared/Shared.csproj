@@ -7,17 +7,6 @@
 
     </PropertyGroup>
 
-    <ItemGroup>
-        <Protobuf Include="Proto\SEP3.proto">
-            <GrpcServices>Server,Client</GrpcServices>
-            <Access>Public</Access>
-            <ProtoCompile>True</ProtoCompile>
-            <CompileOutputs>True</CompileOutputs>
-            <OutputDir>obj\Debug\net7.0\</OutputDir>
-            <Generator>MSBuild:Compile</Generator>
-        </Protobuf>
-    </ItemGroup>
-
 
     <ItemGroup>
         <Protobuf Include="Proto\Alien.proto">

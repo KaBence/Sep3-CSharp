@@ -3,12 +3,11 @@
 @using HttpClients.ClientInterfaces
 @using Blazor.Services
 @using global::Shared.DTOs.Create
-@using System.Collections
 @inject IProductService productService
 @inject IAuthService authService
 
 
-<AuthorizeView>
+<AuthorizeView Roles="Farmer">
     <NotAuthorized>
         <div class="card">
             <h3>You are not logged in as a Farmer!</h3>
