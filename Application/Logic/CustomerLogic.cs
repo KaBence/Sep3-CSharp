@@ -1,6 +1,7 @@
 ﻿using Application.DaoInterfaces;
 using Application.LogicInterfaces;
 using Shared.DTOs;
+using Shared.DTOs.Basics;
 using Shared.DTOs.Create;
 using Shared.DTOs.Search;
 using Shared.Models;
@@ -30,19 +31,31 @@ public class CustomerLogic:ICustomerLogic
         }
         
     }
-   
-    public Task<IEnumerable<Customer>> GetAsync(SearchCustomerDto searchParameters)
+
+    public async Task<IEnumerable<Customer>> GetAsync()
     {
-        throw new NotImplementedException();
+        return  await CustomerDao.GetAsync();
+    }
+    
+
+    public async Task<CustomerBasicDto> GetByIdAsync(string phoneNumber)
+    {
+        Customer? customer = await CustomerDao.GetByIdAsync(phoneNumber);
+        return new CustomerBasicDto(customer.Phonenumber, customer.FirstName, customer.LastName, customer.Address);
     }
 
-    public Task<Customer?> GetByIdAsync(int id)
+    public async Task<string> UpdateAsync(EditCustomerDto dto)
     {
-        throw new NotImplementedException();
-    }
-
-    public Task UpdateAsync(Customer dto)
-    {
-        throw new NotImplementedException();
+        try
+        {
+            string updated = await CustomerDao.UpdateAsync(dto);
+            return updated;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+      
     }
 }

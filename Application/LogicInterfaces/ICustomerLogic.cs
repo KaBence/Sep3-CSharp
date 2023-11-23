@@ -1,4 +1,5 @@
 ﻿using Shared.DTOs;
+using Shared.DTOs.Basics;
 using Shared.DTOs.Create;
 using Shared.DTOs.Search;
 using Shared.Models;
@@ -9,10 +10,10 @@ public interface ICustomerLogic
 {
     Task<string> CreateAsync(RegisterCustomerDto customerDto);
     
-    Task<IEnumerable<Customer>> GetAsync(SearchCustomerDto searchParameters);
-    Task<Customer?> GetByIdAsync(int id);
+    Task<IEnumerable<Customer>> GetAsync();
+    Task<CustomerBasicDto> GetByIdAsync(string phoneNumber);
 
     
 
-    Task UpdateAsync(Customer dto);
+    Task<string> UpdateAsync(EditCustomerDto dto);
 }

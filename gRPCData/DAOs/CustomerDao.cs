@@ -13,7 +13,7 @@ public class CustomerDao:ICustomerDao
 {
     public async Task<string> CreateAsync(RegisterCustomerDto alien)
     {
-        //. change to return the string
+        // to return the string
         using var chanel = GrpcChannel.ForAddress("http://localhost:1337",new GrpcChannelOptions
         {
             Credentials = ChannelCredentials.Insecure
@@ -36,18 +36,75 @@ public class CustomerDao:ICustomerDao
     }
 
 
-    public Task<Customer?> GetByIdAsync(string phonenumber)
+    public async Task<Customer?> GetByIdAsync(string phonenumber)
     {
-        throw new NotImplementedException();
+        using var chanel = GrpcChannel.ForAddress("http://localhost:1337",new GrpcChannelOptions
+        {
+            Credentials = ChannelCredentials.Insecure
+        });
+        var client = new SepService.SepServiceClient(chanel);
+        var request = DTOFactory.CreateGetCustomerByPhoneRequest(phonenumber);
+        try
+        {
+            var response = client.getCustomerByPhone(request);
+          Customer result=  DTOFactory.toCustomer(response.Customer);
+          return result;
+
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
-    public Task<IEnumerable<Customer>> GetAsync(SearchCustomerDto searchParameters)
+    public async Task<IEnumerable<Customer>> GetAsync()
     {
-        throw new NotImplementedException();
+        using var chanel = GrpcChannel.ForAddress("http://localhost:1337",new GrpcChannelOptions
+        {
+            Credentials = ChannelCredentials.Insecure
+        });
+        var client = new SepService.SepServiceClient(chanel);
+        var request = DTOFactory.CreateGetAllCustomersRequest();
+        try
+        {
+            var response = client.getAllCustomers(request);
+            List<Customer> allCustomers = new List<Customer>();
+            foreach (var item in response.AllCustomers)
+            {
+                allCustomers.Add(DTOFactory.toCustomer(item));
+            }
+
+            return allCustomers;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+            throw;   
+        }
     }
 
-    public Task UpdateAsync(Customer customer)
+    public async Task<string> UpdateAsync(EditCustomerDto customerDto)
     {
-        throw new NotImplementedException();
+        using var chanel = GrpcChannel.ForAddress("http://localhost:1337",new GrpcChannelOptions
+        {
+            Credentials = ChannelCredentials.Insecure
+        });
+        var client = new SepService.SepServiceClient(chanel);
+        var request = DTOFactory.CreateEditCustomerRequest(DTOFactory.ToDtoCustomerForEditing(customerDto));
+        try
+        {
+            var response = client.editCustomer(request);
+            string editedCustomer = response.Resp;
+            return editedCustomer; 
+        }
+        
+        catch (RpcException e)
+        {
+            Console.WriteLine($"gRPC Error: {e.Status}");
+            throw;
+        }
     }
+
+ 
 }
