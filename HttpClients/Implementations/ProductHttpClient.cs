@@ -29,15 +29,45 @@ public class ProductHttpClient : IProductService
         return content;
     }
 
-    public async Task EditProduct(UpdateProductDto dto)
+    public async Task<string> EditProduct(UpdateProductDto dto)
     {
         string dtoAsJson = JsonSerializer.Serialize(dto);
         StringContent body = new StringContent(dtoAsJson, Encoding.UTF8, "application/json");
 
         HttpResponseMessage res = await client.PatchAsync("/product", body);
+        string content = await res.Content.ReadAsStringAsync();
         if (!res.IsSuccessStatusCode)
         {
-            string content = await res.Content.ReadAsStringAsync();
+            throw new Exception(content);
+        }
+
+        return content;
+    }
+
+    public async Task<UpdateProductDto> GetProductByIdAsync(int id)
+    {
+        HttpResponseMessage response = await client.GetAsync($"/Product/{id}");
+        string content = await response.Content.ReadAsStringAsync();
+        
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception(content);
+        }
+
+        UpdateProductDto product = JsonSerializer.Deserialize<UpdateProductDto>(content, new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        })!;
+        return product;
+    }
+
+    public async Task DeleteAsync(int id)
+    {
+        HttpResponseMessage response = await client.DeleteAsync($"Product{
+        id}");
+        if (!response.IsSuccessStatusCode)
+        {
+            string content = await response.Content.ReadAsStringAsync();
             throw new Exception(content);
         }
     }

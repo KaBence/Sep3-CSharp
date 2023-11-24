@@ -98,12 +98,12 @@ public class ProductDao: IProductDao
         {
             FarmerId = existing.FarmerID,
             Id = existing.ProductID,
-            Amount = alien.Amount ?? existing.Amount,
-            Availability = alien.Availability ?? existing.Availability,
-            ExpirationDate = alien.ExpirationDate ?? existing.ExpirationDate,
-            PickedDate = alien.PickedDate ?? existing.PickedDate,
-            Price = alien.Price ?? existing.Price,
-            Type = alien.Type ?? existing.Type
+            Amount = alien.Amount,
+            Availability = alien.Availability,
+            ExpirationDate = alien.ExpirationDate,
+            PickedDate = alien.PickedDate,
+            Price = alien.Price,
+            Type = alien.Type
         };
         
         

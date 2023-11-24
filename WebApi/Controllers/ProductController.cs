@@ -70,8 +70,8 @@ public class ProductController : ControllerBase
         }
     }
 
-    [HttpPatch]
-    public async Task<ActionResult> UpdateAsync(UpdateProductDto dto)
+    [HttpPatch("{id:int}")]
+    public async Task<ActionResult> UpdateAsync([FromBody]UpdateProductDto dto)
     {
         try
         {

@@ -1,6 +1,137 @@
 ﻿@page "/EditProduct"
+@using HttpClients.ClientInterfaces
+@using Blazor.Services
+@using global::Shared.DTOs.Create
+@using global::Shared.DTOs.Update
 <h3>EditProduct</h3>
+@inject IProductService productService
+@inject IAuthService authService
+@inject NavigationManager navMgr;
+
+<AuthorizeView Roles="Farmer">
+    <NotAuthorized>
+        <div class="card">
+            <h3>You are not logged in as a Farmer!</h3>
+        </div>
+    </NotAuthorized>
+    <Authorized>
+        <div class="card">
+            <h3>Edit Product</h3>
+            <div class="field">
+                <label class="col-5">Type:</label>
+                <input class="col-5" type="text" @bind="type"/>
+            </div>
+            <div class="field">
+                <label class="col-5">Price:</label>
+                <input class="col-5" type="text" placeholder="$$.¢¢" @bind="price"/>
+            </div>
+            <div class="field">
+                <label class="col-5">Picked date:</label>
+                <input class="col-5" type="text" placeholder="DD/MM/YYYY" @bind="tempPickedDate"/>
+            </div>
+            <div class="field">
+                <label class="col-5">Expiration date:</label>
+                <input class="col-5" type="text" placeholder="DD/MM/YYYY" @bind="tempExpirationDate"/>
+            </div>
+            <div class="field">
+                <label class="col-5">Amount:</label>
+                <input class="col-5" type="text" placeholder="x.xx KG" @bind="amount"/>
+            </div>
+            
+
+            @if (!string.IsNullOrEmpty(errorLabel))
+            {
+                <div class="field">
+                    <label style="color: red">
+                        @errorLabel
+                    </label>
+                </div>
+            }
+            <div class="field">
+                <button class="btn" @onclick="EditProductAsync">Save changes</button>
+            </div>
+            <div class="field">
+                <button class="btn" @onclick = "Delete">Delete</button>
+            </div>
+        </div>
+    </Authorized>
+</AuthorizeView>
+
 
 @code {
+    [Parameter]
+    public int id { get; set; }
     
+    private string type = "";
+    private double amount;
+    private double price;
+    private string tempPickedDate;
+    private string tempExpirationDate;
+    private string errorLabel = "";
+    private string? farmerId;
+    private string pickedDate;
+    private string expirationDate;
+    private bool availability;
+
+    private string msg = "";
+    
+    protected override async Task OnInitializedAsync()
+    {
+        errorLabel = "";
+        try
+        {
+            farmerId = authService.GetAuthAsync().Result.Identity!.Name;
+            
+            
+            UpdateProductDto product = await productService.GetProductByIdAsync(id);
+            type = product.Type;
+            amount = product.Amount;
+            price = product.Price;
+            tempPickedDate = product.PickedDate;
+            tempExpirationDate = product.ExpirationDate;
+            availability = product.Availability;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            errorLabel = $"Error: {e.Message}";
+        }
+    }
+
+    private async Task EditProductAsync()
+    {
+        msg = await productService.EditProduct(new UpdateProductDto(id, availability, amount, type, price, pickedDate, expirationDate));
+    }
+    
+
+
+    private async Task Delete()
+    {
+        msg = "";
+        try
+        {
+            await productService.DeleteAsync(id);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            msg = e.Message;
+        }
+    }
+
+    private string getDate(string date)
+    {
+        if (date == null)
+        {
+            return "0001-01-01";
+        }
+        string[] x = date.Split("/");
+        Console.WriteLine(x.Length);
+        if (x.Length != 3)
+        {
+            return "9999-12-12";
+        }
+        return x[2] + "-" + x[1] + "-" + x[0];
+    }
+
 }
