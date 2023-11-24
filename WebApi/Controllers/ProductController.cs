@@ -84,4 +84,20 @@ public class ProductController : ControllerBase
             return StatusCode(500, e.Message);
         }
     }
+
+
+    [HttpDelete]
+    public async Task<ActionResult> DeleteAsync(int id)
+    {
+        try
+        {
+            string delete = await productLogic.Delete(id);
+            return Ok(delete);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return StatusCode(500, e.Message);
+        }
+    }
 }

@@ -13,4 +13,5 @@ public interface IProductLogic
     Task<Product> GetByIdAsync(int id);
     
     Task<string> UpdateAsync(UpdateProductDto dto);
+    Task<string> Delete(int id);
 }
