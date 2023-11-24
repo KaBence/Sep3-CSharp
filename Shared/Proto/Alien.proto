@@ -214,6 +214,10 @@ message updateProductRequest{
   DtoProduct product=1;
 }
 
+message deleteProductRequest{
+  int32 Id = 1;
+}
+
 //----------OrderItem----------\\
 
 message DtoOrderItem
@@ -356,7 +360,7 @@ service SepService
   rpc editCustomer(editCustomerRequest) returns (generalPutResponse);
   //--------Farmer--------\\
   rpc getAllFarmers(getAllFarmersRequest) returns (getAllFarmersResponse);
-  rpc getFarmerByPhone(getCustomerByPhoneRequest) returns (getCustomerByPhoneResponse);
+  rpc getFarmerByPhone(getFarmerByPhoneRequest) returns (getFarmerByPhoneResponse);
   rpc editFarmer(editFarmerRequest) returns (generalPutResponse);
 
   //--------Order--------\\
@@ -370,6 +374,7 @@ service SepService
   rpc getProductById(getProductByIdRequest) returns (getProductByIdResponse);
   rpc getAllProducts(getAllProductsRequest) returns (getAllProductsResponse);
   rpc updateProduct(updateProductRequest) returns (generalPutResponse);
+  rpc deleteProduct(deleteProductRequest) returns (generalPutResponse);
 
   //--------OrderItem--------\\
   rpc createNewOrderItem(createOrderItemRequest) returns (generalPutResponse);

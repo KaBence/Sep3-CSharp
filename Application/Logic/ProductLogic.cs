@@ -46,4 +46,9 @@ public class ProductLogic:IProductLogic
     {
         return await productDao.UpdateAsync(dto);
     }
+
+    public async Task<string> Delete(int id)
+    {
+        return await productDao.DeleteAsync(id);
+    }
 }
