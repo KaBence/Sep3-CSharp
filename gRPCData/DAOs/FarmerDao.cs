@@ -38,9 +38,30 @@ public class FarmerDao:IFarmerDao
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<Farmer>> GetAsync(SearchFarmerDto searchParameters)
+    public async  Task<IEnumerable<Farmer>> GetAsync(SearchFarmerDto searchParameters)
     {
-        throw new NotImplementedException();
+        using var chanel = GrpcChannel.ForAddress("http://localhost:1337",new GrpcChannelOptions
+        {
+            Credentials = ChannelCredentials.Insecure
+        });
+        var client = new SepService.SepServiceClient(chanel);
+        var request = DTOFactory.CreateGetAllFarmersRequest(searchParameters);
+        try
+        {
+            var response = client.getAllFarmers(request);
+            List<Farmer> allFarmers = new List<Farmer>();
+            foreach (var item in response.AllFarmers)
+            {
+                allFarmers.Add(DTOFactory.toFarmer(item));
+            }
+
+            return allFarmers;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+            throw;   
+        }
     }
 
     public Task UpdateAsync(Farmer farmer)

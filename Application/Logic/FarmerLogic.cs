@@ -32,7 +32,7 @@ public class FarmerLogic:IFarmerLogic
 
     public Task<IEnumerable<Farmer>> GetAsync(SearchFarmerDto searchParameters)
     {
-        throw new NotImplementedException();
+        return FarmerDao.GetAsync(searchParameters);
     }
 
     public Task<Farmer?> GetByIdAsync(int id)

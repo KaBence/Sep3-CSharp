@@ -76,6 +76,22 @@ public class DTOFactory
         };
         return customer;
     }
+
+    public static Farmer toFarmer(DtoFarmer x)
+    {
+        var farmer = new Farmer
+        {
+            Phonenumber = x.PhoneNumber,
+            Address = x.Address,
+            FirstName = x.FirstName,
+            LastName = x.LastName,
+            FarmName = x.FarmName,
+            Pesticides = x.Pesticides,
+            Rating = x.Rating
+
+        };
+        return farmer;
+    }
     
     
     //** Products **\\ 
@@ -151,6 +167,15 @@ public class DTOFactory
         return new getAllCustomersRequest();
     }
 
+    public static getAllFarmersRequest CreateGetAllFarmersRequest(SearchFarmerDto dto)
+    {
+        return new getAllFarmersRequest
+        {
+            Pesticides = dto.Pesticides ?? false,
+            FarmName = dto.FarmName ?? "",
+            Rating = dto.Rating ?? 0
+        };
+    }
     public static getCustomerByPhoneRequest CreateGetCustomerByPhoneRequest(string phoneNumber)
     {
         return new getCustomerByPhoneRequest
