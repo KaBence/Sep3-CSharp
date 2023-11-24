@@ -71,12 +71,12 @@ public class ProductController : ControllerBase
     }
 
     [HttpPatch]
-    public async Task<ActionResult> UpdateAsync(UpdateProductDto dto)
+    public async Task<ActionResult<string>> UpdateAsync(UpdateProductDto dto)
     {
         try
         {
-            await productLogic.UpdateAsync(dto);
-            return Ok();
+            string msg= await productLogic.UpdateAsync(dto);
+            return Ok(msg);
         }
         catch (Exception e)
         {
