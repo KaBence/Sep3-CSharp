@@ -112,6 +112,10 @@ public class ProductDao: IProductDao
         try
         {
             var response = client.updateProduct(request);
+            if (response.Resp.Contains("Error"))
+            {
+                throw new Exception(response.Resp);
+            }
             return response.Resp;
         }
         catch (RpcException e)
