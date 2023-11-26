@@ -112,6 +112,33 @@ public class ProductDao: IProductDao
         try
         {
             var response = client.updateProduct(request);
+            if (response.Resp.Contains("Error"))
+            {
+                throw new Exception(response.Resp);
+            }
+            return response.Resp;
+        }
+        catch (RpcException e)
+        {
+            Console.WriteLine($"gRPC Error: {e.Status}");
+            throw;
+        }
+    }
+    
+
+    public async Task<string> DeleteAsync(int id)
+    {
+        using var chanel= GrpcChannel.ForAddress("http://localhost:1337",new GrpcChannelOptions
+        {
+            Credentials = ChannelCredentials.Insecure
+            
+             
+        });
+        var client = new SepService.SepServiceClient(chanel);
+        var request = DTOFactory.DeleteProductRequest(id);
+        try
+        {
+            var response = client.deleteProduct(request);
             return response.Resp;
         }
         catch (RpcException e)

@@ -258,4 +258,12 @@ public class DTOFactory
             Product = dto
         };
     }
+    
+    public static deleteProductRequest DeleteProductRequest(int id)
+    {
+        return new deleteProductRequest
+        {
+            Id = id
+        };
+    }
 }

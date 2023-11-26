@@ -71,12 +71,28 @@ public class ProductController : ControllerBase
     }
 
     [HttpPatch]
-    public async Task<ActionResult> UpdateAsync(UpdateProductDto dto)
+    public async Task<ActionResult<string>> UpdateAsync(UpdateProductDto dto)
     {
         try
         {
-            await productLogic.UpdateAsync(dto);
-            return Ok();
+            string msg= await productLogic.UpdateAsync(dto);
+            return Ok(msg);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return StatusCode(500, e.Message);
+        }
+    }
+
+
+    [HttpDelete]
+    public async Task<ActionResult> DeleteAsync(int id)
+    {
+        try
+        {
+            string delete = await productLogic.Delete(id);
+            return Ok(delete);
         }
         catch (Exception e)
         {
