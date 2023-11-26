@@ -361,7 +361,7 @@ service SepService
   rpc editCustomer(editCustomerRequest) returns (generalPutResponse);
   //--------Farmer--------\\
   rpc getAllFarmers(getAllFarmersRequest) returns (getAllFarmersResponse);
-  rpc getFarmerByPhone(getCustomerByPhoneRequest) returns (getCustomerByPhoneResponse);
+  rpc getFarmerByPhone(getFarmerByPhoneRequest) returns (getFarmerByPhoneResponse);
   rpc editFarmer(editFarmerRequest) returns (generalPutResponse);
 
   //--------Order--------\\

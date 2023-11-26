@@ -13,5 +13,5 @@ public class SearchFarmerDto
         Rating = rating;
     }
     
-
+    public SearchFarmerDto() { }
 }

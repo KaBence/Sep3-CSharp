@@ -38,6 +38,22 @@ public class DTOFactory
         };
         return DtoRegisterCustomer;
     }
+    public static DtoRegisterFarmer ToDtoFarmerForEditing(EditFarmerDto x)
+    {
+        var DtoRegisterFarmer = new DtoRegisterFarmer
+        {
+            PhoneNumber = x.PhoneNumber,
+            Password = x.Password,
+            RepeatPassword = x.RepeatPassword,
+            FirstName = x.FirstName,
+            LastName = x.LastName,
+            Address = x.Address,
+            FarmName = x.FarmName,
+            Pesticides = x.Pesticides
+            
+        };
+        return DtoRegisterFarmer;
+    }
 
     public static DtoRegisterFarmer ToDtoFarmer(RegisterFarmerDto x)
     {
@@ -171,7 +187,7 @@ public class DTOFactory
     {
         return new getAllFarmersRequest
         {
-            Pesticides = dto.Pesticides ?? false,
+            Pesticides =  dto.Pesticides ?? false, //will this not make a problem with filtering?
             FarmName = dto.FarmName ?? "",
             Rating = dto.Rating ?? 0
         };
@@ -184,11 +200,27 @@ public class DTOFactory
         };
     }
 
+    public static getFarmerByPhoneRequest CreateGetFarmerByPhoneRequest(string phoneNumber)
+    {
+        return new getFarmerByPhoneRequest
+        {
+            FarmersPhone = phoneNumber
+        };
+    }
+
     public static editCustomerRequest CreateEditCustomerRequest(DtoRegisterCustomer dto)
     {
         return new editCustomerRequest
         {
             EditedCustomer = dto
+        };
+    }
+
+    public static editFarmerRequest CreateEditFarmerRequest(DtoRegisterFarmer dto)
+    {
+        return new editFarmerRequest
+        {
+            EditedFarmer = dto
         };
     }
     

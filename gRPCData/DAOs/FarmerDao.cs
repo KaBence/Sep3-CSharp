@@ -33,9 +33,25 @@ public class FarmerDao:IFarmerDao
         }
     }
 
-    public Task<Farmer?> GetByIdAsync(string phonenumber)
-    {
-        throw new NotImplementedException();
+    public async Task<Farmer?> GetByIdAsync(string phonenumber)
+    { using var chanel = GrpcChannel.ForAddress("http://localhost:1337",new GrpcChannelOptions
+        {
+            Credentials = ChannelCredentials.Insecure
+        });
+        var client = new SepService.SepServiceClient(chanel); 
+        var request = DTOFactory.CreateGetFarmerByPhoneRequest(phonenumber);
+        try
+        {
+            var response = client.getFarmerByPhone(request);
+            Farmer result = DTOFactory.toFarmer(response.Farmer);
+            return result;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+
     }
 
     public async  Task<IEnumerable<Farmer>> GetAsync(SearchFarmerDto searchParameters)
@@ -64,8 +80,26 @@ public class FarmerDao:IFarmerDao
         }
     }
 
-    public Task UpdateAsync(Farmer farmer)
+    public async Task<string> UpdateAsync(EditFarmerDto farmerDto)
     {
-        throw new NotImplementedException();
+        using var chanel = GrpcChannel.ForAddress("http://localhost:1337",new GrpcChannelOptions
+        {
+            Credentials = ChannelCredentials.Insecure
+        });
+        var client = new SepService.SepServiceClient(chanel);
+        var request = DTOFactory.CreateEditFarmerRequest(DTOFactory.ToDtoFarmerForEditing(farmerDto));
+        try
+        {
+            var response = client.editFarmer(request);
+            string editedFarmer = response.Resp;
+            return editedFarmer; 
+        }
+        
+        catch (RpcException e)
+        {
+            Console.WriteLine($"gRPC Error: {e.Status}");
+            throw;
+        }
     }
+    
 }

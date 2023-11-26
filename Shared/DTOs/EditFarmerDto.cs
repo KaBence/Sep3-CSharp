@@ -8,7 +8,7 @@ public class EditFarmerDto
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
     public string? Address { get; set; }
-    public bool? Pesticides { get; set; }
+    public bool Pesticides { get; set; }
     public string? FarmName { get; set; }
    
     
@@ -25,9 +25,5 @@ public class EditFarmerDto
         Pesticides = pesticides;
         FarmName = farmName;
     }
-
-    public EditFarmerDto()
-    {
-        
-    }
+    
 }

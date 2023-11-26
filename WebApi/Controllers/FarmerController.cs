@@ -1,6 +1,7 @@
 ﻿using Application.LogicInterfaces;
 using Microsoft.AspNetCore.Mvc;
 using Shared.DTOs;
+using Shared.DTOs.Basics;
 using Shared.DTOs.Search;
 using Shared.Models;
 
@@ -45,6 +46,34 @@ public class FarmerController: ControllerBase
         {
             Console.WriteLine(e);
             throw;
+        }
+    }
+    [HttpGet("{phoneNumer:required}")]
+    public async Task<ActionResult<Farmer>> GetAsync([FromRoute]string phoneNumer)
+    {
+        try
+        {
+            FarmerBasicDto result = await farmerLogic.GetByIdAsync(phoneNumer);
+            return Ok(result);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return StatusCode(500, e.Message);
+        }
+    }
+    [HttpPatch]
+    public async Task<ActionResult<string>> UpdateAsync([FromBody] EditFarmerDto dto)
+    {
+        try
+        {
+            string updatedFarmer= await farmerLogic.UpdateAsync(dto);
+            return Ok(updatedFarmer);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return StatusCode(500, e.Message);
         }
     }
 }

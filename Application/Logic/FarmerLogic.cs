@@ -1,6 +1,7 @@
 ﻿using Application.DaoInterfaces;
 using Application.LogicInterfaces;
 using Shared.DTOs;
+using Shared.DTOs.Basics;
 using Shared.DTOs.Create;
 using Shared.DTOs.Search;
 using Shared.Models;
@@ -8,6 +9,7 @@ using Shared.Models;
 namespace Application.Logic;
 
 public class FarmerLogic:IFarmerLogic
+
 
 {
     private readonly IFarmerDao FarmerDao;
@@ -35,13 +37,27 @@ public class FarmerLogic:IFarmerLogic
         return FarmerDao.GetAsync(searchParameters);
     }
 
-    public Task<Farmer?> GetByIdAsync(int id)
+    public async Task<FarmerBasicDto> GetByIdAsync(string phoneNumber)
     {
-        throw new NotImplementedException();
+        Farmer? farmer = await FarmerDao.GetByIdAsync(phoneNumber);
+        return new FarmerBasicDto(farmer.Phonenumber, farmer.FirstName, farmer.LastName, farmer.Address,
+            farmer.Pesticides, farmer.FarmName);
     }
 
-    public Task UpdateAsync(Farmer dto)
+    public async Task<string> UpdateAsync(EditFarmerDto dto)
     {
-        throw new NotImplementedException();
+        try
+        {
+            string updated = await FarmerDao.UpdateAsync(dto);
+            return updated;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+
     }
+
+   
 }
