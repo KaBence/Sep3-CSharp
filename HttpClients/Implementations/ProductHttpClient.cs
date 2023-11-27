@@ -33,7 +33,6 @@ public class ProductHttpClient : IProductService
     {
         string dtoAsJson = JsonSerializer.Serialize(dto);
         StringContent body = new StringContent(dtoAsJson, Encoding.UTF8, "application/json");
-
         HttpResponseMessage res = await client.PatchAsync("/product", body);
         string content = await res.Content.ReadAsStringAsync();
         if (!res.IsSuccessStatusCode)
@@ -61,14 +60,16 @@ public class ProductHttpClient : IProductService
         return product;
     }
 
-    public async Task DeleteAsync(int id)
+    public async Task<string> DeleteAsync(int id)
     {
-        HttpResponseMessage response = await client.DeleteAsync($"Product{
-        id}");
+        string content = "";
+        HttpResponseMessage response = await client.DeleteAsync($"Product/{id}");
         if (!response.IsSuccessStatusCode)
         {
-            string content = await response.Content.ReadAsStringAsync();
+            content = await response.Content.ReadAsStringAsync();
             throw new Exception(content);
         }
+        System.Console.WriteLine(content);
+        return content;
     }
 }

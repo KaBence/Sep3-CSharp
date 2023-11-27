@@ -97,13 +97,13 @@ public class ProductDao: IProductDao
         DtoProduct dto = new DtoProduct
         {
             FarmerId = existing.FarmerID,
-            Id = existing.ProductID,
-            Amount = alien.Amount,
-            Availability = alien.Availability,
-            ExpirationDate = alien.ExpirationDate,
-            PickedDate = alien.PickedDate,
-            Price = alien.Price,
-            Type = alien.Type
+            Id = alien.Id,
+            Amount = alien.Amount??existing.Amount,
+            Availability = alien.Availability??existing.Availability,
+            ExpirationDate = alien.ExpirationDate??existing.ExpirationDate,
+            PickedDate = alien.PickedDate??existing.PickedDate,
+            Price = alien.Price??existing.Price,
+            Type = alien.Type??existing.Type
         };
         
         

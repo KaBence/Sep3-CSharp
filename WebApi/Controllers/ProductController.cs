@@ -86,8 +86,8 @@ public class ProductController : ControllerBase
     }
 
 
-    [HttpDelete]
-    public async Task<ActionResult> DeleteAsync(int id)
+    [HttpDelete("{id:int}")]
+    public async Task<ActionResult> DeleteAsync([FromRoute]int id)
     {
         try
         {

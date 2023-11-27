@@ -2,21 +2,20 @@
 
 public class UpdateProductDto
 {
-    public int Id { get; }
-    public bool Availability { get; set; }
-    public double Amount { get; set; }
-    public string Type { get; set; }
-    public double Price { get; set; }
-    public string PickedDate { get; set; }
-    public string ExpirationDate { get; set; }
+    public int Id { get; set; }
+    public bool? Availability { get; set; }
+    public double? Amount { get; set; }
+    public string? Type { get; set; }
+    public double? Price { get; set; }
+    public string? PickedDate { get; set; }
+    public string? ExpirationDate { get; set; }
 
-    public UpdateProductDto(int id )
+    public UpdateProductDto()
     {
-        Id = id;
     }
     
 
-    public UpdateProductDto(int id, bool availability, double amount, string type, double price, string pickedDate, string expirationDate)
+    public UpdateProductDto(int id, bool? availability, double? amount, string? type, double? price, string? pickedDate, string? expirationDate)
     {
         Id = id;
         Availability = availability;
@@ -26,4 +25,6 @@ public class UpdateProductDto
         PickedDate = pickedDate;
         ExpirationDate = expirationDate;
     }
+
+   
 }

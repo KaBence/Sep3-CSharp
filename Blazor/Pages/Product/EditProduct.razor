@@ -1,4 +1,4 @@
-﻿@page "/EditProduct"
+﻿@page "/EditProduct/{id:int}"
 @using HttpClients.ClientInterfaces
 @using Blazor.Services
 @using global::Shared.DTOs.Create
@@ -62,16 +62,16 @@
     [Parameter]
     public int id { get; set; }
     
-    private string type = "";
-    private double amount;
-    private double price;
-    private string tempPickedDate;
-    private string tempExpirationDate;
-    private string errorLabel = "";
+    private string? type = "";
+    private double? amount;
+    private double? price;
+    private string? tempPickedDate;
+    private string? tempExpirationDate;
+    private string? errorLabel = "";
     private string? farmerId;
-    private string pickedDate;
-    private string expirationDate;
-    private bool availability;
+    private string? pickedDate;
+    private string? expirationDate;
+    private bool? availability;
 
     private string msg = "";
     
@@ -81,14 +81,12 @@
         try
         {
             farmerId = authService.GetAuthAsync().Result.Identity!.Name;
-            
-            
             UpdateProductDto product = await productService.GetProductByIdAsync(id);
             type = product.Type;
             amount = product.Amount;
             price = product.Price;
-            tempPickedDate = product.PickedDate;
-            tempExpirationDate = product.ExpirationDate;
+            tempPickedDate = setDate(product.PickedDate);
+            tempExpirationDate = setDate(product.ExpirationDate);
             availability = product.Availability;
         }
         catch (Exception e)
@@ -100,7 +98,17 @@
 
     private async Task EditProductAsync()
     {
-        msg = await productService.EditProduct(new UpdateProductDto(id, availability, amount, type, price, pickedDate, expirationDate));
+        errorLabel = "";
+        try
+        {
+            msg = await productService.EditProduct(new UpdateProductDto(id, availability, amount, type, price, getDate(tempPickedDate), getDate(tempExpirationDate)));
+            errorLabel = msg;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            msg = e.Message;
+        }
     }
     
 
@@ -110,13 +118,14 @@
         msg = "";
         try
         {
-            await productService.DeleteAsync(id);
+           msg = await productService.DeleteAsync(id);    
         }
         catch (Exception e)
-        {
-            Console.WriteLine(e);
+        {           
             msg = e.Message;
+
         }
+        errorLabel = msg;
     }
 
     private string getDate(string date)
@@ -132,6 +141,14 @@
             return "9999-12-12";
         }
         return x[2] + "-" + x[1] + "-" + x[0];
+    }
+    
+    private string setDate(string date)
+    {
+        string[] x = date.Split("-");
+        Console.WriteLine(x.Length);
+       
+        return x[2] + "/" + x[1] + "/" + x[0];
     }
 
 }

@@ -9,6 +9,6 @@ public interface IProductService
 
     Task<string> EditProduct(UpdateProductDto dto);
     Task<UpdateProductDto> GetProductByIdAsync(int id);
-    Task DeleteAsync(int id);
+    Task<string> DeleteAsync(int id);
 
 }
