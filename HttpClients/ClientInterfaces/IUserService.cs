@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using System.Threading.Tasks;
 using Shared.DTOs;
+using Shared.DTOs.Search;
 using Shared.Models;
 
 namespace HttpClients.ClientInterfaces;
@@ -15,4 +16,6 @@ public interface IUserService
     
     Task<EditCustomerDto> GetCustomerByIdAsync(string phoneNumber);
     Task<EditFarmerDto> GetFarmerByIdAsync(string phoneNumber);
+
+    Task<IEnumerable<Farmer>> GetAllFarmers(SearchFarmerDto searchParameters);
 }

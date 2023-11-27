@@ -1,10 +1,13 @@
 ﻿@page "/Products/{type}"
 @using global::Shared.DTOs.Search
+@using global::Shared.Models
 @using HttpClients.ClientInterfaces
 @inject IProductService productService;
+@inject IUserService userService;
 
 @if (products == null)
 {
+    <p>Loading...</p>
 }
 else if (!products.Any())
 {
@@ -14,18 +17,25 @@ else
 {
     <div class="items">
         @foreach (var item in products)
+        {
+            <div class="card">
+                <h1>@item.Type</h1>
+                <label>Amount: @item.Amount</label>
+                <label>Price: @item.Price</label>
+                <label>Picked Date : @item.PickedDate</label>
+                <label>Expiration Date: @item.ExpirationDate</label>
+                @foreach (var item2 in farmers)
                 {
-                    <div class="card">
-                        <h1>@item.Type</h1>
-                        <label>Amount: @item.Amount</label>
-                        <label>Price:  @item.Price</label>
-                        <label>Picked Date : @item.PickedDate</label>
-                        <label>Expiration Date: @item.ExpirationDate</label>
-                        <hr>
-                        <button class="btn" @onclick="AddToBasket">Add To Cart</button>
-                    </div>
+                    if (item.FarmerID.Equals(item.FarmerID))
+                    {
+                        <label>Farm name: @item2.FarmName</label>
+                    }
                 }
-        
+                <hr>
+                <button class="btn" @onclick="AddToBasket">Add To Cart</button>
+            </div>
+        }
+
     </div>
 }
 @if (!string.IsNullOrEmpty(msg))
@@ -35,13 +45,16 @@ else
 
 
 @code {
-    [Parameter] public string type { get; set; }
-    
-    private IEnumerable<global::Shared.Models.Product> products;
+
+    [Parameter]
+    public string type { get; set; }
+
+    private IEnumerable<Product> products;
+    private IEnumerable<Farmer> farmers;
     private string msg;
     private string productPrice;
     private string productAmount;
-    
+
     protected override async Task OnInitializedAsync()
     {
         await LoadProducts();
@@ -53,13 +66,16 @@ else
         {
             Amount = Convert.ToDouble(productAmount),
             Price = Convert.ToDouble(productPrice),
+            Type = type
         };
         products = await productService.getAsync(dto);
+        farmers = await userService.GetAllFarmers(new SearchFarmerDto());
     }
 
-    
+
     private async Task AddToBasket()
     {
         
     }
+
 }

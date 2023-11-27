@@ -86,11 +86,11 @@ public class ProductHttpClient : IProductService
             throw new Exception(content);
         }
 
-        ICollection<Product> todos = JsonSerializer.Deserialize<ICollection<Product>>(content, new JsonSerializerOptions
+        ICollection<Product> products = JsonSerializer.Deserialize<ICollection<Product>>(content, new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true
         })!;
-        return todos;
+        return products;
     }
     
     private static string ConstructQuery(SearchProductDto searchParameters)
@@ -111,9 +111,7 @@ public class ProductHttpClient : IProductService
             query += string.IsNullOrEmpty(query) ? "?" : "&";
             query += $"amount={searchParameters.Amount}";
         }
-
         
-
         return query;
     }
 }

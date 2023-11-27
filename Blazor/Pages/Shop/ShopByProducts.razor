@@ -1,6 +1,8 @@
 ﻿@using HttpClients.ClientInterfaces
 @using global::Shared.DTOs.Search
 @using global::Shared
+@using global::Shared.Models
+@using System.ComponentModel.DataAnnotations
 @inject IProductService productService;
 @inject NavigationManager navMgr;
 
@@ -13,16 +15,19 @@
 <div class="items">
     @foreach (var item in filtered)
     {
-        <div class="card" onclick="@(()=> navMgr.NavigateTo("Products/"+item))">
+        <div class="card" onclick="@(() => navMgr.NavigateTo("Products/" + item))">
             <h1>@item</h1>
-            <img src="Images/Potato.jpg">
+            @{
+                string temp = $"/Images/{item}.jpg";
+            }
+            <img src="@temp">
         </div>
     }
 </div>
 
 
 @code {
-    private IEnumerable<global::Shared.Models.Product> products;
+    private IEnumerable<Product> products;
     private string msg;
     private string productType;
     private List<String> filtered=new List<string>();
