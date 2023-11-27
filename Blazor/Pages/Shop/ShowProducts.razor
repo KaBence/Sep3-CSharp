@@ -5,6 +5,14 @@
 @inject IProductService productService;
 @inject IUserService userService;
 
+<div class="filter">
+    <label>Amount:</label>
+    <input type="text" @bind="productAmount"/>
+    <label>Price</label>
+    <input type="text" @bind="productPrice"/>
+    <button class="btn" @onclick="LoadProducts">Filter</button>
+</div>
+
 @if (products == null)
 {
     <p>Loading...</p>
