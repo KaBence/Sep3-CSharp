@@ -6,6 +6,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using HttpClients.ClientInterfaces;
 using Shared.DTOs;
+using Shared.DTOs.Search;
 using Shared.Models;
 
 namespace HttpClients.Implementations;
@@ -106,5 +107,44 @@ public class UserHttpClient: IUserService
             PropertyNameCaseInsensitive = true
         })!;
         return user;
+    }
+
+    public async Task<IEnumerable<Farmer>> GetAllFarmers(SearchFarmerDto searchParameters)
+    {
+        string query = ConstructQuery(searchParameters);
+        
+        HttpResponseMessage response = await client.GetAsync("/farmer"+query);
+        string content = await response.Content.ReadAsStringAsync();
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception(content);
+        }
+
+        ICollection<Farmer> farmers = JsonSerializer.Deserialize<ICollection<Farmer>>(content, new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        })!;
+        return farmers;
+    }
+    
+    private static string ConstructQuery(SearchFarmerDto searchParameters)
+    {
+        string query = "";
+        if (searchParameters.Pesticides!=null)
+        {
+            query += $"?pesticides={searchParameters.Pesticides}";
+        }
+        if (string.IsNullOrEmpty(searchParameters.FarmName))
+        {
+            query += string.IsNullOrEmpty(query) ? "?" : "&";
+            query += $"farmName={searchParameters.FarmName}";
+        }
+        if (searchParameters.Rating != 0)
+        {
+            query += string.IsNullOrEmpty(query) ? "?" : "&";
+            query += $"rating={searchParameters.Rating}";
+        }
+        
+        return query;
     }
 }
