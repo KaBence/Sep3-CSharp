@@ -68,7 +68,7 @@ public class ProductDao: IProductDao
             Credentials = ChannelCredentials.Insecure
         });
         var client = new SepService.SepServiceClient(chanel);
-        var request = DTOFactory.CreateAllProductsRequest(DTOFactory.ToProductSearchParameters(searchParameters));
+        var request = DTOFactory.CreateGetAllProductsRequest(searchParameters);
         try
         {
             var response = client.getAllProducts(request);

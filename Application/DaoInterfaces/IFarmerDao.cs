@@ -9,5 +9,5 @@ public interface IFarmerDao
     Task<Farmer?> GetByIdAsync(string phonenumber);
     Task<IEnumerable<Farmer>> GetAsync(SearchFarmerDto searchParameters);
     
-    Task UpdateAsync(Farmer farmer);
+    Task<string> UpdateAsync(EditFarmerDto farmerFto);
 }

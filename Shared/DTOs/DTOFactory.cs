@@ -38,6 +38,22 @@ public class DTOFactory
         };
         return DtoRegisterCustomer;
     }
+    public static DtoRegisterFarmer ToDtoFarmerForEditing(EditFarmerDto x)
+    {
+        var DtoRegisterFarmer = new DtoRegisterFarmer
+        {
+            PhoneNumber = x.PhoneNumber,
+            Password = x.Password,
+            RepeatPassword = x.RepeatPassword,
+            FirstName = x.FirstName,
+            LastName = x.LastName,
+            Address = x.Address,
+            FarmName = x.FarmName,
+            Pesticides = x.Pesticides
+            
+        };
+        return DtoRegisterFarmer;
+    }
 
     public static DtoRegisterFarmer ToDtoFarmer(RegisterFarmerDto x)
     {
@@ -76,6 +92,22 @@ public class DTOFactory
         };
         return customer;
     }
+
+    public static Farmer toFarmer(DtoFarmer x)
+    {
+        var farmer = new Farmer
+        {
+            Phonenumber = x.PhoneNumber,
+            Address = x.Address,
+            FirstName = x.FirstName,
+            LastName = x.LastName,
+            FarmName = x.FarmName,
+            Pesticides = x.Pesticides,
+            Rating = x.Rating
+
+        };
+        return farmer;
+    }
     
     
     //** Products **\\ 
@@ -108,7 +140,7 @@ public class DTOFactory
         };
     }
 
-    public static ProductSearchParameters ToProductSearchParameters(SearchProductDto x)
+   /* public static ProductSearchParameters ToProductSearchParameters(SearchProductDto x)
     {
         return new ProductSearchParameters
         {
@@ -116,7 +148,7 @@ public class DTOFactory
             Price = x.Price,
             Type = x.Type
         };
-    }
+    }*/
 
     //** Creating the requests ** \\
     
@@ -151,6 +183,29 @@ public class DTOFactory
         return new getAllCustomersRequest();
     }
 
+    public static getAllFarmersRequest CreateGetAllFarmersRequest(SearchFarmerDto dto)
+    {
+        int pestTemp = 0;
+        if (dto.Pesticides==null)
+        {
+            pestTemp = 0;
+        }
+        else if (dto.Pesticides==true)
+        {
+            pestTemp = 1;
+        }
+        else
+        {
+            pestTemp = 2;
+        }
+
+        return new getAllFarmersRequest
+        {
+            Pesticides =  pestTemp, //will this not make a problem with filtering?
+            FarmName = dto.FarmName ?? "",
+            Rating = dto.Rating ?? 0
+        };
+    }
     public static getCustomerByPhoneRequest CreateGetCustomerByPhoneRequest(string phoneNumber)
     {
         return new getCustomerByPhoneRequest
@@ -159,11 +214,27 @@ public class DTOFactory
         };
     }
 
+    public static getFarmerByPhoneRequest CreateGetFarmerByPhoneRequest(string phoneNumber)
+    {
+        return new getFarmerByPhoneRequest
+        {
+            FarmersPhone = phoneNumber
+        };
+    }
+
     public static editCustomerRequest CreateEditCustomerRequest(DtoRegisterCustomer dto)
     {
         return new editCustomerRequest
         {
             EditedCustomer = dto
+        };
+    }
+
+    public static editFarmerRequest CreateEditFarmerRequest(DtoRegisterFarmer dto)
+    {
+        return new editFarmerRequest
+        {
+            EditedFarmer = dto
         };
     }
     
@@ -178,11 +249,13 @@ public class DTOFactory
         };
     }
 
-    public static getAllProductsRequest CreateAllProductsRequest(ProductSearchParameters dto)
+    public static getAllProductsRequest CreateGetAllProductsRequest(SearchProductDto dto)
     {
         return new getAllProductsRequest
         {
-            Parameters = dto
+            Type = dto.Type ?? "",
+            Amount = dto.Amount ?? 0.0,
+            Price = dto.Price ?? 0.0
         };
     }
 

@@ -1,4 +1,5 @@
 ﻿using Shared.DTOs;
+using Shared.DTOs.Basics;
 using Shared.DTOs.Create;
 using Shared.DTOs.Search;
 using Shared.Models;
@@ -10,10 +11,11 @@ public interface IFarmerLogic
     Task<string> CreateAsync(RegisterFarmerDto farmerDto);
     
     Task<IEnumerable<Farmer>> GetAsync(SearchFarmerDto searchParameters);
-    Task<Farmer?> GetByIdAsync(int id);
+    Task<FarmerBasicDto> GetByIdAsync(string phoneNumber);
 
     
+    
 
-    Task UpdateAsync(Farmer dto);
+    Task<string> UpdateAsync(EditFarmerDto dto);
 
 }
