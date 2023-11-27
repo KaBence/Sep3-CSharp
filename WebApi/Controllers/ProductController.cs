@@ -39,12 +39,7 @@ public class ProductController : ControllerBase
     {
         try
         {
-            SearchProductDto parameters = new SearchProductDto
-            {
-                Type = type,
-                Price = price ?? 0,
-                Amount = amount ?? 0
-            };
+            SearchProductDto parameters = new(type, price, amount);
             IEnumerable<Product> products = await productLogic.GetAsync(parameters);
             return Ok(products);
         }

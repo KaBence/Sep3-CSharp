@@ -140,7 +140,7 @@ public class DTOFactory
         };
     }
 
-    public static ProductSearchParameters ToProductSearchParameters(SearchProductDto x)
+   /* public static ProductSearchParameters ToProductSearchParameters(SearchProductDto x)
     {
         return new ProductSearchParameters
         {
@@ -148,7 +148,7 @@ public class DTOFactory
             Price = x.Price,
             Type = x.Type
         };
-    }
+    }*/
 
     //** Creating the requests ** \\
     
@@ -249,11 +249,13 @@ public class DTOFactory
         };
     }
 
-    public static getAllProductsRequest CreateAllProductsRequest(ProductSearchParameters dto)
+    public static getAllProductsRequest CreateGetAllProductsRequest(SearchProductDto dto)
     {
         return new getAllProductsRequest
         {
-            Parameters = dto
+            Type = dto.Type ?? "",
+            Amount = dto.Amount ?? 0.0,
+            Price = dto.Price ?? 0.0
         };
     }
 
