@@ -68,7 +68,7 @@ public class ProductDao: IProductDao
             Credentials = ChannelCredentials.Insecure
         });
         var client = new SepService.SepServiceClient(chanel);
-        var request = DTOFactory.CreateAllProductsRequest(DTOFactory.ToProductSearchParameters(searchParameters));
+        var request = DTOFactory.CreateGetAllProductsRequest(searchParameters);
         try
         {
             var response = client.getAllProducts(request);
@@ -97,13 +97,13 @@ public class ProductDao: IProductDao
         DtoProduct dto = new DtoProduct
         {
             FarmerId = existing.FarmerID,
-            Id = existing.ProductID,
-            Amount = alien.Amount ?? existing.Amount,
-            Availability = alien.Availability ?? existing.Availability,
-            ExpirationDate = alien.ExpirationDate ?? existing.ExpirationDate,
-            PickedDate = alien.PickedDate ?? existing.PickedDate,
-            Price = alien.Price ?? existing.Price,
-            Type = alien.Type ?? existing.Type
+            Id = alien.Id,
+            Amount = alien.Amount??existing.Amount,
+            Availability = alien.Availability??existing.Availability,
+            ExpirationDate = alien.ExpirationDate??existing.ExpirationDate,
+            PickedDate = alien.PickedDate??existing.PickedDate,
+            Price = alien.Price??existing.Price,
+            Type = alien.Type??existing.Type
         };
         
         

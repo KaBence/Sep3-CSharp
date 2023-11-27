@@ -47,9 +47,9 @@
             {
                 <div class="field">
                     <label class="col-5">Pesticides: </label>
-                    <input type="radio" name="pest" onchange="@(() => IDK())"/>
+                    <input type="radio" name="pest" checked="@pesticides"  onchange="@(() => IDK())"/>
                     <label>True</label>
-                    <input type="radio" name="pest" onchange="@(() => IDK())"/>
+                    <input type="radio" name="pest" checked="@pesticidesFalses" onchange="@(() => IDK())"/>
                     <label>False</label>
                 </div>
                 <div class="field">
@@ -78,12 +78,11 @@
     private string address = "";
     private string firstName = "";
     private string lastName = "";
-    private bool pesticides = false;
+    private bool pesticides;
+    private bool pesticidesFalses;
     private string farmName;
     private bool isFarmer;
     private string role ;
-
-    private bool asd;
 
 
     private string msg = "";
@@ -95,19 +94,17 @@
         if (role.Equals("Farmer"))
         {
             EditFarmerDto farmer = await userService.GetFarmerByIdAsync(phoneNumber);
-            password = farmer.Password;
-            repeatpassword = farmer.Password;
             firstName = farmer.FirstName;
             lastName = farmer.LastName;
             address = farmer.Address;
             pesticides = farmer.Pesticides;
+            pesticidesFalses = !pesticides;
             farmName = farmer.FarmName;
         }
         else
         {
             EditCustomerDto customer = await userService.GetCustomerByIdAsync(phoneNumber);
-            password = customer.Password;
-            repeatpassword = customer.Password;
+           
             firstName = customer.FirstName;
             lastName = customer.LastName;
             address = customer.Address;
@@ -118,13 +115,37 @@
     {
         if (role.Equals("Farmer"))
         {
-           msg = await userService.EditFarmer(new EditFarmerDto(phoneNumber,password,repeatpassword,firstName,lastName,address,pesticides,farmName));
+            try
+            {
+                msg = await userService.EditFarmer(new EditFarmerDto(phoneNumber,password,repeatpassword,firstName,lastName,address,pesticides,farmName));
+                if (!msg.Equals("Success!"))
+                {
+                    throw new Exception(msg);
+                }
+                navMgr.NavigateTo("/"); 
+            }
+            catch (Exception e)
+            {
+                msg = e.Message;
+            }
+           
         }
         else
         {
-            msg = await userService.EditCustomer(new EditCustomerDto(phoneNumber,password,repeatpassword,firstName,lastName,address));
+            try
+            {
+                msg = await userService.EditCustomer(new EditCustomerDto(phoneNumber,password,repeatpassword,firstName,lastName,address));
+                if (!msg.Equals("Success!"))
+                {
+                    throw new Exception(msg);
+                }
+                navMgr.NavigateTo("/"); 
+            }
+            catch (Exception e)
+            {
+                msg = e.Message;
+            }
         }
-        navMgr.NavigateTo("/");
     }
 
 
@@ -134,6 +155,7 @@
     // for pesticides
     private void IDK()
     {
-        asd = !asd;
+        pesticides = !pesticides;
+        pesticidesFalses = !pesticidesFalses;
     }
 }

@@ -140,7 +140,7 @@ public class DTOFactory
         };
     }
 
-    public static ProductSearchParameters ToProductSearchParameters(SearchProductDto x)
+   /* public static ProductSearchParameters ToProductSearchParameters(SearchProductDto x)
     {
         return new ProductSearchParameters
         {
@@ -148,7 +148,7 @@ public class DTOFactory
             Price = x.Price,
             Type = x.Type ?? ""
         };
-    }
+    }*/
 
     //** Creating the requests ** \\
     
@@ -185,9 +185,23 @@ public class DTOFactory
 
     public static getAllFarmersRequest CreateGetAllFarmersRequest(SearchFarmerDto dto)
     {
+        int pestTemp = 0;
+        if (dto.Pesticides==null)
+        {
+            pestTemp = 0;
+        }
+        else if (dto.Pesticides==true)
+        {
+            pestTemp = 1;
+        }
+        else
+        {
+            pestTemp = 2;
+        }
+
         return new getAllFarmersRequest
         {
-            Pesticides =  dto.Pesticides ?? false, //will this not make a problem with filtering?
+            Pesticides =  pestTemp, //will this not make a problem with filtering?
             FarmName = dto.FarmName ?? "",
             Rating = dto.Rating ?? 0
         };
@@ -235,11 +249,13 @@ public class DTOFactory
         };
     }
 
-    public static getAllProductsRequest CreateAllProductsRequest(ProductSearchParameters dto)
+    public static getAllProductsRequest CreateGetAllProductsRequest(SearchProductDto dto)
     {
         return new getAllProductsRequest
         {
-            Parameters = dto
+            Type = dto.Type ?? "",
+            Amount = dto.Amount ?? 0.0,
+            Price = dto.Price ?? 0.0
         };
     }
 
