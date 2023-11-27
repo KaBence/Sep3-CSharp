@@ -69,8 +69,8 @@ public class CustomerController: ControllerBase
     public async Task<ActionResult<string>> UpdateAsync([FromBody] EditCustomerDto dto)
     {
         try
-        {
-           string updatedCustomer= await customerLogic.UpdateAsync(dto);
+        { 
+            string updatedCustomer= await customerLogic.UpdateAsync(dto);
             return Ok(updatedCustomer);
         }
         catch (Exception e)
