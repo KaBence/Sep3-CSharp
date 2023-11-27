@@ -1,0 +1,65 @@
+﻿@using HttpClients.ClientInterfaces
+@using global::Shared.DTOs.Search
+@using global::Shared
+@inject IProductService productService;
+@inject NavigationManager navMgr;
+
+<div class="filter">
+    <label for="type">Product</label>
+    <input type="text" @bind="productType" @onkeydown="LoadProducts"/>
+    
+</div>
+
+<div class="items">
+    @foreach (var item in filtered)
+    {
+        <div class="card" onclick="@(()=> navMgr.NavigateTo("Products/"+item))">
+            <h1>@item</h1>
+            <img src="Images/Potato.jpg">
+        </div>
+    }
+</div>
+
+
+@code {
+    private IEnumerable<global::Shared.Models.Product> products;
+    private string msg;
+    private string productType;
+    private List<String> filtered=new List<string>();
+    
+    
+    protected override async Task OnInitializedAsync()
+    {
+        foreach (var item in Enum.GetNames(typeof(ProductTypes)))
+        {
+            filtered.Add(item);
+        }
+    }
+
+    private async Task LoadProducts(KeyboardEventArgs e)
+    {
+        if (e.Code is "Enter" or "NumpadEnter")
+        {
+            filtered = new List<string>();
+            if (String.IsNullOrEmpty(productType))
+            {
+                foreach (var item in Enum.GetNames(typeof(ProductTypes)))
+                {
+                    filtered.Add(item);
+                }
+            }
+            else
+            {
+                foreach (var item in Enum.GetNames(typeof(ProductTypes)))
+                {
+                    if (item.ToLower().Contains(productType.ToLower()))
+                    {
+                        filtered.Add(item);
+                    }
+                }
+            }
+        }
+    }
+
+    
+}

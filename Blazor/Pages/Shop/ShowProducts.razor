@@ -1,0 +1,65 @@
+﻿@page "/Products/{type}"
+@using global::Shared.DTOs.Search
+@using HttpClients.ClientInterfaces
+@inject IProductService productService;
+
+@if (products == null)
+{
+}
+else if (!products.Any())
+{
+    <p>No products to display</p>
+}
+else
+{
+    <div class="items">
+        @foreach (var item in products)
+                {
+                    <div class="card">
+                        <h1>@item.Type</h1>
+                        <label>Amount: @item.Amount</label>
+                        <label>Price:  @item.Price</label>
+                        <label>Picked Date : @item.PickedDate</label>
+                        <label>Expiration Date: @item.ExpirationDate</label>
+                        <hr>
+                        <button class="btn" @onclick="AddToBasket">Add To Cart</button>
+                    </div>
+                }
+        
+    </div>
+}
+@if (!string.IsNullOrEmpty(msg))
+{
+    <label style="color: red">@msg</label>
+}
+
+
+@code {
+    [Parameter] public string type { get; set; }
+    
+    private IEnumerable<global::Shared.Models.Product> products;
+    private string msg;
+    private string productPrice;
+    private string productAmount;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadProducts();
+    }
+
+    private async Task LoadProducts()
+    {
+        SearchProductDto dto = new SearchProductDto
+        {
+            Amount = Convert.ToDouble(productAmount),
+            Price = Convert.ToDouble(productPrice),
+        };
+        products = await productService.getAsync(dto);
+    }
+
+    
+    private async Task AddToBasket()
+    {
+        
+    }
+}

@@ -146,7 +146,7 @@ public class DTOFactory
         {
             Amount = x.Amount,
             Price = x.Price,
-            Type = x.Type
+            Type = x.Type ?? ""
         };
     }
 
