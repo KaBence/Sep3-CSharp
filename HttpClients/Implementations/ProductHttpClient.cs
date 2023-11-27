@@ -75,6 +75,12 @@ public class ProductHttpClient : IProductService
         return content;
     }
 
+    public Task<IEnumerable<Product>> getByFarmerAsync(string farmName)
+    {
+        throw new NotImplementedException();
+    }
+
+
     public async Task<IEnumerable<Product>> getAsync(SearchProductDto searchParameters)
     {
         string query = ConstructQuery(searchParameters);

@@ -192,7 +192,7 @@ message createProductRequest
 //selecting the farm first and then their product 
 message getAllProductsByFarmerRequest
 {
-  DtoFarmer farmer = 1;
+  string farmer = 1;
 }
 
 message getAllProductsByFarmerResponse

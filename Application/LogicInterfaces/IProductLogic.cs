@@ -1,4 +1,5 @@
-﻿using Shared.DTOs.Create;
+﻿using System.Collections;
+using Shared.DTOs.Create;
 using Shared.DTOs.Search;
 using Shared.DTOs.Update;
 using Shared.Models;
@@ -11,7 +12,7 @@ public interface IProductLogic
     
     Task<IEnumerable<Product>> GetAsync(SearchProductDto searchParameters);
     Task<Product> GetByIdAsync(int id);
-    
+    Task<IEnumerable<Product>> GetByFarmerAsync(string phoneNumber);
     Task<string> UpdateAsync(UpdateProductDto dto);
     Task<string> Delete(int id);
 }
