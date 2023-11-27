@@ -1,4 +1,5 @@
-﻿using Application.LogicInterfaces;
+﻿using System.Collections;
+using Application.LogicInterfaces;
 using Microsoft.AspNetCore.Mvc;
 using Shared.DTOs.Create;
 using Shared.DTOs.Search;
@@ -57,6 +58,21 @@ public class ProductController : ControllerBase
         {
             Product product=await productLogic.GetByIdAsync(id);
             return Ok(product);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return StatusCode(500, e.Message);
+        }
+    }
+
+    [HttpGet("{phoneNumber:required}")]
+    public async Task<ActionResult<IEnumerable<Product>>> GetByFarmer([FromRoute] string phoneNumber)
+    {
+        try
+        {
+            IEnumerable<Product> list = await productLogic.GetByFarmerAsync(phoneNumber);
+            return Ok(list);
         }
         catch (Exception e)
         {

@@ -147,4 +147,20 @@ public class UserHttpClient: IUserService
         
         return query;
     }
+
+    public async Task<IEnumerable<Farmer>> GetAllFarmers()
+    {
+        HttpResponseMessage responseMessage = await client.GetAsync("/Farmer");
+        string content = await responseMessage.Content.ReadAsStringAsync();
+        if (!responseMessage.IsSuccessStatusCode)
+        {
+            throw new Exception(content);
+        }
+
+        IEnumerable<Farmer> farmers = JsonSerializer.Deserialize<IEnumerable<Farmer>>(content, new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        })!;
+        return farmers;
+    }
 }
