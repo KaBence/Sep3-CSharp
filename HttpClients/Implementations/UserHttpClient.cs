@@ -134,7 +134,7 @@ public class UserHttpClient: IUserService
         {
             query += $"?pesticides={searchParameters.Pesticides}";
         }
-        if (string.IsNullOrEmpty(searchParameters.FarmName))
+        if (!string.IsNullOrEmpty(searchParameters.FarmName))
         {
             query += string.IsNullOrEmpty(query) ? "?" : "&";
             query += $"farmName={searchParameters.FarmName}";

@@ -13,7 +13,7 @@
     <input type="text" @bind="rating"/>
 
     <label class="col-5">Pesticides: </label>
-    <input type="checkbox" name="pest" onchange="@(() => changePest())"/>
+    <input type="checkbox" name="pest" @onchange="changePest"/>
     
     <button @onclick="LoadProducts">Filter</button>
 
@@ -39,11 +39,11 @@
 
 @code
 {
-    private IEnumerable<global::Shared.Models.Product> products;
+    private IEnumerable<Product> products;
     private string msg;
-    private string farmName = "null";
+    private string farmName;
     private double rating;
-    private bool? pesticides = null;
+    private bool? pesticides = false;
     private List<Farmer> filtered = new List<Farmer>();
 
 
