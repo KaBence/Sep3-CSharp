@@ -8,7 +8,7 @@
 @inject IAuthService authService;
 @inject NavigationManager navMgr;
 
-<AuthorizeView Roles="Customer">
+<AuthorizeView>
     <NotAuthorized>
 
         <div>
@@ -95,6 +95,13 @@
         if (role.Equals("Farmer"))
         {
             EditFarmerDto farmer = await userService.GetFarmerByIdAsync(phoneNumber);
+            password = farmer.Password;
+            repeatpassword = farmer.Password;
+            firstName = farmer.FirstName;
+            lastName = farmer.LastName;
+            address = farmer.Address;
+            pesticides = farmer.Pesticides;
+            farmName = farmer.FarmName;
         }
         else
         {
