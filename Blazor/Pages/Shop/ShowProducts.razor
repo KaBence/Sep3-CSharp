@@ -1,10 +1,13 @@
-﻿@page "/Products/{type}"
+﻿@page "/Products/{type}/{phoneNumber}"
 @using global::Shared.DTOs.Search
 @using global::Shared.Models
 @using HttpClients.ClientInterfaces
+@using global::Shared.DTOs
 @inject IProductService productService;
 @inject IUserService userService;
 
+<h1>Type: @type</h1>
+<h1>Farmer: @phoneNumber</h1>
 <div class="filter">
     <label>Amount:</label>
     <input type="text" @bind="productAmount"/>
@@ -34,7 +37,7 @@ else
                 <label>Expiration Date: @item.ExpirationDate</label>
                 @foreach (var item2 in farmers)
                 {
-                    if (item.FarmerID.Equals(item.FarmerID))
+                    if (item.FarmerID.Equals(item2.Phonenumber))
                     {
                         <label>Farm name: @item2.FarmName</label>
                     }
@@ -56,6 +59,8 @@ else
 
     [Parameter]
     public string type { get; set; }
+    [Parameter]
+    public string phoneNumber { get; set; }
 
     private IEnumerable<Product> products;
     private IEnumerable<Farmer> farmers;
@@ -76,8 +81,30 @@ else
             Price = Convert.ToDouble(productPrice),
             Type = type
         };
-        products = await productService.getAsync(dto);
-        farmers = await userService.GetAllFarmers(new SearchFarmerDto());
+        
+        if (phoneNumber =="all")
+        {
+            products = await productService.getAsync(dto);
+            farmers = await userService.GetAllFarmers(new SearchFarmerDto());
+        }
+        else
+        {
+            products = await productService.getByFarmerAsync(phoneNumber,dto);
+            List<Farmer> x = new List<Farmer>();
+            EditFarmerDto editFarmer = await userService.GetFarmerByIdAsync(phoneNumber);
+            Farmer farmer = new Farmer
+            {
+                Address = editFarmer.Address,
+                FarmName = editFarmer.FarmName,
+                FirstName = editFarmer.FirstName,
+                LastName = editFarmer.LastName,
+                Pesticides = editFarmer.Pesticides,
+                Phonenumber = editFarmer.PhoneNumber,
+                Rating = 0
+            };
+            x.Add(farmer);
+            farmers = x;
+        }
     }
 
 

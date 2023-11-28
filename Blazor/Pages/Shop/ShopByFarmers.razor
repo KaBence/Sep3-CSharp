@@ -22,7 +22,7 @@
 <div class="items">
     @foreach (var item in filtered)
     {
-        <div class="card" onclick="@(() => navMgr.NavigateTo("Products/" + item))">
+        <div class="card" onclick="@(() => navMgr.NavigateTo("ProductsByFarmer/" + item.Phonenumber))">
             <h1>@item.FarmName</h1>
             <label>Rating: @item.Rating</label>
             @if (item.Pesticides)

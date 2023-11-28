@@ -1,0 +1,26 @@
+﻿@page "/ProductsByFarmer/{phoneNumber}"
+@using global::Shared.Models
+@using global::Shared
+@using global::Shared.DTOs
+@using HttpClients.ClientInterfaces
+@inject IUserService userServices
+@inject NavigationManager navMgr
+<h3>@farmName :</h3>
+
+<ShopByProducts phoneNumber="@phoneNumber"/>
+
+@code
+{
+    [Parameter] 
+    public string phoneNumber { get; set; }
+
+    private EditFarmerDto farmer;
+    private string? farmName;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        farmer = await userServices.GetFarmerByIdAsync(phoneNumber);
+        farmName = farmer.FarmName;
+    }
+}

@@ -75,9 +75,24 @@ public class ProductHttpClient : IProductService
         return content;
     }
 
-    public Task<IEnumerable<Product>> getByFarmerAsync(string farmName)
+    public async Task<IEnumerable<Product>> getByFarmerAsync(string farmName, SearchProductDto dto)
     {
-        throw new NotImplementedException();
+        string query = ConstructQuery(dto);
+        HttpResponseMessage response = await client.GetAsync($"Product/ByFarmer/{farmName}"+query);
+        string content = await response.Content.ReadAsStringAsync();
+        
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception(content);
+        }
+
+        ICollection<Product> products = JsonSerializer.Deserialize<ICollection<Product>>(content,
+            new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            })!;
+        
+        return products;
     }
 
 
