@@ -24,5 +24,6 @@ img{
 }
 
 .filter{
-    margin: 20px auto;
+    margin: 20px 40%;
+    min-width: 30%;
 }
