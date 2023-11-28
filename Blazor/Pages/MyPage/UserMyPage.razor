@@ -67,7 +67,7 @@
                        <!-- Content for My Orders box goes here -->
                    </div>
        
-                   <div class="box">
+                   <div class="box" onclick="@(() => navMgr.NavigateTo("/EditUser"))">
                        <h2>Edit Profile</h2>
                        <img src="Images/edit.png">
                        <!-- Content for Edit Profile box goes here -->
@@ -95,6 +95,7 @@
     protected override async Task OnInitializedAsync()
     {
        phoneNumber = authService.GetAuthAsync().Result.Identity!.Name;
+      
         role =  authService.GetAuthAsync().Result.Claims.First(claim => claim.Type.Equals(ClaimTypes.Role)).Value;
         if (role.Equals("Farmer"))
         {
@@ -103,11 +104,14 @@
             lastName = farmer.LastName;
             farmName = farmer.FarmName;
         }
-        else
+        if(role.Equals("Customer"))
         {
-           
+            EditCustomerDto customer = await userService.GetCustomerByIdAsync(phoneNumber);
+            firstName = customer.FirstName;
+            lastName = customer.LastName;
+            
+
         }
-    }
 
     }
 
