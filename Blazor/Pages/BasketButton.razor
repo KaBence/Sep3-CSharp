@@ -1,4 +1,5 @@
 ﻿@using Blazor.Services
+@using Blazor.Pages
 @namespace Basket
 @inject NavigationManager navMgr
 @inject IAuthService authService
@@ -6,14 +7,14 @@
 
 <AuthorizeView Roles="Customer">
     <Authorized>
-        <img class="icon" src="icons/basket.png"/>
+        <img class="icon" src="icons/basket.png" @onclick="OpenBasket"/>
     </Authorized>
 </AuthorizeView>
 
 @code {
-    private bool OpenBasket()
+    private void OpenBasket()
     {
-        return false;
+        navMgr.NavigateTo("/Basket");
     }
     
 }
