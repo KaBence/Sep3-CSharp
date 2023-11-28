@@ -6,6 +6,7 @@
 
 <AuthorizeView>
     <Authorized>
+        <img class="icon" src="icons/basket.png"/>
         <img class="icon" src="icons/Logout.png" @onclick="Logout"/>
     </Authorized>
     <NotAuthorized>
@@ -27,4 +28,10 @@
         await authService.LogoutAsync();
         navMgr.NavigateTo("/");
     }
+
+    private bool OpenBasket()
+    {
+        return false;
+    }
+
 }
