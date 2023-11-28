@@ -67,6 +67,7 @@ else
     private string msg;
     private string productPrice;
     private string productAmount;
+    public Basket basket;
 
     protected override async Task OnInitializedAsync()
     {
@@ -110,7 +111,7 @@ else
 
     private async Task AddToBasket()
     {
-        
+        basket.AddToBasket();
     }
 
 }
