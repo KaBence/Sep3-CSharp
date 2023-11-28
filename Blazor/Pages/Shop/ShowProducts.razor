@@ -5,16 +5,21 @@
 @using global::Shared.DTOs
 @inject IProductService productService;
 @inject IUserService userService;
-<h3>Shop</h3>
-<div class="filter">
-    <label>Amount:</label>
-    <input class="typeLabel" type="text" @bind="productAmount"/>
-    <br/>
-    <label>Price:</label>
-    <input class="typeLabel" type="text" @bind="productPrice"/>
-    <br/>
-    <button class="btn" @onclick="LoadProducts">Filter</button>
-</div>
+@inject NavigationManager navMgr;
+<AuthorizeView Roles="Farmer">
+    <NotAuthorized>
+        <h3>Shop</h3>
+        <div class="filter">
+            <label>Amount:</label>
+            <input class="typeLabel" type="text" @bind="productAmount"/>
+            <br/>
+            <label>Price:</label>
+            <input class="typeLabel" type="text" @bind="productPrice"/>
+            <br/>
+            <button class="btn" @onclick="LoadProducts">Filter</button>
+        </div>
+    </NotAuthorized>
+</AuthorizeView>
 
 @if (products == null)
 {
@@ -43,7 +48,15 @@ else
                     }
                 }
                 <hr>
-                <button class="btn" @onclick="AddToBasket">Add To Cart</button>
+                <AuthorizeView Roles="Farmer">
+                    <Authorized>
+                        <button class="btn" @onclick="@(() => navMgr.NavigateTo($"/EditProduct/{item.ProductID}"))">Edit Product</button>
+                    </Authorized>
+                    <NotAuthorized>
+                        <button class="btn" @onclick="AddToBasket">Add To Cart</button>
+                    </NotAuthorized>
+                </AuthorizeView>
+
             </div>
         }
 
@@ -67,6 +80,7 @@ else
     private string msg;
     private string productPrice;
     private string productAmount;
+    private Farmer currently;
 
     protected override async Task OnInitializedAsync()
     {
@@ -112,5 +126,4 @@ else
     {
         
     }
-
 }
