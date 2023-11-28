@@ -6,24 +6,26 @@
 @inject IProductService productService;
 @inject NavigationManager navMgr;
 
-<div class="filter d-flex justify-content-center mb-4">
-    <label class="typeLabel" for="type">Product</label>
-    <input type="text" class="input" @bind="productType"/>
-    <button class="btn" @onclick="LoadProducts">Filter</button>
-    <button class="btn" @onclick="Clear">Clear</button>
-</div>
-
-<div class="items d-flex justify-content-center">
-    @foreach (var item in filtered)
-    {
-        <div class="card col-12 col-md-2 " onclick="@(() => navMgr.NavigateTo("Products/" + item))">
-            <h1>@item</h1>
-            @{
-                string temp = $"/Images/{item}.jpg";
-            }
-            <img src="@temp">
-        </div>
-    }
+<div class="container-fluid">
+    <div class="filter d-flex justify-content-center mb-4">
+        <label class="typeLabel" for="type">Product</label>
+        <input type="text" class="input" @bind="productType"/>
+        <button class="btn" @onclick="LoadProducts">Filter</button>
+        <button class="btn" @onclick="Clear">Clear</button>
+    </div>
+    
+    <div class="items col-12 row">
+        @foreach (var item in filtered)
+        {
+            <div class="card col-12 col-md-2" onclick="@(() => navMgr.NavigateTo("Products/" + item))">
+                <h1>@item</h1>
+                @{
+                    string temp = $"/Images/{item}.jpg";
+                }
+                <img src="@temp">
+            </div>
+        }
+    </div>
 </div>
 
 
