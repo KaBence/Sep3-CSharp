@@ -34,11 +34,12 @@ public class FarmerController: ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Farmer>>> GetAsync( [FromQuery] bool? perticides,  [FromQuery] string? farmName,  [FromQuery] double? rating)
+    public async Task<ActionResult<IEnumerable<Farmer>>> GetAsync( [FromQuery] bool? pesticides,  [FromQuery] string? farmName,  [FromQuery] double? rating)
     {
         try
         {
-            SearchFarmerDto parametersDto = new(perticides, farmName, rating);
+            SearchFarmerDto parametersDto = new(pesticides, farmName, rating);
+            Console.WriteLine("asd "+pesticides);
             IEnumerable<Farmer> farmers = await farmerLogic.GetAsync(parametersDto);
             return Ok(farmers);
         }
