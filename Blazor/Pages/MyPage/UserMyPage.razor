@@ -1,4 +1,4 @@
-﻿@page "/CustomerMyPage"
+﻿@page "/MyProfile"
 @using Blazor.Services
 @using System.Security.Claims
 @using global::Shared.DTOs
@@ -14,6 +14,8 @@
 
     <div>
         <p>You are not logged in!</p>
+                               <img src="Images/You-Shall-Not-Pass.jpg">
+
     </div>
 
      </NotAuthorized>
@@ -33,13 +35,13 @@
                        <!-- Content for My Orders box goes here -->
                    </div>
        
-                   <div class="box">
+                   <div class="box" onclick="@(() => navMgr.NavigateTo("/EditUser"))">
                        <h2>Edit Profile</h2>
                        <img src="Images/edit.png">
                        <!-- Content for Edit Profile box goes here -->
                    </div>
        
-                   <div class="box">
+                   <div class="box" >
                        <h2>My Products</h2>
                       <img src="Images/editproduct.png">
                        <!-- Content for Place a Review box goes here -->
@@ -79,6 +81,7 @@
                </div>
            </div>
        }
+       
     </Authorized>
 </AuthorizeView>
 
