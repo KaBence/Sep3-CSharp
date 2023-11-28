@@ -15,7 +15,7 @@
 <div class="items">
     @foreach (var item in filtered)
     {
-        <div class="card" onclick="@(() => navMgr.NavigateTo("Products/" + item))">
+        <div class="card" onclick="@(() => navMgr.NavigateTo("Products/"+ item+"/"+phoneNumber))">
             <h1>@item</h1>
             @{
                 string temp = $"/Images/{item}.jpg";
@@ -27,6 +27,8 @@
 
 
 @code {
+    [Parameter]
+    public string phoneNumber { set; get; }
     private IEnumerable<Product> products;
     private string msg;
     private string productType;
@@ -65,6 +67,4 @@
             }
         }
     }
-
-    
 }
