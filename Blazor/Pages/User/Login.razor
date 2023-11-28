@@ -10,12 +10,12 @@
         <div class="card">
             <h3>Please login</h3>
             <div class="field">
-                <label>Phone Number:</label>
-                <input type="text" @bind="phoneNumber"/>
+                <label class="col-5">Phone Number:</label>
+                <input class="col-5" type="text" @bind="phoneNumber"/>
             </div>
             <div class="field">
-                <label style="text-align: center">Password:</label>
-                <input type="password" @bind="password"/>
+                <label class="col-5" style="text-align: center">Password:</label>
+                <input class="col-5" type="password" @bind="password"/>
             </div>
             @if (!string.IsNullOrEmpty(errorLabel))
             {
