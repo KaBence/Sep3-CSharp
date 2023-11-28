@@ -39,7 +39,6 @@ public class FarmerController: ControllerBase
         try
         {
             SearchFarmerDto parametersDto = new(pesticides, farmName, rating);
-            Console.WriteLine("asd "+pesticides);
             IEnumerable<Farmer> farmers = await farmerLogic.GetAsync(parametersDto);
             return Ok(farmers);
         }
