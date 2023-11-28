@@ -1,0 +1,19 @@
+﻿@using Blazor.Services
+@namespace Basket
+@inject NavigationManager navMgr
+@inject IAuthService authService
+
+
+<AuthorizeView Roles="Customer">
+    <Authorized>
+        <img class="icon" src="icons/basket.png"/>
+    </Authorized>
+</AuthorizeView>
+
+@code {
+    private bool OpenBasket()
+    {
+        return false;
+    }
+    
+}
