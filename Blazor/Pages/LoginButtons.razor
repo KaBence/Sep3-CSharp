@@ -16,7 +16,7 @@
 @code {
     [Parameter]
     public EventCallback onChange { get; set; }
-    
+
     private void Login()
     {
         navMgr.NavigateTo("/Login");
@@ -27,4 +27,10 @@
         await authService.LogoutAsync();
         navMgr.NavigateTo("/");
     }
+
+    private bool OpenBasket()
+    {
+        return false;
+    }
+    
 }
