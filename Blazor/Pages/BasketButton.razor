@@ -1,19 +1,60 @@
 ﻿@using Blazor.Services
+@using Shared.Models
 @namespace Basket
 @inject NavigationManager navMgr
 @inject IAuthService authService
+@using UIComponents
+@using Blazor.Pages.Shop
+
 
 
 <AuthorizeView Roles="Customer">
     <Authorized>
-        <img class="icon" src="icons/basket.png"/>
+        <img class="icon" src="icons/basket.png" @onclick="OpenBasket"/>
+        
+      <Modal ShowModal="isOpen">
+          <p>You have successfully opened the basket!</p>
+          <button @onclick="@CreateOrder">Create Order</button>
+          <button @onclick="@CloseBasket">Close</button>
+              <button @onclick="@ContinueShopping">Continue shopping</button>
+      </Modal>
     </Authorized>
 </AuthorizeView>
 
 @code {
-    private bool OpenBasket()
+    //deal with validation in here
+    private bool isOpen = false;
+    private Basket basket;
+    private string basketContent;
+    
+  
+
+    
+
+    
+    private void OpenBasket()
     {
-        return false;
+        
+        isOpen = true;
+        StateHasChanged();
+        //getStuffTobasket();
     }
     
+    // Close the modal
+    private void CloseBasket()
+    {
+        isOpen = false;
+        StateHasChanged();
+    }
+
+    public void CreateOrder()
+    {
+      
+    }
+
+    public void ContinueShopping()
+    {
+        navMgr.NavigateTo("/Shop");
+        CloseBasket();
+    }
 }
