@@ -148,14 +148,14 @@ public class ProductDao: IProductDao
         }
     }
 
-    public async Task<IEnumerable<Product>> GetByFarmer(string phoneNumber)
+    public async Task<IEnumerable<Product>> GetByFarmer(string phoneNumber,SearchProductDto dto)
     {
         using var chanel= GrpcChannel.ForAddress("http://localhost:1337",new GrpcChannelOptions
         {
             Credentials = ChannelCredentials.Insecure
         });
         var client = new SepService.SepServiceClient(chanel);
-        var request = DTOFactory.CreateGetProductByFarmerRequest(phoneNumber);
+        var request = DTOFactory.CreateGetProductByFarmerRequest(phoneNumber,dto);
         try
         {
             var response = client.getProductsByFarmer(request);
@@ -164,7 +164,6 @@ public class ProductDao: IProductDao
             {
                 products.Add(DTOFactory.toProduct(item));
             }
-
             return products;
         }
         catch (RpcException e)

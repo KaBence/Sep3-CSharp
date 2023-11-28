@@ -267,11 +267,14 @@ public class DTOFactory
         };
     }
     
-    public static getAllProductsByFarmerRequest CreateGetProductByFarmerRequest(string id)
+    public static getAllProductsByFarmerRequest CreateGetProductByFarmerRequest(string id,SearchProductDto dto)
     {
         return new getAllProductsByFarmerRequest()
         {
-            Farmer = id
+            Farmer = id,
+            Type = dto.Type ?? "",
+            Amount = dto.Amount ?? 0.0,
+            Price = dto.Price ?? 0.0
         };
     }
 

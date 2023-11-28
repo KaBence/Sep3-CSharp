@@ -37,7 +37,7 @@ else
                 <label>Expiration Date: @item.ExpirationDate</label>
                 @foreach (var item2 in farmers)
                 {
-                    if (item.FarmerID.Equals(item.FarmerID))
+                    if (item.FarmerID.Equals(item2.Phonenumber))
                     {
                         <label>Farm name: @item2.FarmName</label>
                     }
@@ -87,10 +87,9 @@ else
             products = await productService.getAsync(dto);
             farmers = await userService.GetAllFarmers(new SearchFarmerDto());
         }
-        /*
         else
         {
-            products = await productService.getByFarmerAsync(phoneNumber);
+            products = await productService.getByFarmerAsync(phoneNumber,dto);
             List<Farmer> x = new List<Farmer>();
             EditFarmerDto editFarmer = await userService.GetFarmerByIdAsync(phoneNumber);
             Farmer farmer = new Farmer
@@ -106,8 +105,6 @@ else
             x.Add(farmer);
             farmers = x;
         }
-        */
-        
     }
 
 
