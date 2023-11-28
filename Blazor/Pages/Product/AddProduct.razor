@@ -2,12 +2,13 @@
 @page "/AddProduct"
 @using HttpClients.ClientInterfaces
 @using Blazor.Services
+@using global::Shared
 @using global::Shared.DTOs.Create
 @inject IProductService productService
 @inject IAuthService authService
 
 
-<AuthorizeView Roles="Farmer">
+<AuthorizeView>
     <NotAuthorized>
         <div class="card">
             <h3>You are not logged in as a Farmer!</h3>
@@ -18,7 +19,12 @@
             <h3>Add Product</h3>
             <div class="field">
                 <label class="col-5">Type:</label>
-                <input class="col-5" type="text" @bind="type"/>
+                <select class="col-5" @bind="type">
+                    @foreach (var item in Enum.GetNames(typeof(ProductTypes)))
+                    {
+                        <option value="@item">@item</option>
+                    }
+                </select>
             </div>
             <div class="field">
                 <label class="col-5">Price:</label>

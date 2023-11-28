@@ -1,0 +1,120 @@
+﻿@page "/MyProfile"
+@using Blazor.Services
+@using System.Security.Claims
+@using global::Shared.DTOs
+@using global::Shared.DTOs.Basics
+@using HttpClients.ClientInterfaces
+@inject IAuthService authService;
+@inject NavigationManager navMgr;
+@inject IUserService userService;
+
+
+<AuthorizeView>
+     <NotAuthorized>
+
+    <div class="block">
+        <p>You are not logged in!</p>
+                               <img src="Images/You-Shall-Not-Pass.jpg">
+
+    </div>
+
+     </NotAuthorized>
+    <Authorized>
+        @if (role.Equals("Farmer"))
+        {
+            <div class="header" >
+                 <h2>MY PROFILE</h2>
+                <label for="type"NAME:> @firstName  @lastName </label>
+                <label for="type">FARM: @farmName </label>
+                <label for="type">Username: @phoneNumber </label>
+ <div class="profile-container">
+                   <div class="box">
+                       <h2>See Reviews</h2>
+                        <img src="Images/orders.png">
+                       <!-- Content for My Orders box goes here -->
+                   </div>
+       
+                   <div class="box" onclick="@(() => navMgr.NavigateTo("/EditUser"))">
+                       <h2>Edit Profile</h2>
+                       <img src="Images/edit.png">
+                       <!-- Content for Edit Profile box goes here -->
+                   </div>
+       
+                   <div class="box" >
+                       <h2>My Products</h2>
+                      <img src="Images/editproduct.png">
+                       <!-- Content for Place a Review box goes here -->
+                   </div>
+               </div>
+
+            </div>
+        }
+       else if (role.Equals("Customer"))
+       {
+           <div>
+               <div class="header">
+                   <h2>MY PROFILE:</h2>
+                   <label for="type">NAME: @firstName  @lastName </label>
+                   <label for="type">Username: @phoneNumber </label>
+               </div>
+               
+               <div class="profile-container">
+                   <div class="box">
+                       <h2>My Orders</h2>
+                        <img src="Images/orders.png">
+                       <img src="">
+                       <!-- Content for My Orders box goes here -->
+                   </div>
+       
+                   <div class="box" onclick="@(() => navMgr.NavigateTo("/EditUser"))">
+                       <h2>Edit Profile</h2>
+                       <img src="Images/edit.png">
+                       <!-- Content for Edit Profile box goes here -->
+                   </div>
+       
+                   <div class="box">
+                       <h2>Place a Review</h2>
+                      <img src="Images/review.png">
+                       <!-- Content for Place a Review box goes here -->
+                   </div>
+               </div>
+           </div>
+       }
+       
+    </Authorized>
+</AuthorizeView>
+
+@code {
+    private string role ;
+    private string firstName = "";
+    private string lastName = "";
+    private string farmName;
+    private string? phoneNumber;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (authService.GetAuthAsync().Result.Identity != null)
+        {
+            phoneNumber = authService.GetAuthAsync().Result.Identity!.Name;
+
+            role = authService.GetAuthAsync().Result.Claims.First(claim => claim.Type.Equals(ClaimTypes.Role)).Value;
+            if (role.Equals("Farmer"))
+            {
+                EditFarmerDto farmer = await userService.GetFarmerByIdAsync(phoneNumber);
+                firstName = farmer.FirstName;
+                lastName = farmer.LastName;
+                farmName = farmer.FarmName;
+            }
+            if (role.Equals("Customer"))
+            {
+                EditCustomerDto customer = await userService.GetCustomerByIdAsync(phoneNumber);
+                firstName = customer.FirstName;
+                lastName = customer.LastName;
+
+
+            }
+        }
+
+    }
+
+}

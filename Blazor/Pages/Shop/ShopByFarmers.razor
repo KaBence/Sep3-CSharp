@@ -1,0 +1,72 @@
+﻿@using HttpClients.ClientInterfaces
+@using global::Shared.DTOs.Search
+@using global::Shared
+@using global::Shared.Models
+@inject IProductService productService;
+@inject IUserService userService;
+@inject NavigationManager navMgr;
+<div class="filter">
+    <label for="type">Farm name:</label>
+    <input type="text" @bind="farmName"/>
+
+    <label for="type">Rating:</label>
+    <input type="text" @bind="rating"/>
+
+    <label class="col-5">Pesticides: </label>
+    <input type="checkbox" name="pest" @onchange="changePest"/>
+    
+    <button @onclick="LoadProducts">Filter</button>
+
+</div>
+
+<div class="items">
+    @foreach (var item in filtered)
+    {
+        <div class="card" onclick="@(() => navMgr.NavigateTo("Products/" + item))">
+            <h1>@item.FarmName</h1>
+            <label>Rating: @item.Rating</label>
+            @if (item.Pesticides)
+            {
+                <label>Farmer is using Pesticides</label>
+            }
+            else
+            {
+                <label>Farmer is not using Pesticides</label>
+            }
+        </div>
+    }
+</div>
+
+@code
+{
+    private IEnumerable<Product> products;
+    private string msg;
+    private string farmName;
+    private double rating;
+    private bool? pesticides = false;
+    private List<Farmer> filtered = new List<Farmer>();
+
+
+    protected async override Task OnInitializedAsync()
+    {
+        filtered = (List<Farmer>)await userService.GetAllFarmers(new SearchFarmerDto(null, null, null));
+    }
+
+
+    private async Task LoadProducts()
+    {
+        filtered = new List<Farmer>();
+        SearchFarmerDto dto = new SearchFarmerDto
+        {
+            Pesticides = pesticides,
+            FarmName = farmName,
+            Rating = rating
+        };
+        filtered = (List<Farmer>)await userService.GetAllFarmers(dto);
+    }
+
+    private void changePest()
+    {
+        pesticides = !pesticides;
+    }
+}

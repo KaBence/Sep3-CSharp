@@ -146,7 +146,7 @@ public class DTOFactory
         {
             Amount = x.Amount,
             Price = x.Price,
-            Type = x.Type
+            Type = x.Type ?? ""
         };
     }*/
 
@@ -264,6 +264,14 @@ public class DTOFactory
         return new getProductByIdRequest
         {
             Id = id
+        };
+    }
+    
+    public static getAllProductsByFarmerRequest CreateGetProductByFarmerRequest(string id)
+    {
+        return new getAllProductsByFarmerRequest()
+        {
+            Farmer = id
         };
     }
 
