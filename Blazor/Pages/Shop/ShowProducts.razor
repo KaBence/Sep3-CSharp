@@ -5,14 +5,14 @@
 @using global::Shared.DTOs
 @inject IProductService productService;
 @inject IUserService userService;
-
-<h1>Type: @type</h1>
-<h1>Farmer: @phoneNumber</h1>
+<h3>Shop</h3>
 <div class="filter">
     <label>Amount:</label>
-    <input type="text" @bind="productAmount"/>
-    <label>Price</label>
-    <input type="text" @bind="productPrice"/>
+    <input class="typeLabel" type="text" @bind="productAmount"/>
+    <br/>
+    <label>Price:</label>
+    <input class="typeLabel" type="text" @bind="productPrice"/>
+    <br/>
     <button class="btn" @onclick="LoadProducts">Filter</button>
 </div>
 

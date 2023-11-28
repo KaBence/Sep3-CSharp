@@ -6,16 +6,17 @@
 @inject IUserService userService;
 @inject NavigationManager navMgr;
 <div class="filter">
-    <label for="type">Farm name:</label>
+    <label class="typeLabel" for="type">Farm name:</label>
     <input type="text" @bind="farmName"/>
 
-    <label for="type">Rating:</label>
+    <label class="typeLabel" for="type">Rating:</label>
     <input type="text" @bind="rating"/>
 
-    <label class="col-5">Pesticides: </label>
+    <label class="typeLabel">Pesticides: </label>
     <input type="checkbox" name="pest" @onchange="changePest"/>
     
-    <button @onclick="LoadProducts">Filter</button>
+    <button class="btn" @onclick="LoadProducts">Filter</button>
+    <button class="btn" @onclick="Clear">Clear</button>
 
 </div>
 
@@ -42,7 +43,7 @@
     private IEnumerable<Product> products;
     private string msg;
     private string farmName;
-    private double rating;
+    private double? rating;
     private bool? pesticides = false;
     private List<Farmer> filtered = new List<Farmer>();
 
@@ -68,5 +69,13 @@
     private void changePest()
     {
         pesticides = !pesticides;
+    }
+    
+    private async Task Clear()
+    {
+        farmName = "";
+        rating = null;
+        pesticides = null;
+        await LoadProducts();
     }
 }
