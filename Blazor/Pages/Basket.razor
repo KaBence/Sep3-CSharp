@@ -16,5 +16,18 @@
             </table>
 
 @code {
-    
+    private IEnumerable<global::Shared.Models.Product>? products;
+
+    private async Task OnInitializedAsync()
+    {
+        try
+        {
+
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            
+        }
+    }
 }

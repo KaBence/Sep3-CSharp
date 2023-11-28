@@ -6,7 +6,6 @@
 
 <AuthorizeView>
     <Authorized>
-        <img class="icon" src="icons/basket.png"/>
         <img class="icon" src="icons/Logout.png" @onclick="Logout"/>
     </Authorized>
     <NotAuthorized>
@@ -17,7 +16,7 @@
 @code {
     [Parameter]
     public EventCallback onChange { get; set; }
-    
+
     private void Login()
     {
         navMgr.NavigateTo("/Login");
@@ -33,5 +32,5 @@
     {
         return false;
     }
-
+    
 }
