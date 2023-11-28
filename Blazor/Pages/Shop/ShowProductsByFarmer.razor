@@ -1,11 +1,10 @@
 ﻿@page "/ProductsByFarmer/{phoneNumber}"
-@using global::Shared.Models
-@using global::Shared
 @using global::Shared.DTOs
 @using HttpClients.ClientInterfaces
 @inject IUserService userServices
 @inject NavigationManager navMgr
-<h3>@farmName :</h3>
+<h3>Shop</h3>
+<h4>Farm : @farmName</h4>
 
 <ShopByProducts phoneNumber="@phoneNumber"/>
 

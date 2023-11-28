@@ -31,4 +31,8 @@ h1,h3{
     width: 40%;
     margin: auto;
     margin-bottom: 20px;
+    text-align: center;
+}
+.typeLabel{
+    margin: 10px;
 }
