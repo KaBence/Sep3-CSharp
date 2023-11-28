@@ -12,7 +12,7 @@
 <AuthorizeView>
      <NotAuthorized>
 
-    <div>
+    <div class="block">
         <p>You are not logged in!</p>
                                <img src="Images/You-Shall-Not-Pass.jpg">
 
@@ -29,9 +29,8 @@
                 <label for="type">Username: @phoneNumber </label>
  <div class="profile-container">
                    <div class="box">
-                       <h2>My Orders</h2>
+                       <h2>See Reviews</h2>
                         <img src="Images/orders.png">
-                       <img src="">
                        <!-- Content for My Orders box goes here -->
                    </div>
        
@@ -94,23 +93,26 @@
 
     protected override async Task OnInitializedAsync()
     {
-       phoneNumber = authService.GetAuthAsync().Result.Identity!.Name;
-      
-        role =  authService.GetAuthAsync().Result.Claims.First(claim => claim.Type.Equals(ClaimTypes.Role)).Value;
-        if (role.Equals("Farmer"))
+        if (authService.GetAuthAsync().Result.Identity != null)
         {
-            EditFarmerDto farmer = await userService.GetFarmerByIdAsync(phoneNumber);
-            firstName = farmer.FirstName;
-            lastName = farmer.LastName;
-            farmName = farmer.FarmName;
-        }
-        if(role.Equals("Customer"))
-        {
-            EditCustomerDto customer = await userService.GetCustomerByIdAsync(phoneNumber);
-            firstName = customer.FirstName;
-            lastName = customer.LastName;
-            
+            phoneNumber = authService.GetAuthAsync().Result.Identity!.Name;
 
+            role = authService.GetAuthAsync().Result.Claims.First(claim => claim.Type.Equals(ClaimTypes.Role)).Value;
+            if (role.Equals("Farmer"))
+            {
+                EditFarmerDto farmer = await userService.GetFarmerByIdAsync(phoneNumber);
+                firstName = farmer.FirstName;
+                lastName = farmer.LastName;
+                farmName = farmer.FarmName;
+            }
+            if (role.Equals("Customer"))
+            {
+                EditCustomerDto customer = await userService.GetCustomerByIdAsync(phoneNumber);
+                firstName = customer.FirstName;
+                lastName = customer.LastName;
+
+
+            }
         }
 
     }
