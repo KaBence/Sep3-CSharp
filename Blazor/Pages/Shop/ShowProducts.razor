@@ -57,6 +57,7 @@ else
                     </NotAuthorized>
                 </AuthorizeView>
 
+                <button class="btn" @onclick="AddToBasket(item.ProductID)">Add To Cart</button>
             </div>
         }
 
@@ -122,8 +123,9 @@ else
     }
 
 
-    private async Task AddToBasket()
+    private async Task AddToBasket(int id)
     {
-        //basket.AddToBasket();
+       // basket.AddToBasket();
     }
+
 }
