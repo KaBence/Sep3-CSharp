@@ -13,5 +13,5 @@ public interface IProductDao
 
     Task<string> UpdateAsync(UpdateProductDto alien);
     Task<string> DeleteAsync(int id);
-    Task<IEnumerable<Product>> GetByFarmer(string phoneNumber);
+    Task<IEnumerable<Product>> GetByFarmer(string phoneNumber,SearchProductDto dto);
 }

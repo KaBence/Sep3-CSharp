@@ -2,7 +2,7 @@
 
 public class Basket
 {
-    private IEnumerable<OrderItem> list;
+    private List<OrderItem> list;
     public static  Basket instance;
 
     private Basket()
@@ -22,7 +22,19 @@ public class Basket
     }
     
     //get items from the list
+    public IEnumerable<OrderItem> getItemsFromBasket()
+    {
+        return list;
+    }
     //add item to the list
-    //delete item from there
+    public void AddToBasket(OrderItem item)
+    {
+        list.Add(item);
+    }
     
+    //delete item from there
+    public void deleteFromBasket(OrderItem item)
+    {
+        list.Remove(item);
+    }
 }

@@ -12,7 +12,7 @@ public interface IProductLogic
     
     Task<IEnumerable<Product>> GetAsync(SearchProductDto searchParameters);
     Task<Product> GetByIdAsync(int id);
-    Task<IEnumerable<Product>> GetByFarmerAsync(string phoneNumber);
+    Task<IEnumerable<Product>> GetByFarmerAsync(string phoneNumber,SearchProductDto dto);
     Task<string> UpdateAsync(UpdateProductDto dto);
     Task<string> Delete(int id);
 }

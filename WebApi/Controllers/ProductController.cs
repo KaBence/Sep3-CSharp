@@ -66,12 +66,14 @@ public class ProductController : ControllerBase
         }
     }
 
-    [HttpGet("{phoneNumber:required}")]
-    public async Task<ActionResult<IEnumerable<Product>>> GetByFarmer([FromRoute] string phoneNumber)
+    [HttpGet("ByFarmer/{phoneNumber:required}")]
+    public async Task<ActionResult<IEnumerable<Product>>> GetByFarmer([FromRoute] string phoneNumber,[FromQuery] string? type, [FromQuery] double? price,
+        [FromQuery] double? amount)
     {
         try
         {
-            IEnumerable<Product> list = await productLogic.GetByFarmerAsync(phoneNumber);
+            SearchProductDto dto = new SearchProductDto(type, price, amount);
+            IEnumerable<Product> list = await productLogic.GetByFarmerAsync(phoneNumber,dto);
             return Ok(list);
         }
         catch (Exception e)
