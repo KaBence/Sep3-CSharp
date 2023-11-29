@@ -1,6 +1,12 @@
-﻿namespace WebAPI.Controllers;
+﻿using Application.LogicInterfaces;
+using Microsoft.AspNetCore.Mvc;
 
-public class OrderController
+namespace WebAPI.Controllers;
+
+[ApiController]
+[Route("[controller]")]
+
+public class OrderController : ControllerBase
 {
-    
+    private readonly IOrderLogic orderLogic;
 }

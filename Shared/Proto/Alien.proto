@@ -143,6 +143,9 @@ message DtoOrder
 message createOrderRequest
 {
   DtoOrder newOrder = 1;
+  repeated DtoOrderItem orderItems = 2;
+  string PaymentMethod=3;
+  string note=4;
 }
 
 message getAllOrdersRequest{}
@@ -189,7 +192,7 @@ message createProductRequest
 {
   DtoProduct newProduct = 1;
 }
-//selecting the farm first and then their product 
+//selecting the farm first and then their product
 message getAllProductsByFarmerRequest
 {
   string farmer = 1;

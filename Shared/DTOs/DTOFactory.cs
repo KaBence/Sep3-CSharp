@@ -139,6 +139,26 @@ public class DTOFactory
             Type = dto.Type
         };
     }
+    
+    //** Orders **\\
+    public static DtoOrder toDtoOrder(OrderCreateDto order)
+    {
+        return new DtoOrder
+        {
+            CustomerId = order.CustomerID,
+        };
+    }
+
+    public static Order toOrder(DtoOrder order)
+    {
+        return new Order
+        {
+            CustomerID = order.CustomerId,
+            Date = order.Date,
+            OrderID = order.OrderId,
+            Status = order.Status
+        };
+    }
 
    /* public static ProductSearchParameters ToProductSearchParameters(SearchProductDto x)
     {
@@ -291,6 +311,18 @@ public class DTOFactory
         return new deleteProductRequest
         {
             Id = id
+        };
+    }
+    
+    //** Orders **\\
+    
+    public static createOrderRequest CreateOrderRequest(OrderCreateDto dto)
+    {
+        
+        return new createOrderRequest
+        {
+            NewOrder = toDtoOrder(dto)
+            
         };
     }
 }

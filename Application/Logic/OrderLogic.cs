@@ -1,4 +1,6 @@
-﻿using Application.LogicInterfaces;
+﻿using System.Runtime.InteropServices;
+using Application.DaoInterfaces;
+using Application.LogicInterfaces;
 using Shared.DTOs.Create;
 using Shared.DTOs.Search;
 using Shared.Models;
@@ -7,9 +9,16 @@ namespace Application.Logic;
 
 public class OrderLogic:IOrderLogic
 {
-    public Task<Order> CreateAsync(OrderCreateDto dto)
+    private readonly IOrderDao orderDao;
+
+    public OrderLogic(IOrderDao orderDao)
     {
-        throw new NotImplementedException();
+        this.orderDao = orderDao;
+    }
+
+    public async Task<string> CreateAsync(OrderCreateDto dto)
+    {
+        return await orderDao.CreateAsync(dto);
     }
 
     public Task<IEnumerable<Order>> GetAsync(SearchOrderDto searchParameters)
