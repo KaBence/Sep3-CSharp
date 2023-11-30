@@ -216,11 +216,10 @@ message DtoOrderItem
   int32 orderId = 1;
   int32 productId = 2;
   double  amount = 3;
-}
+  string type=4;
+  double price=5;
+  string farmName=6;
 
-message createOrderItemRequest
-{
-  DtoOrderItem newOrderItem = 1;
 }
 
 message getAllOrderItemsFromOrderRequest
@@ -230,7 +229,15 @@ message getAllOrderItemsFromOrderRequest
 
 message getAllOrderItemsFromOrderResponse
 {
-  repeated DtoOrderItem allOrderItems = 1;
+  repeated DtoOrderItem OrderItems = 1;
+}
+
+message getAllOrderItemsByGroupRequest{
+  DtoOrder order=1;
+}
+
+message getAllOrderItemsByGroupResponse{
+  repeated DtoOrderItem OrderItems=1;
 }
 
 
@@ -246,34 +253,51 @@ message DtoReceipt
   string text = 6;
   string farmerId = 7;
   string customerId = 8;
+  string status=9;
 }
 
 message DtoSendReceipt{
   DtoReceipt receipt=1;
-  repeated DtoOrderItem orderItems=2;
+  string dateOfCreation=2;
 }
 
+message DtoCustomerSendReceipt{
+  repeated string farmNames=1;
+  double combinedPrice=2;
+  string dateOfCreation=3;
+  repeated DtoReceipt receipts=4;
+}
 
-message getAllReceiptsByFarmerRequest
+message getPendingReceiptsByFarmerRequest
 {
   string farmer = 1;
 }
 
-message getAllReceiptsByFarmerResponse
-{
-  repeated DtoSendReceipt Receipts = 1;
+message getApprovedReceiptsByFarmerRequest{
+  string farmer=1;
 }
 
-message getAllReceiptsByCustomerRequest{
-  string customer=1;
+message getRejectedReceiptsByFarmerRequest{
+  string farmer=1;
 }
 
-message getAllReceiptByCustomerResponse{
+message getReceiptsResponse{
   repeated DtoSendReceipt receipts=1;
 }
 
+message getReceiptsByCustomerRequest{
+  string customer=1;
+}
+
+message getReceiptsByCustomerResponse{
+  repeated DtoCustomerSendReceipt receipts=1;
+}
+
+
+
 message farmersApprovalRequest{
   bool approve=1;
+  int32 orderId=2;
 }
 
 //----------Comment----------\\
@@ -309,7 +333,7 @@ message postReviewRequest
 
 message getAllReviewsByFarmerRequest
 {
-  DtoFarmer farmer = 1;
+  string farmer = 1;
 }
 
 message getAllReviewsByFarmerResponse
@@ -367,12 +391,14 @@ service SepService
   rpc deleteProduct(deleteProductRequest) returns (generalPutResponse);
 
   //--------OrderItem--------\\
-  rpc createNewOrderItem(createOrderItemRequest) returns (generalPutResponse);
   rpc getAllOrderItemsFromOrder(getAllOrderItemsFromOrderRequest) returns (getAllOrderItemsFromOrderResponse);
+  rpc getAllOrderItemsByGroup(getAllOrderItemsByGroupRequest) returns (getAllOrderItemsByGroupResponse);
 
   //--------Receipt--------\\
-  rpc getFarmersReceipt(getAllReceiptsByFarmerRequest) returns (getAllReceiptsByFarmerResponse);
-  rpc getCustomersReceipt(getAllReceiptsByCustomerRequest) returns (getAllReceiptByCustomerResponse);
+  rpc getPendingFarmersReceipt(getPendingReceiptsByFarmerRequest) returns (getReceiptsResponse);
+  rpc getApprovedFarmersReceipt(getApprovedReceiptsByFarmerRequest) returns (getReceiptsResponse);
+  rpc getRejectedFarmersReceipt(getRejectedReceiptsByFarmerRequest) returns (getReceiptsResponse);
+  rpc getCustomersReceipt(getReceiptsByCustomerRequest) returns(getReceiptsByCustomerResponse);
   rpc farmersApproval(farmersApprovalRequest) returns(generalPutResponse);
 
   //--------Comment--------\\
@@ -383,4 +409,3 @@ service SepService
   rpc getAllReviewsByFarmer(getAllReviewsByFarmerRequest) returns (getAllReviewsByFarmerResponse);
   rpc getReviewBy(getReviewByIdRequest) returns (getReviewByIdResponse);
 }
-

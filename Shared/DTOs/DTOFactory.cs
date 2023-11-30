@@ -473,7 +473,7 @@ public class DTOFactory
 
     //** Receipts **\\ 
 
-
+/*
     public static getAllReceiptsByFarmerRequest CreateGetAllReceiptsByFarmerRequest(string farmer)
     {
         return new getAllReceiptsByFarmerRequest
@@ -497,6 +497,7 @@ public class DTOFactory
             Approve = approve
         };
     }
+    */
     
     //** Comment **\\
     public static putCommentRequest PostCommentRequest(DtoComment x)
@@ -518,13 +519,9 @@ public class DTOFactory
 
     public static getAllReviewsByFarmerRequest CreateGetAllReviewsByFarmerRequest(string x)
     {
-        DtoFarmer farmer = new DtoFarmer
-        {
-            PhoneNumber = x
-        };
         return new getAllReviewsByFarmerRequest
         {
-            Farmer = farmer
+            Farmer = x
         };
     }
 }
