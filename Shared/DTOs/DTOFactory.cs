@@ -454,9 +454,9 @@ public class DTOFactory
     public static createOrderRequest CreateOrderRequest(OrderCreateDto dto)
     {
         RepeatedField<DtoOrderItem> orderItems = new RepeatedField<DtoOrderItem>();
-        for (int i = 0; i < dto.OrderItems.Count; i++)
+        for (int i = 0; i < dto.OrderItems.Count(); i++)
         {
-            orderItems.Add(toDtoOrderItem(dto.OrderItems[i]));
+            orderItems.Add(toDtoOrderItem(dto.OrderItems.ElementAt(i)));
         }
 
         return new createOrderRequest

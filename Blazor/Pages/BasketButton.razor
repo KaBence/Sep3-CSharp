@@ -3,56 +3,158 @@
 @namespace Basket
 @inject NavigationManager navMgr
 @inject IAuthService authService
+@using UIComponents
+@using Blazor.Pages.Shop 
+@using System.Text
+@using System.Security.Claims
+@using HttpClients.ClientInterfaces
+@using Shared.DTOs
+@using Shared.DTOs.Create
+@inject IUserService userService
+@inject IOrderService orderService
 
 
-
-<AuthorizeView Roles="Customer">
-    <Authorized>
         <img class="icon" src="icons/basket.png" @onclick="OpenBasket"/>
-        
-      <Modal ShowModal="isOpen">
-          <p>You have successfully opened the basket!</p>
-          <button @onclick="@CreateOrder">Create Order</button>
-          <button @onclick="@CloseBasket">Close</button>
-              <button @onclick="@ContinueShopping">Continue shopping</button>
-      </Modal>
-    </Authorized>
-</AuthorizeView>
+        <Modal ShowModal="isOpen">
+            <h1 class="h1">Your selected items</h1>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Product type</th>
+                        <th>Amount</th>   
+                        <th>Price/per item</th>
+                        <th>Farm</th>
+                        <th>Remove</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (@basket.getItemsFromBasket()!= null)
+                    {
+
+                        calculatedPrice = 0;
+                            @foreach (var item in basket.getItemsFromBasket())
+                            {
+                                <tr>
+                                    <td>@item.Type</td>
+                                    <td>@item.Amount</td>
+                                    <td>@item.Price</td>
+                                    
+                                    <td>@item.FarmerName</td>
+                                    <td>
+                                        <img src="icons/rubbish.png" class="funnel" @onclick="@(() => basket.deleteFromBasket(@item))"/>
+                                    </td>
+                                </tr>
+                                calculatedPrice += item.Price * item.Amount;
+                                
+                            }
+                        }
+                
+                </tbody>
+            </table>
+            <div class="second">
+                  <label for="payment">Payment method:</label>
+                            <input type="text" id="payment" @bind="payment"/>  
+                        
+                            <label for="request">Special request:</label>
+                            <input type="text" id="request" @bind="request" >  
+                        
+                          
+                            <label> TOTAL: @calculatedPrice</label>
+                            
+            </div>
+          
+            <div class="button-container">
+                <AuthorizeView >
+                    <Authorized>
+                        <button class="create-order-btn" @onclick="@CreateOrder">Create Order</button>
+                         <label class="msg" style="color: green">@msg</label>
+                    </Authorized>
+                    <NotAuthorized >
+                        <button class="create-order-btn" @onclick="@DisplayMessege">Create Order</button>
+                         <label class="msg" style="color: green">@msg</label>
+                    </NotAuthorized>
+                    </AuthorizeView>
+                    <button class="close-btn" @onclick="@CloseBasket">Close</button>
+                    
+                <button class="continue-shopping-btn" @onclick="@ContinueShopping">Continue shopping</button>
+            </div>
+        </Modal>
+
+      
 
 @code {
     //deal with validation in here
-    private bool isOpen = false;
-    private Basket basket;
-    private string basketContent;
+    public bool isOpen = false;
+    public Basket basket = Basket.getInstance();
+   //public int basketContent;
+    public string payment;
+    public string request;
+    public double calculatedPrice=0.0;
+    private string role ;
+    private string msg;
+    private string customerId;
+    private List<OrderItem> OrderItems;
+    private string PaymentMethod;
+    private string Note;
     
-  
-
-    
-
     
     private void OpenBasket()
     {
-        
+     
         isOpen = true;
         StateHasChanged();
+        
+      
        
     }
     
+
     // Close the modal
     private void CloseBasket()
     {
         isOpen = false;
         StateHasChanged();
+        calculatedPrice = 0.0;
+        msg = "";
     }
 
-    public void CreateOrder()
+    public async void CreateOrder()
     {
-      
+        role = authService.GetAuthAsync().Result.Identity.Name;
+
+        try
+        {
+            OrderCreateDto dto = new OrderCreateDto
+                    {
+                        CustomerID = role,
+                        Note = request?? "",
+                        OrderItems = basket.getItemsFromBasket(),
+                        PaymentMethod = payment ?? ""
+                    };
+            string customerMessege = await orderService.CreateOrderAsync(dto);
+            msg = customerMessege;
+            if (customerMessege == "Success!")
+            {
+                navMgr.NavigateTo("/");
+            }
+            msg = " IT WORKED";
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            msg= $"Error: {e.Message}";
+        }
     }
 
+    public void DisplayMessege()
+    {
+        msg = "You have to be logged in to create an order";
+    }
     public void ContinueShopping()
     {
         navMgr.NavigateTo("/Shop");
         CloseBasket();
     }
+
+    
 }
