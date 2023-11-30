@@ -19,4 +19,8 @@ public class OrderItem
         FarmerName = farmerName;
 
     }
+
+    public OrderItem()
+    {
+    }
 }

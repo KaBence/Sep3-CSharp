@@ -1,4 +1,5 @@
-﻿using Shared.Models;
+﻿using Google.Protobuf.Collections;
+using Shared.Models;
 using Sep;
 using Shared.DTOs.Create;
 using Shared.DTOs.Search;
@@ -137,6 +138,47 @@ public class DTOFactory
             Price = dto.Price,
             ProductID = dto.Id,
             Type = dto.Type
+        };
+    }
+    
+    //** Orders **\\
+    public static DtoOrder toDtoOrder(OrderCreateDto order)
+    {
+        return new DtoOrder
+        {
+            CustomerId = order.CustomerID,
+        };
+    }
+
+    public static Order toOrder(DtoOrder order)
+    {
+        return new Order
+        {
+            CustomerID = order.CustomerId,
+            Date = order.Date,
+            OrderID = order.OrderId,
+            Status = order.Status
+        };
+    }
+    
+    //** OrderItems **\\
+    public static DtoOrderItem toDtoOrderItem(OrderItem orderItem)
+    {
+        return new DtoOrderItem
+        {
+            OrderId = orderItem.OrderID,
+            Amount = orderItem.Amount,
+            ProductId = orderItem.ProductID
+        };
+    }
+
+    public static OrderItem ToOrderItem(DtoOrderItem orderItem)
+    {
+        return new OrderItem
+        {
+            OrderID = orderItem.OrderId,
+            Amount = orderItem.Amount,
+            ProductID = orderItem.ProductId
         };
     }
 
@@ -291,6 +333,24 @@ public class DTOFactory
         return new deleteProductRequest
         {
             Id = id
+        };
+    }
+    
+    //** Orders **\\
+    
+    public static createOrderRequest CreateOrderRequest(OrderCreateDto dto)
+    {
+        RepeatedField<DtoOrderItem> orderItems = new RepeatedField<DtoOrderItem>();
+        for (int i = 0; i < dto.OrderItems.Count; i++)
+        {
+            orderItems.Add(toDtoOrderItem(dto.OrderItems[i]));
+        }
+        return new createOrderRequest
+        {
+            NewOrder = toDtoOrder(dto),
+            OrderItems = { orderItems },
+            Note = dto.Note,
+            PaymentMethod = dto.PaymentMethod
         };
     }
 }
