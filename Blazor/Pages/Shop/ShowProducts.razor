@@ -53,11 +53,9 @@ else
                         <button class="btn" @onclick="@(() => navMgr.NavigateTo($"/EditProduct/{item.ProductID}"))">Edit Product</button>
                     </Authorized>
                     <NotAuthorized>
-                   
+                        <button class="btn" @onclick="() => AddToBasket(item.ProductID)">Add To Cart</button>
                     </NotAuthorized>
                 </AuthorizeView>
-
-             
             </div>
         }
 
@@ -123,7 +121,7 @@ else
     }
 
 
-    private async Task AddToBasket(int id)
+    private async void AddToBasket(int itemProductId)
     {
        // basket.AddToBasket();
     }

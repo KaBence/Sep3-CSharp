@@ -12,4 +12,8 @@ public class OrderItem
         ProductID = productId;
         Amount = amount;
     }
+
+    public OrderItem()
+    {
+    }
 }

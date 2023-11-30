@@ -1,10 +1,11 @@
-﻿using Shared.Models;
+﻿using Shared.DTOs.Create;
+using Shared.Models;
 using Shared.DTOs.Search;
 namespace Application.DaoInterfaces;
 
 public interface IOrderDao
 {
-    Task<Order> CreateAsync(Order alien);
+    Task<string> CreateAsync(OrderCreateDto order);
     Task<Order?> GetByIdAsync(int orderId);
     Task<IEnumerable<Order>> GetAsync(SearchOrderDto searchParameters);
 
