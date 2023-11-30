@@ -3,9 +3,12 @@
 @using global::Shared.Models
 @using HttpClients.ClientInterfaces
 @using global::Shared.DTOs
+@using Basket
 @inject IProductService productService;
 @inject IUserService userService;
 @inject NavigationManager navMgr;
+
+
 <AuthorizeView Roles="Farmer">
     <NotAuthorized>
         <h3>Shop</h3>
@@ -32,56 +35,81 @@ else if (!products.Any())
 else
 {
     <div class="items">
+      
+                                    
+                       
         @foreach (var item in products)
         {
             <div class="card">
-                <h1>@item.Type</h1>
-                <label>Amount: @item.Amount</label>
-                <label>Price: @item.Price</label>
-                <label>Picked Date : @item.PickedDate</label>
-                <label>Expiration Date: @item.ExpirationDate</label>
-                @foreach (var item2 in farmers)
-                {
-                    if (item.FarmerID.Equals(item2.Phonenumber))
-                    {
-                        <label>Farm name: @item2.FarmName</label>
-                    }
-                }
-                <hr>
-                <AuthorizeView Roles="Farmer">
-                    <Authorized>
-                        <button class="btn" @onclick="@(() => navMgr.NavigateTo($"/EditProduct/{item.ProductID}"))">Edit Product</button>
-                    </Authorized>
-                    <NotAuthorized>
-                        <button class="btn" @onclick="AddToBasket">Add To Cart</button>
-                    </NotAuthorized>
-                </AuthorizeView>
+                 @{
+                     string farmname = "";
 
-                <button class="btn" @onclick="AddToBasket(item.ProductID)">Add To Cart</button>
-            </div>
+                     <h1>@item.Type</h1>
+
+                     <label>Amount: @item.Amount</label>
+                     <label>Price: @item.Price</label>
+                     <label>Picked Date : @item.PickedDate</label>
+                     <label>Expiration Date: @item.ExpirationDate</label>
+                   
+
+                     @foreach (var item2 in farmers)
+                     {
+                         if (item.FarmerID.Equals(item2.Phonenumber))
+                         {
+                             <label >Farm name: @item2.FarmName</label>
+                             farmname = item2.FarmName;
+                         }
+                     }  
+                     <label>Your desired amount:</label>
+                     <input type="text" @bind="myAmount"/>
+                     <hr>
+                     <AuthorizeView Roles="Farmer">
+                         <Authorized>
+                             <button class="btn" @onclick="@(() => navMgr.NavigateTo($"/EditProduct/{item.ProductID}"))">Edit Product</button>
+                         </Authorized>
+                         <NotAuthorized >
+
+                             <button class="btn" @onclick="() => { AddToBasket(item.ProductID, myAmount, item.Price, farmname); }">Add To Cart</button>
+  @if (!string.IsNullOrEmpty(msg))
+                  
+            {
+                     
+                <label class="msg" style="color: green">@msg</label>
+                              
+            }
+
+                         </NotAuthorized>
+                     </AuthorizeView>
+                 }
+            </div> 
+          
         }
 
-    </div>
-}
-@if (!string.IsNullOrEmpty(msg))
-{
-    <label style="color: red">@msg</label>
-}
+    
 
+       
+</div>
 
 @code {
 
     [Parameter]
-    public string type { get; set; }
+    public string type { get; set; }  
+    private double productPrice { get; set; }
     [Parameter]
     public string phoneNumber { get; set; }
 
     private IEnumerable<Product> products;
     private IEnumerable<Farmer> farmers;
     private string msg;
-    private string productPrice;
+  
     private string productAmount;
-    public Basket basket;
+
+    private int id;
+    
+ 
+    public int myAmount;
+  
+    public Basket basket = Basket.getInstance();
 
     protected override async Task OnInitializedAsync()
     {
@@ -94,7 +122,8 @@ else
         {
             Amount = Convert.ToDouble(productAmount),
             Price = Convert.ToDouble(productPrice),
-            Type = type
+            Type = type,
+            
         };
         
         if (phoneNumber =="all")
@@ -123,9 +152,15 @@ else
     }
 
 
-    private async Task AddToBasket(int id)
+    private async Task AddToBasket(int id, double amount, double price, string farmName)
     {
-       // basket.AddToBasket();
-    }
 
+        basket.AddToBasket(new OrderItem(id, type, myAmount, price, farmName));
+        myAmount = 0;
+        msg = "Check your basket!";
+
+    }
+   
+
+}
 }

@@ -4,29 +4,77 @@
 @inject NavigationManager navMgr
 @inject IAuthService authService
 
-<!--using UIComponents
-using Blazor.Pages.Shop add @ for both if you want to use it
--->
+@using UIComponents
+@using Blazor.Pages.Shop 
+@using System.Text
 
 
-<AuthorizeView Roles="Customer">
-    <Authorized>
         <img class="icon" src="icons/basket.png" @onclick="OpenBasket"/>
-        
-      <Modal ShowModal="isOpen">
-          <p>You have successfully opened the basket!</p>
-          <button @onclick="@CreateOrder">Create Order</button>
-          <button @onclick="@CloseBasket">Close</button>
-              <button @onclick="@ContinueShopping">Continue shopping</button>
-      </Modal>
-    </Authorized>
-</AuthorizeView>
+        <Modal ShowModal="isOpen">
+            <h1 class="h1">Your selected items</h1>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Product type</th>
+                        <th>Amount</th>   
+                        <th>Price/per item</th>
+                        <th>Farm</th>
+                        <th>Remove</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (@basket.getItemsFromBasket()!= null)
+                    {
+                      
+                            
+                            @foreach (var item in basket.getItemsFromBasket())
+                            {
+                                <tr>
+                                    <td>@item.Type</td>
+                                    <td>@item.Amount</td>
+                                    <td>@item.Price</td>
+                                    @{
+                                        calculatedPrice+= item.Price*item.Amount;
+                                    }
+                                    <td>@item.FarmerName</td>
+                                    <td>
+                                        <img src="icons/rubbish.png" class="funnel" @onclick="@(() => basket.deleteFromBasket(@item))"/>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                
+                </tbody>
+            </table>
+            <div class="second">
+                  <label for="payment">Payment method:</label>
+                            <input type="text" id="payment" @bind="payment" @bind:event="oninput"/>  
+                        
+                            <label for="request">Special request:</label>
+                            <input type="text" id="request" @bind="request" @bind:event="oninput"/>  
+                        
+                          
+                            <label> TOTAL: @calculatedPrice</label>
+                            
+            </div>
+          
+            <div class="button-container">
+                <button class="create-order-btn" @onclick="@CreateOrder">Create Order</button>
+                <button class="close-btn" @onclick="@CloseBasket">Close</button>
+                <button class="continue-shopping-btn" @onclick="@ContinueShopping">Continue shopping</button>
+            </div>
+        </Modal>
+
+      
 
 @code {
     //deal with validation in here
-    private bool isOpen = false;
-    private Basket basket;
-    private string basketContent;
+    public bool isOpen = false;
+    public Basket basket = Basket.getInstance();
+   //public int basketContent;
+    public string payment;
+    public string request;
+    public double calculatedPrice=0.0;
     
   
 
@@ -35,17 +83,21 @@ using Blazor.Pages.Shop add @ for both if you want to use it
     
     private void OpenBasket()
     {
-        
+     
         isOpen = true;
         StateHasChanged();
+        
+      
        
     }
     
+
     // Close the modal
     private void CloseBasket()
     {
         isOpen = false;
         StateHasChanged();
+        calculatedPrice = 0.0;
     }
 
     public void CreateOrder()
@@ -58,4 +110,6 @@ using Blazor.Pages.Shop add @ for both if you want to use it
         navMgr.NavigateTo("/Shop");
         CloseBasket();
     }
+
+    
 }
