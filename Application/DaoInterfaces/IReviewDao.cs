@@ -1,12 +1,13 @@
-﻿using Shared.Models;
+﻿using Sep;
+using Shared.DTOs.Create;
+using Shared.Models;
 using Shared.DTOs.Search;
 namespace Application.DaoInterfaces;
 
 public interface IReviewDao
 {
-    Task<Review> CreateAsync(Review alien);
-    Task<Review?> GetByIdAsync(int farmerId,int customerId);
-    Task<IEnumerable<Review>> GetAsync(SearchReviewDto searchParameters);
-
-    Task UpdateAsync(Comment comment);
+    Task<string> CreateAsync(ReviewCreateDto alien);
+    
+    Task<IEnumerable<Review>> GetAllAsync(string farmer);
+    Task<string> PostComment(CommentCreateDto comment);
 }

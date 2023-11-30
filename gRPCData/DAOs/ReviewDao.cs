@@ -1,4 +1,9 @@
 ﻿using Application.DaoInterfaces;
+using Grpc.Core;
+using Grpc.Net.Client;
+using Sep;
+using Shared.DTOs;
+using Shared.DTOs.Create;
 using Shared.DTOs.Search;
 using Shared.Models;
 
@@ -6,23 +11,76 @@ namespace gRPCData.DAOs;
 
 public class ReviewDao: IReviewDao
 {
-    public Task<Review> CreateAsync(Review alien)
+    public async Task<string> CreateAsync(ReviewCreateDto alien)
     {
-        throw new NotImplementedException();
+        using var chanel= GrpcChannel.ForAddress("http://localhost:1337",new GrpcChannelOptions
+        {
+            Credentials = ChannelCredentials.Insecure
+            
+             
+        });
+        var client = new SepService.SepServiceClient(chanel);
+        var request = DTOFactory.CreatePostReviewRequest(DTOFactory.toDtoReview(alien));
+        try
+        {
+            var response = client.postReview(request);
+            string createdReview = response.Resp;
+            return createdReview;
+        }
+        catch (RpcException e)
+        {
+            Console.WriteLine($"gRPC Error: {e.Status}");
+            throw;
+        }
     }
 
-    public Task<Review?> GetByIdAsync(int farmerId, int customerId)
+   
+    public async Task<IEnumerable<Review>> GetAllAsync(string farmer)
     {
-        throw new NotImplementedException();
+        using var chanel= GrpcChannel.ForAddress("http://localhost:1337",new GrpcChannelOptions
+        {
+            Credentials = ChannelCredentials.Insecure
+        });
+        var client = new SepService.SepServiceClient(chanel);
+        var request = DTOFactory.CreateGetAllReviewsByFarmerRequest(farmer);
+        try
+        {
+            var response = await client.getAllReviewsByFarmerAsync(request);
+            List<Review> reviews = new List<Review>();
+            foreach (var item in response.AllReviews)
+            {
+                reviews.Add(DTOFactory.toReview(item));
+            }
+            return reviews;
+        }
+        catch (RpcException e)
+        {
+            Console.WriteLine($"gRPC Error: {e.Status}");
+            throw;
+        }
+        
     }
 
-    public Task<IEnumerable<Review>> GetAsync(SearchReviewDto searchParameters)
+    public async Task<string> PostComment(CommentCreateDto comment)
     {
-        throw new NotImplementedException();
-    }
-
-    public Task UpdateAsync(Comment comment)
-    {
-        throw new NotImplementedException();
+        using var chanel= GrpcChannel.ForAddress("http://localhost:1337",new GrpcChannelOptions
+        {
+            Credentials = ChannelCredentials.Insecure
+            
+             
+        });
+        var client = new SepService.SepServiceClient(chanel);
+        var request = DTOFactory.PostCommentRequest(DTOFactory.toDtoComment(comment));
+        try
+        {
+            var response = client.postComment(request);
+            string created = response.Resp;
+            return created;
+        }
+        catch (RpcException e)
+        {
+            Console.WriteLine($"gRPC Error: {e.Status}");
+            throw;
+        }
     }
 }

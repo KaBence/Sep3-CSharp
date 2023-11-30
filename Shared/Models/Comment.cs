@@ -2,8 +2,8 @@
 
 public class Comment
 {
-    public int OrderID { get; set; }
-    public string Status { get; set; }
-    public string Date { get; set; }
-    public string CustomerID { get; set; }
+    public string Text { get; set; }
+    public string FarmerId { get; set; }
+    public string CustomerId { get; set; }
+    public int CommentId { get; set; }
 }

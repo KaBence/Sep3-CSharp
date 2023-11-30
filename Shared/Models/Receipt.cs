@@ -3,7 +3,7 @@
 public class Receipt
 {
     public int OrderID { get; set; }
-    public double amount { get; set; }
+    public bool Processed { get; set; }
     public double price { get; set; }
     public string PaymentMethod { get; set; }
     public string PaymentDate { get; set; }

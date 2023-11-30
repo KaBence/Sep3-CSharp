@@ -1,4 +1,6 @@
-﻿using Application.LogicInterfaces;
+﻿using Application.DaoInterfaces;
+using Application.LogicInterfaces;
+using Sep;
 using Shared.DTOs.Create;
 using Shared.DTOs.Search;
 using Shared.Models;
@@ -7,28 +9,51 @@ namespace Application.Logic;
 
 public class ReviewLogic: IReviewLogic
 {
-    public Task<Review> CreateAsync(ReviewCreateDto dto)
+    private readonly IReviewDao reviewDao;
+
+    public ReviewLogic(IReviewDao reviewDao)
     {
-        throw new NotImplementedException();
+        this.reviewDao = reviewDao;
+    }
+    public async Task<string> CreateAsync(ReviewCreateDto dto)
+    {
+        try
+        {
+            string created = await reviewDao.CreateAsync(dto);
+            return created;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
-    public Task<IEnumerable<Review>> GetAsync(SearchReviewDto searchParameters)
+    public async Task<IEnumerable<Review>> GetAllAsync(string farmer)
     {
-        throw new NotImplementedException();
+        try
+        {
+            IEnumerable<Review> list = await reviewDao.GetAllAsync(farmer);
+            return list;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
-    public Task<Review?> GetByIdAsync(int id)
+    public async Task<string> CreateCommentAsync(CommentCreateDto dto)
     {
-        throw new NotImplementedException();
-    }
-
-    public Task DeleteAsync(int id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task UpdateAsync(Comment dto)
-    {
-        throw new NotImplementedException();
+        try
+        {
+            string created = await reviewDao.PostComment(dto);
+            return created;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 }

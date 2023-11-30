@@ -10,7 +10,7 @@ namespace Shared.DTOs;
 public class DTOFactory
 {
     //** Creating The Dtos **\\ 
-    
+
     //** Users **\\ 
 
     public static DtoRegisterCustomer ToDtoCustomer(RegisterCustomerDto x)
@@ -26,6 +26,7 @@ public class DTOFactory
         };
         return DtoRegisterCustomer;
     }
+
     public static DtoRegisterCustomer ToDtoCustomerForEditing(EditCustomerDto x)
     {
         var DtoRegisterCustomer = new DtoRegisterCustomer
@@ -39,6 +40,7 @@ public class DTOFactory
         };
         return DtoRegisterCustomer;
     }
+
     public static DtoRegisterFarmer ToDtoFarmerForEditing(EditFarmerDto x)
     {
         var DtoRegisterFarmer = new DtoRegisterFarmer
@@ -51,7 +53,7 @@ public class DTOFactory
             Address = x.Address,
             FarmName = x.FarmName,
             Pesticides = x.Pesticides
-            
+
         };
         return DtoRegisterFarmer;
     }
@@ -109,10 +111,10 @@ public class DTOFactory
         };
         return farmer;
     }
-    
-    
+
+
     //** Products **\\ 
-    
+
     public static DtoProduct toDtoProduct(ProductCreateDto x)
     {
         return new DtoProduct
@@ -140,7 +142,7 @@ public class DTOFactory
             Type = dto.Type
         };
     }
-    
+
     //** Orders **\\
     public static DtoOrder toDtoOrder(OrderCreateDto order)
     {
@@ -149,14 +151,14 @@ public class DTOFactory
             CustomerId = order.CustomerID,
         };
     }
-    
+
     //** Receipts **\\ 
-    
+
     public static DtoReceipt toDtoReceipt(ReceiptCreateDto x)
     {
         return new DtoReceipt
         {
-            Amount = x.Amount,
+            
             Price = x.Price,
             PaymentMethod = x.PaymentMethod,
             PaymentDate = x.PaymentDate,
@@ -165,6 +167,22 @@ public class DTOFactory
             CustomerId = x.CustomerId
         };
     }
+
+    public static Receipt toReceipt(DtoReceipt x)
+    {
+        return new Receipt
+        {
+            CustomerID = x.CustomerId,
+            FarmerID = x.FarmerId,
+            OrderID = x.OrderId,
+            PaymentDate = x.PaymentDate,
+            PaymentMethod = x.PaymentMethod,
+            price = x.Price,
+            Processed = x.Processed,
+            Text = x.Text
+        };
+    }
+    
 
     public static Order toOrder(DtoOrder order)
     {
@@ -176,7 +194,7 @@ public class DTOFactory
             Status = order.Status
         };
     }
-    
+
     //** OrderItems **\\
     public static DtoOrderItem toDtoOrderItem(OrderItem orderItem)
     {
@@ -197,38 +215,99 @@ public class DTOFactory
             ProductID = orderItem.ProductId
         };
     }
-
-    public static Receipt toReceipt(DtoReceipt dto)
+    
+    //** Comments **\\
+    public static Comment toComment(DtoComment comment)
     {
-        return new Receipt
+        return new Comment
         {
-           OrderID = dto.OrderId,
-           CustomerID = dto.CustomerId,
-           FarmerID = dto.FarmerId,
-           amount = dto.Amount,
-           PaymentDate = dto.PaymentDate,
-           PaymentMethod = dto.PaymentMethod,
-           price = dto.Price,
-           Text = dto.Text
+            Text = comment.Text,
+            FarmerId = comment.FarmerId,
+            CustomerId = comment.CustomerId
+        };
+    }
+
+    public static DtoComment toDtoComment(CommentCreateDto dto)
+    {
+        return new DtoComment
+        {
+            CustomerId = dto.CustomerId,
+            FarmerId = dto.FarmerId,
+            Text = dto.Text
+        };
+    }
+    //** Reviews **\\
+    public static DtoReview toDtoReview(ReviewCreateDto review)
+    {
+        return new DtoReview
+        {
+            CustomerId = review.CustomerId,
+            FarmerId = review.FarmerId,
+            Star = review.Star,
+            Text = review.Text
         };
     }
     
+    public static Review toReview(DtoReview dto)
+    {
+        List<Comment> comments = new List<Comment>();
+        for (int i = 0; i < dto.Comments.Count; i++)
+        {
+            comments.Add(toComment(dto.Comments[i]));
+        }
+        return new Review
+        {
+            FarmerID = dto.FarmerId,
+            CustomerID = dto.CustomerId,
+            Star = dto.Star,
+            Text = dto.Text,
+            Comments = comments
+        };
+    }
+    
+    /*
+     
+    /*
+      public static createOrderRequest CreateOrderRequest(OrderCreateDto dto)
+    {
+        RepeatedField<DtoOrderItem> orderItems = new RepeatedField<DtoOrderItem>();
+        for (int i = 0; i < dto.OrderItems.Count; i++)
+        {
+            orderItems.Add(toDtoOrderItem(dto.OrderItems[i]));
+        }
+
+        return new createOrderRequest
+        {
+            /*
+            NewOrder = toDtoOrder(dto),
+            OrderItems = { orderItems },
+            Note = dto.Note,
+            PaymentMethod = dto.PaymentMethod
+            * /
+        };
+    }
+     */
     
 
-   /* public static ProductSearchParameters ToProductSearchParameters(SearchProductDto x)
-    {
-        return new ProductSearchParameters
-        {
-            Amount = x.Amount,
-            Price = x.Price,
-            Type = x.Type ?? ""
-        };
-    }*/
+  
+
+
+
+
+    /* public static ProductSearchParameters ToProductSearchParameters(SearchProductDto x)
+     {
+         return new ProductSearchParameters
+         {
+             Amount = x.Amount,
+             Price = x.Price,
+             Type = x.Type ?? ""
+         };
+     }*/
 
     //** Creating the requests ** \\
-    
+
     //** Users **\\ 
-    
+
     public static loginRequest CreateLoginRequest(DtoLogin dto)
     {
         return new loginRequest
@@ -261,11 +340,11 @@ public class DTOFactory
     public static getAllFarmersRequest CreateGetAllFarmersRequest(SearchFarmerDto dto)
     {
         int pestTemp = 0;
-        if (dto.Pesticides==null)
+        if (dto.Pesticides == null)
         {
             pestTemp = 0;
         }
-        else if (dto.Pesticides==true)
+        else if (dto.Pesticides == true)
         {
             pestTemp = 1;
         }
@@ -276,11 +355,12 @@ public class DTOFactory
 
         return new getAllFarmersRequest
         {
-            Pesticides =  pestTemp, //will this not make a problem with filtering?
+            Pesticides = pestTemp, //will this not make a problem with filtering?
             FarmName = dto.FarmName ?? "",
             Rating = dto.Rating ?? 0
         };
     }
+
     public static getCustomerByPhoneRequest CreateGetCustomerByPhoneRequest(string phoneNumber)
     {
         return new getCustomerByPhoneRequest
@@ -312,8 +392,8 @@ public class DTOFactory
             EditedFarmer = dto
         };
     }
-    
-    
+
+
     //** Products **\\ 
 
     public static createProductRequest CreateProductRequest(DtoProduct dto)
@@ -341,8 +421,8 @@ public class DTOFactory
             Id = id
         };
     }
-    
-    public static getAllProductsByFarmerRequest CreateGetProductByFarmerRequest(string id,SearchProductDto dto)
+
+    public static getAllProductsByFarmerRequest CreateGetProductByFarmerRequest(string id, SearchProductDto dto)
     {
         return new getAllProductsByFarmerRequest()
         {
@@ -360,7 +440,7 @@ public class DTOFactory
             Product = dto
         };
     }
-    
+
     public static deleteProductRequest DeleteProductRequest(int id)
     {
         return new deleteProductRequest
@@ -368,9 +448,9 @@ public class DTOFactory
             Id = id
         };
     }
-    
+
     //** Orders **\\
-    
+
     public static createOrderRequest CreateOrderRequest(OrderCreateDto dto)
     {
         RepeatedField<DtoOrderItem> orderItems = new RepeatedField<DtoOrderItem>();
@@ -378,43 +458,73 @@ public class DTOFactory
         {
             orderItems.Add(toDtoOrderItem(dto.OrderItems[i]));
         }
+
         return new createOrderRequest
         {
+ 
             NewOrder = toDtoOrder(dto),
             OrderItems = { orderItems },
             Note = dto.Note,
             PaymentMethod = dto.PaymentMethod
+            
         };
     }
-    
-    
+
+
     //** Receipts **\\ 
-    
-    public static createReceiptRequest CreateReceiptRequest(DtoReceipt dto)
+
+
+    public static getAllReceiptsByFarmerRequest CreateGetAllReceiptsByFarmerRequest(string farmer)
     {
-        return new createReceiptRequest
+        return new getAllReceiptsByFarmerRequest
         {
-            NewReceipt = dto
+            Farmer = farmer
         };
     }
 
-    public static getAllReceiptsRequest CreateGetAllReceiptsRequest(SearchReceiptDto dto)
+    public static getAllReceiptsByCustomerRequest CreteGetAllReceiptsByCustomerRequest(string customer)
     {
-        return new getAllReceiptsRequest
+        return new getAllReceiptsByCustomerRequest
         {
-            User = dto.CustomerID
+            Customer = customer
         };
     }
 
-    public static getReceiptByIdRequest CreateGetReceiptByIdRequest(SearchReceiptDto dto)
+    public static farmersApprovalRequest CreateFarmerApprovalRequest(bool approve)
     {
-        return new getReceiptByIdRequest
+        return new farmersApprovalRequest
         {
-            OrderId = dto.OrderID,
-            CustomerId = dto.CustomerID,
-            FarmerId = dto.FarmerID
+            Approve = approve
         };
     }
     
+    //** Comment **\\
+    public static putCommentRequest PostCommentRequest(DtoComment x)
+    {
+        return new putCommentRequest
+        {
+            Comment = x
+        };
+    }
     
+    //** Reviews **\\ 
+    public static postReviewRequest CreatePostReviewRequest(DtoReview x)
+    {
+        return new postReviewRequest
+        {
+            Review = x
+        };
+    }
+
+    public static getAllReviewsByFarmerRequest CreateGetAllReviewsByFarmerRequest(string x)
+    {
+        DtoFarmer farmer = new DtoFarmer
+        {
+            PhoneNumber = x
+        };
+        return new getAllReviewsByFarmerRequest
+        {
+            Farmer = farmer
+        };
+    }
 }
