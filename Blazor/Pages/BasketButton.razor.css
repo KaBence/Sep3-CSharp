@@ -44,6 +44,10 @@
 .create-order-btn{
     background-color: #146c43;
 }
+.msg{
+    margin-top: auto;
+    text-align: center;
+}
 
 .create-order-btn:hover, .close-btn:hover, .continue-shopping-btn:hover {
     background-color: #45a049;

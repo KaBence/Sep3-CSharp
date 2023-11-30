@@ -5,11 +5,11 @@ namespace Shared.DTOs.Create;
 public class OrderCreateDto
 {
     public string CustomerID { get; set; }
-    public List<OrderItem> OrderItems { get; set; }
+    public IEnumerable<OrderItem> OrderItems { get; set; }
     public string PaymentMethod { get; set; }
     public string Note { get; set; }
 
-    public OrderCreateDto(string customerId, List<OrderItem> orderItems, string paymentMethod, string note)
+    public OrderCreateDto(string customerId, IEnumerable<OrderItem> orderItems, string paymentMethod, string note)
     {
         CustomerID = customerId;
         OrderItems = orderItems;
@@ -19,5 +19,6 @@ public class OrderCreateDto
 
     public OrderCreateDto()
     {
+        
     }
 }

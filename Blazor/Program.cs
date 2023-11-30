@@ -15,6 +15,7 @@ builder.Services.AddScoped<IUserService, UserHttpClient>();
 builder.Services.AddScoped<IAuthService, JwtAuthService>();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthProvider>();
 builder.Services.AddScoped<IProductService, ProductHttpClient>();
+builder.Services.AddScoped<IOrderService, OrderHttpClient>();
 builder.Services.AddScoped(
     sp => 
         new HttpClient { 
