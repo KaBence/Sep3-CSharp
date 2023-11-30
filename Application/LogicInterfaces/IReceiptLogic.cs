@@ -7,7 +7,7 @@ namespace Application.LogicInterfaces;
 
 public interface IReceiptLogic
 {
-    Task<Receipt> CreateAsync(ReceiptCreateDto dto);
+    Task<string> CreateAsync(ReceiptCreateDto dto);
     
     Task<IEnumerable<Receipt>> GetAsync(SearchReceiptDto searchParameters);
     Task<Receipt?> GetByIdAsync(int id);

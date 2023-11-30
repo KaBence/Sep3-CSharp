@@ -139,6 +139,39 @@ public class DTOFactory
             Type = dto.Type
         };
     }
+    
+    //** Receipts **\\ 
+    
+    public static DtoReceipt toDtoReceipt(ReceiptCreateDto x)
+    {
+        return new DtoReceipt
+        {
+            Amount = x.Amount,
+            Price = x.Price,
+            PaymentMethod = x.PaymentMethod,
+            PaymentDate = x.PaymentDate,
+            Text = x.Text,
+            FarmerId = x.FarmerId,
+            CustomerId = x.CustomerId
+        };
+    }
+
+    public static Receipt toReceipt(DtoReceipt dto)
+    {
+        return new Receipt
+        {
+           OrderID = dto.OrderId,
+           CustomerID = dto.CustomerId,
+           FarmerID = dto.FarmerId,
+           amount = dto.Amount,
+           PaymentDate = dto.PaymentDate,
+           PaymentMethod = dto.PaymentMethod,
+           price = dto.Price,
+           Text = dto.Text
+        };
+    }
+    
+    
 
    /* public static ProductSearchParameters ToProductSearchParameters(SearchProductDto x)
     {
@@ -293,4 +326,35 @@ public class DTOFactory
             Id = id
         };
     }
+    
+    
+    //** Receipts **\\ 
+    
+    public static createReceiptRequest CreateReceiptRequest(DtoReceipt dto)
+    {
+        return new createReceiptRequest
+        {
+            NewReceipt = dto
+        };
+    }
+
+    public static getAllReceiptsRequest CreateGetAllReceiptsRequest(SearchReceiptDto dto)
+    {
+        return new getAllReceiptsRequest
+        {
+            User = dto.CustomerID
+        };
+    }
+
+    public static getReceiptByIdRequest CreateGetReceiptByIdRequest(SearchReceiptDto dto)
+    {
+        return new getReceiptByIdRequest
+        {
+            OrderId = dto.OrderID,
+            CustomerId = dto.CustomerID,
+            FarmerId = dto.FarmerID
+        };
+    }
+    
+    
 }

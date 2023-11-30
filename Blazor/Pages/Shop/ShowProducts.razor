@@ -53,11 +53,11 @@ else
                         <button class="btn" @onclick="@(() => navMgr.NavigateTo($"/EditProduct/{item.ProductID}"))">Edit Product</button>
                     </Authorized>
                     <NotAuthorized>
-                        <button class="btn" @onclick="AddToBasket">Add To Cart</button>
+                   
                     </NotAuthorized>
                 </AuthorizeView>
 
-                <button class="btn" @onclick="AddToBasket(item.ProductID)">Add To Cart</button>
+             
             </div>
         }
 

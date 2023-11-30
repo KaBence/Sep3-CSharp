@@ -1,4 +1,5 @@
-﻿using Application.LogicInterfaces;
+﻿using Application.DaoInterfaces;
+using Application.LogicInterfaces;
 using Shared.DTOs.Create;
 using Shared.DTOs.Search;
 using Shared.Models;
@@ -7,18 +8,42 @@ namespace Application.Logic;
 
 public class ReceiptLogic:IReceiptLogic
 {
-    public Task<Receipt> CreateAsync(ReceiptCreateDto dto)
+    private readonly IReceiptDao receiptDao;
+
+    public ReceiptLogic(IReceiptDao receiptDao)
     {
-        throw new NotImplementedException();
+        this.receiptDao = receiptDao;
     }
 
-    public Task<IEnumerable<Receipt>> GetAsync(SearchReceiptDto searchParameters)
+
+    public async Task<string> CreateAsync(ReceiptCreateDto dto)
     {
-        throw new NotImplementedException();
+        try
+        {
+            string created = await receiptDao.CreateAsync(dto);
+            return created;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
-    public Task<Receipt?> GetByIdAsync(int id)
+    public async Task<IEnumerable<Receipt>> GetAsync(SearchReceiptDto searchParameters)
     {
-        throw new NotImplementedException();
+        return await receiptDao.GetAsync(searchParameters);
     }
+
+    public async Task<Receipt?> GetByIdAsync(int id)
+    {
+        return await receiptDao.GetByIdAsync(id);
+    }
+
+    public async Task<Receipt?> GetByIdAsync(int orderId,int farmerId,int customerId)
+    {
+        return await receiptDao.GetByIdAsync(orderId, farmerId,customerId);
+    }
+    
+    
 }
