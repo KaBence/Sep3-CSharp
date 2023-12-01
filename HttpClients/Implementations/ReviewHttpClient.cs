@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Net.Http.Json;
+using System.Text.Json;
 using HttpClients.ClientInterfaces;
 using Shared.DTOs.Create;
 using Shared.Models;
@@ -14,9 +15,17 @@ public class ReviewHttpClient:IReviewServices
         this.client = client;
     }
 
-    public Task<string> CreateReview(ReviewCreateDto dto)
+    public async Task<string> CreateReviewAsync(ReviewCreateDto dto)
     {
-        throw new NotImplementedException();
+        HttpResponseMessage responseMessage = await client.PostAsJsonAsync("/review", dto);
+        string content = await responseMessage.Content.ReadAsStringAsync();
+
+        if (!responseMessage.IsSuccessStatusCode)
+        {
+            throw new Exception(content);
+        }
+
+        return content;
     }
 
     public Task<string> PostComment(CommentCreateDto dto)
