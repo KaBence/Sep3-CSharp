@@ -1,0 +1,64 @@
+﻿@inject NavigationManager navMgr;
+@page "/CreateReview"
+@using System.Runtime.CompilerServices
+<AuthorizeView>
+    <NotAuthorized>
+        <div class="card">
+            <h3>You are not logged in as a Customer!</h3>
+        </div>
+    </NotAuthorized>
+    <Authorized>
+    <div class="card">
+        <h2>Create Review</h2>
+        <label>Farm:</label>
+        <div class="idk">
+            <label>Rating:</label>
+            <input type="number" id="rating" name="rating" min="1" max="5" required @bind="star">
+        </div>
+        <div class="idk">
+            <label>Review:</label>
+            <textarea id="review" name="review" required @bind="text"></textarea>
+        </div >
+        
+              @if (!string.IsNullOrEmpty(errorLabel))
+                    {
+                        <div class="field">
+                            <label style="color: red">
+                                @errorLabel
+                            </label>
+                        </div>
+                    }
+        
+        <div class="idk">
+            <button class="btn" @onclick="@(() => navMgr.NavigateTo("/MyReceiptsPlaceReview"))">Cancel</button>
+            <button class="btn" @onclick="Submit">Submit Review</button>
+        </div>
+    </div>
+    </Authorized>
+</AuthorizeView>
+
+
+@code {
+    private int reviewId;
+    private String errorLabel;
+    
+    private string text;
+    private double star;
+    private string farmerId;
+    private string customerId;
+
+    private void Submit()
+    {
+        errorLabel = "";
+        try
+        {
+
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+}
