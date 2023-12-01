@@ -221,9 +221,11 @@ public class DTOFactory
     {
         return new Comment
         {
+            CommentId = comment.CommentId,
             Text = comment.Text,
             FarmerId = comment.FarmerId,
-            CustomerId = comment.CustomerId
+            CustomerId = comment.CustomerId,
+            Username = comment.Username
         };
     }
 
@@ -233,7 +235,8 @@ public class DTOFactory
         {
             CustomerId = dto.CustomerId,
             FarmerId = dto.FarmerId,
-            Text = dto.Text
+            Text = dto.Text,
+            Username = dto.Username
         };
     }
     //** Reviews **\\
@@ -244,7 +247,8 @@ public class DTOFactory
             CustomerId = review.CustomerId,
             FarmerId = review.FarmerId,
             Star = review.Star,
-            Text = review.Text
+            Text = review.Text,
+            OrderId = review.OrderId
         };
     }
     
@@ -261,6 +265,7 @@ public class DTOFactory
             CustomerID = dto.CustomerId,
             Star = dto.Star,
             Text = dto.Text,
+            OrderId = dto.OrderId,
             Comments = comments
         };
     }

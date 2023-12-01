@@ -6,6 +6,7 @@ public class Review
     public double Star { get; set; }
     public string FarmerID { get; set; }
     public string CustomerID { get; set; }
+    public int OrderId { get; set; }
     
     public IEnumerable<Comment> Comments { get; set; }
 }
