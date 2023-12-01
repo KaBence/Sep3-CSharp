@@ -205,7 +205,9 @@ public class DTOFactory
         {
             OrderId = orderItem.OrderID,
             Amount = orderItem.Amount,
-            ProductId = orderItem.ProductID
+            ProductId = orderItem.ProductID,
+            FarmName = orderItem.FarmerName,
+            Price = orderItem.Price
         };
     }
 

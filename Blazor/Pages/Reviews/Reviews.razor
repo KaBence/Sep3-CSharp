@@ -1,0 +1,87 @@
+﻿@page "/Reviews"
+@using global::Shared.Models
+@using HttpClients.ClientInterfaces
+@using Blazor.Services
+@inject IReviewServices reviewServices;
+@inject IAuthService authServices;
+
+<div class="container-fluid">
+    <AuthorizeView Roles="Farmer">
+        <NotAuthorized>
+            <div class="filter d-flex justify-content-center mb-4">
+                <label class="typeLabel" for="type">Farmer:</label>
+                <input type="text" class="input" @bind="farmer"/>
+                <button class="btn" @onclick="GetReviews">Get Reviews</button>
+            </div>
+
+
+            @if (reviews == null)
+            {
+                <p>Loading...</p>
+                <p>Make sure that username input field is not empty</p>
+            }
+            else if (!reviews.Any())
+            {
+                if (farmer.Equals(""))
+                {
+                    <p>Input for farmer's username needed</p>
+                }
+                else
+                {
+                    <p>No Reviews to display</p>
+                }
+            }
+            else
+            {
+                <div class="items col-12 row">
+                    @foreach (var item in reviews)
+                    {
+                        <div class="card col-12 col-md-2">
+                            <h1>Farmer: @item.FarmerID</h1>
+                            <label>Overall: @item.Star/5</label>
+                            <label>@item.Text</label>
+                            <label>Posted by: @item.CustomerID</label>
+                            <label>Comments:</label>
+                            <div class="commentTable">
+                                <table>
+                                    @foreach (var comment in @item.Comments)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @comment.Username:
+                                            </td>
+                                            <td>
+                                                @comment.Text
+                                            </td>
+                                        </tr>
+                                    }
+                                </table>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </NotAuthorized>
+
+    </AuthorizeView>
+</div >
+
+@code
+{
+
+    private IEnumerable<Review> reviews = new List<Review>();
+    private string farmer = "";
+
+    private async Task GetReviews()
+    {
+        if (farmer != "")
+        {
+            reviews = await reviewServices.GetReviewsByFarmer(farmer);
+        }
+        else
+        {
+            reviews = null;
+            farmer = "";
+        }
+    }
+}

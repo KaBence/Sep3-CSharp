@@ -1,0 +1,84 @@
+﻿@inject NavigationManager navMgr;
+@inject IReviewServices reviewServices;
+@inject IAuthService authService
+@page "/CreateReview/{farmerId}"
+@using System.Runtime.CompilerServices
+@using Blazor.Services
+@using global::Shared.DTOs.Create
+@using global::Shared.Models
+@using HttpClients.ClientInterfaces
+<AuthorizeView>
+    <NotAuthorized>
+        <div class="card">
+            <h3>You are not logged in as a Customer!</h3>
+        </div>
+    </NotAuthorized>
+    <Authorized>
+    <div class="card">
+        <h2>Create Review</h2>
+        <label>Farm: @farmerId</label>
+        <div class="idk">
+            <label>Rating:</label>
+            <input type="number" id="rating" name="rating" min="1" max="5" required @bind="star">
+        </div>
+        <div class="idk">
+            <label>Review:</label>
+            <textarea id="review" name="review" required @bind="text"></textarea>
+        </div >
+        
+              @if (!string.IsNullOrEmpty(errorLabel))
+                    {
+                        <div class="field">
+                            <label style="color: red">
+                                @errorLabel
+                            </label>
+                        </div>
+                    }
+        
+        <div class="idk">
+            <button class="btn" @onclick="@(() => navMgr.NavigateTo("/MyReceiptsPlaceReview"))">Cancel</button>
+            <button class="btn" @onclick="Submit">Submit Review</button>
+        </div>
+    </div>
+    </Authorized>
+</AuthorizeView>
+
+
+@code {
+    [Parameter]
+    public string farmerId { get; set; }
+    private string text;
+    private double star;
+    private string customerId = "";
+    private String errorLabel;
+    
+    private async Task Submit()
+    {
+        errorLabel = "";
+        try
+        {
+            customerId = authService.GetAuthAsync().Result.Identity!.Name;
+
+            ReviewCreateDto reviewCreateDto = new ReviewCreateDto
+            {
+                Text = text,
+                CustomerId = customerId,
+                FarmerId = farmerId,
+                Star = star,
+                Comments = new List<Comment>()
+            };
+            string customerMessage =  await reviewServices.CreateReviewAsync(reviewCreateDto);
+            errorLabel = customerMessage;
+            if (customerMessage == "Success!")
+            {
+                navMgr.NavigateTo("/MyReceiptsPlaceReview");
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+}

@@ -26,8 +26,8 @@
                 </div>
             }
             <div class="field">
+            <button class="btn" @onclick="@(() => navMgr.NavigateTo("/Register"))">Register</button>
                 <button class="btn" @onclick="LoginAsync">Log in</button>
-                <button class="btn" @onclick="@(() => navMgr.NavigateTo("/Register"))">Register</button>
             </div>
         </div>
     </NotAuthorized>
