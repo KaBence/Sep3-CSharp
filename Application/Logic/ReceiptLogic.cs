@@ -1,5 +1,6 @@
 ﻿using Application.DaoInterfaces;
 using Application.LogicInterfaces;
+using Shared.DTOs.Basics;
 using Shared.DTOs.Create;
 using Shared.DTOs.Search;
 using Shared.Models;
@@ -16,7 +17,8 @@ public class ReceiptLogic : IReceiptLogic
     }
 
 
-
-    
-    
+    public Task<IEnumerable<CustomerSendReceiptDto>> GetAllReceiptsByCustomerAsync(string customerId)
+    {
+        return receiptDao.GetReceiptsByCustomerAsync(customerId);
+    }
 }

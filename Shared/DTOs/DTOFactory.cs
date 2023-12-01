@@ -182,7 +182,7 @@ public class DTOFactory
             Text = x.Text
         };
     }
-    
+   
 
     public static Order toOrder(DtoOrder order)
     {
@@ -411,6 +411,14 @@ public class DTOFactory
             Type = dto.Type ?? "",
             Amount = dto.Amount ?? 0.0,
             Price = dto.Price ?? 0.0
+        };
+    }
+
+    public static getReceiptsByCustomerRequest CreateGetReceiptsByCustomerRequest(string customerId)
+    {
+        return new getReceiptsByCustomerRequest
+        {
+            Customer = customerId
         };
     }
 
