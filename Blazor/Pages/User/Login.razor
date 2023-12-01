@@ -10,7 +10,7 @@
         <div class="card">
             <h3>Please login</h3>
             <div class="field">
-                <label class="col-5">Phone Number:</label>
+                <label class="col-5">Username:</label>
                 <input class="col-5" type="text" @bind="phoneNumber"/>
             </div>
             <div class="field">
@@ -26,8 +26,8 @@
                 </div>
             }
             <div class="field">
+            <button class="btn" @onclick="@(() => navMgr.NavigateTo("/Register"))">Register</button>
                 <button class="btn" @onclick="LoginAsync">Log in</button>
-                <button class="btn" @onclick="@(() => navMgr.NavigateTo("/Register"))">Register</button>
             </div>
         </div>
     </NotAuthorized>
