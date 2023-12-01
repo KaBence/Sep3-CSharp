@@ -28,7 +28,7 @@
                 <label for="type">FARM: @farmName </label>
                 <label for="type">Username: @phoneNumber </label>
  <div class="profile-container">
-                   <div class="box">
+                   <div class="box" onclick="@(() => navMgr.NavigateTo($"/ReviewsFarmer/{phoneNumber}"))">
                        <h2>See Reviews</h2>
                         <img src="Images/orders.png">
                        <!-- Content for My Orders box goes here -->
@@ -72,7 +72,7 @@
                        <!-- Content for Edit Profile box goes here -->
                    </div>
        
-                   <div class="box">
+                   <div class="box" onclick="@(() => navMgr.NavigateTo($"/Reviews"))">
                        <h2>All reviews</h2>
                       <img src="Images/review.png">
                        <!-- Content for Place a Review box goes here -->

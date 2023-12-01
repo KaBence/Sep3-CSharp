@@ -1,20 +1,11 @@
-﻿@page "/Reviews"
+﻿@page "/ReviewsFarmer/{farmer}"
 @using global::Shared.Models
 @using HttpClients.ClientInterfaces
-@using Blazor.Services
 @inject IReviewServices reviewServices;
-@inject IAuthService authServices;
 
 <div class="container-fluid">
     <AuthorizeView Roles="Farmer">
-        <NotAuthorized>
-            <div class="filter d-flex justify-content-center mb-4">
-                <label class="typeLabel" for="type">Farmer:</label>
-                <input type="text" class="input" @bind="farmer"/>
-                <button class="btn" @onclick="GetReviews">Get Reviews</button>
-            </div>
-
-
+        <Authorized>
             @if (reviews == null)
             {
                 <p>Loading...</p>
@@ -61,18 +52,20 @@
                     }
                 </div>
             }
-        </NotAuthorized>
+        </Authorized>
 
     </AuthorizeView>
 </div >
 
 @code
 {
+    [Parameter]
+    public string farmer { set; get; }
 
     private IEnumerable<Review> reviews = new List<Review>();
-    private string farmer = "";
 
-    private async Task GetReviews()
+
+    protected override async Task OnInitializedAsync()
     {
         if (farmer != "")
         {
