@@ -59,5 +59,100 @@ public class ReceiptDao: IReceiptDao
         }
     }
 
-   
+    public async Task<IEnumerable<SendReceiptDto>> GetPendingReceiptsAsync(string farmerId)
+    {
+        using var chanel= GrpcChannel.ForAddress("http://localhost:1337",new GrpcChannelOptions
+        {
+            Credentials = ChannelCredentials.Insecure
+        });
+        var client = new SepService.SepServiceClient(chanel);
+        var request = DTOFactory.CreateGetPendingReceiptsByFarmerRequest(farmerId);
+        try
+        {
+            var response = client.getPendingFarmersReceipt(request);
+          //  SendReceiptDto sendReceiptDto = new SendReceiptDto();
+            List<SendReceiptDto> pendingReceipts = new List<SendReceiptDto>();
+            foreach (var item in response.Receipts)
+            {
+                Receipt receipt = DTOFactory.toReceipt(item.Receipt);
+                    string creationDate = item.DateOfCreation;
+                    pendingReceipts.Add(new SendReceiptDto
+                    {
+                        dateOfCreation = creationDate,
+                        Receipt = receipt
+                    });
+            }
+
+            return pendingReceipts;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+    public async Task<IEnumerable<SendReceiptDto>> GetAcceptedReceipts(string farmerId)
+    {
+        using var chanel= GrpcChannel.ForAddress("http://localhost:1337",new GrpcChannelOptions
+        {
+            Credentials = ChannelCredentials.Insecure
+        });
+        var client = new SepService.SepServiceClient(chanel);
+        var request = DTOFactory.CreateGetApprovedReceiptsByFarmerRequest(farmerId);
+        try
+        {
+            var response = client.getApprovedFarmersReceipt(request);
+            List<SendReceiptDto> ApprovedReceipts = new List<SendReceiptDto>();
+            foreach (var item in response.Receipts)
+            {
+                Receipt receipt = DTOFactory.toReceipt(item.Receipt);
+                string creationDate = item.DateOfCreation;
+                ApprovedReceipts.Add(new SendReceiptDto
+                {
+                    dateOfCreation = creationDate,
+                    Receipt = receipt
+                });
+            }
+
+            return ApprovedReceipts;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+    public async Task<IEnumerable<SendReceiptDto>> GetRejectedReceipts(string farmerId)
+    {
+        using var chanel= GrpcChannel.ForAddress("http://localhost:1337",new GrpcChannelOptions
+        {
+            Credentials = ChannelCredentials.Insecure
+        });
+        var client = new SepService.SepServiceClient(chanel);
+        var request = DTOFactory.CreateGetRejectedReceiptsByFarmerRequest(farmerId);
+        try
+        {
+            var response = client.getRejectedFarmersReceipt(request);
+            List<SendReceiptDto> RejectedReceipts = new List<SendReceiptDto>();
+            foreach (var item in response.Receipts)
+            {
+                Receipt receipt = DTOFactory.toReceipt(item.Receipt);
+                string creationDate = item.DateOfCreation;
+                RejectedReceipts.Add(new SendReceiptDto
+                {
+                    dateOfCreation = creationDate,
+                    Receipt = receipt
+                });
+            }
+
+            return RejectedReceipts;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
 }

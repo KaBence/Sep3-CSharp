@@ -71,9 +71,17 @@ else
                              <button class="btn" @onclick="@(() => navMgr.NavigateTo($"/EditProduct/{item.ProductID}"))">Edit Product</button>
                          </Authorized>
                          <NotAuthorized >
-                            
-                                 <button class="btn" @onclick="() => { AddToBasket(item.ProductID, myAmount, item.Price, farmname); }">Add To Cart</button>
-                          
+                               @if (myAmount <= @item.Amount)
+                               {
+                                   <button class="btn" @onclick="() => { AddToBasket(item.ProductID, myAmount, item.Price, farmname); }">Add To Cart</button>
+                               }
+                               else
+                                                            {
+                                                                msg = "you cant take more then there is";
+                               
+                                                                <button class="btn" @onclick="() => { AddToBasket(item.ProductID, myAmount, item.Price, farmname); }">Add To Cart</button>
+                                     
+                                                            }
                                   
                              @if (!string.IsNullOrEmpty(msg))
                   

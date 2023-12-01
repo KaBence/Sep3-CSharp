@@ -1,6 +1,7 @@
 ﻿using Google.Protobuf.Collections;
 using Shared.Models;
 using Sep;
+using Shared.DTOs.Basics;
 using Shared.DTOs.Create;
 using Shared.DTOs.Search;
 
@@ -182,6 +183,8 @@ public class DTOFactory
             Text = x.Text
         };
     }
+
+    
    
 
     public static Order toOrder(DtoOrder order)
@@ -418,7 +421,7 @@ public class DTOFactory
             Price = dto.Price ?? 0.0
         };
     }
-
+//receipts start
     public static getReceiptsByCustomerRequest CreateGetReceiptsByCustomerRequest(string customerId)
     {
         return new getReceiptsByCustomerRequest
@@ -427,6 +430,30 @@ public class DTOFactory
         };
     }
 
+    public static getPendingReceiptsByFarmerRequest CreateGetPendingReceiptsByFarmerRequest(string farmerId)
+    {
+        return new getPendingReceiptsByFarmerRequest
+        {
+            Farmer = farmerId
+        };
+    }
+
+    public static getApprovedReceiptsByFarmerRequest CreateGetApprovedReceiptsByFarmerRequest(string farmerId)
+    {
+        return new getApprovedReceiptsByFarmerRequest
+        {
+            Farmer = farmerId
+        };
+    }
+
+    public static getRejectedReceiptsByFarmerRequest CreateGetRejectedReceiptsByFarmerRequest(string farmerID)
+    {
+        return new getRejectedReceiptsByFarmerRequest
+        {
+            Farmer = farmerID
+        };
+    }
+//receipts end
     public static getProductByIdRequest CreateGetProductByIdRequest(int id)
     {
         return new getProductByIdRequest

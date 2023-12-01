@@ -8,13 +8,8 @@ namespace Application.DaoInterfaces;
 
 public interface IReceiptDao
 {
-    
-   // Task<IEnumerable<SendReceiptBasicDto>> GetReceiptsByFarmerAsync(string farmerId);
-    Task<IEnumerable<CustomerSendReceiptDto> >GetReceiptsByCustomerAsync(string customerId);
-    
-  //  Task<string> DtoSentReceiptsAsync();
-    
-    
-
-
+   Task<IEnumerable<CustomerSendReceiptDto>> GetReceiptsByCustomerAsync(string customerId);
+  Task<IEnumerable<SendReceiptDto>> GetPendingReceiptsAsync(string farmerId);
+  Task<IEnumerable<SendReceiptDto>> GetAcceptedReceipts(string farmerId);
+  Task<IEnumerable<SendReceiptDto>> GetRejectedReceipts(string farmerId);
 }
