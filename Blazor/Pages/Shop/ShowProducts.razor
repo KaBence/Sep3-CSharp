@@ -3,23 +3,19 @@
 @using global::Shared.Models
 @using HttpClients.ClientInterfaces
 @using global::Shared.DTOs
-@using Basket
-@using Blazor.Services
-@using System.Security.Claims
 @inject IProductService productService;
 @inject IUserService userService;
 @inject NavigationManager navMgr;
-
 
 
 <AuthorizeView Roles="Farmer">
     <NotAuthorized>
         <h3>Shop</h3>
         <div class="filter">
-            <label>Amount:</label>
+            <label class="filter-label">Amount:</label>
             <input class="typeLabel" type="text" @bind="productAmount"/>
             <br/>
-            <label>Price:</label>
+            <label class="filter-label">Price:</label>
             <input class="typeLabel" type="text" @bind="productPrice"/>
             <br/>
             <button class="btn" @onclick="LoadProducts">Filter</button>
@@ -33,98 +29,92 @@
 }
 else if (!products.Any())
 {
-    <p>No products to display</p>
+    <div class="noProduct">
+        
+        <h2>No products to display</h2>
+        <img src="Images/confused-john-travolta.gif"/>
+    </div>
 }
 else
 {
     <div class="items">
-      
-                                    
-                       
         @foreach (var item in products)
         {
             <div class="card">
-                 @{
-                     string farmname = "";
+                @{
+                    string farmname = "";
 
-                     <h1>@item.Type</h1>
+                    <h1>@item.Type</h1>
 
-                     <label>Amount: @item.Amount</label>
-                     <label>Price: @item.Price</label>
-                     <label>Picked Date : @item.PickedDate</label>
-                     <label>Expiration Date: @item.ExpirationDate</label>
-                   
+                    <label>Amount: @item.Amount</label>
+                    <label>Price: @item.Price</label>
+                    <label>Picked Date : @item.PickedDate</label>
+                    <label>Expiration Date: @item.ExpirationDate</label>
 
-                     @foreach (var item2 in farmers)
-                     {
-                         if (item.FarmerID.Equals(item2.Phonenumber))
-                         {
-                             <label >Farm name: @item2.FarmName</label>
-                             farmname = item2.FarmName;
-                         }
-                     }  
-                     <label>Your desired amount:</label>
-                     <input type="text" @bind="myAmount"/>
-                     <hr>
-                     <AuthorizeView Roles="Farmer">
-                         <Authorized>
-                             <button class="btn" @onclick="@(() => navMgr.NavigateTo($"/EditProduct/{item.ProductID}"))">Edit Product</button>
-                         </Authorized>
-                         <NotAuthorized >
-                               @if (myAmount <= @item.Amount)
-                               {
-                                   <button class="btn" @onclick="() => { AddToBasket(item.ProductID, myAmount, item.Price, farmname); }">Add To Cart</button>
-                               }
-                               else
-                                                            {
-                                                                msg = "you cant take more then there is";
-                               
-                                                                <button class="btn" @onclick="() => { AddToBasket(item.ProductID, myAmount, item.Price, farmname); }">Add To Cart</button>
-                                     
-                                                            }
-                                  
-                             @if (!string.IsNullOrEmpty(msg))
-                  
-            {
-                     
-               
-                              
-            }
- <label class="msg" style="color: green">@msg</label>
-                         </NotAuthorized>
-                     </AuthorizeView>
-                 }
-            </div> 
-          
+
+                    @foreach (var item2 in farmers)
+                    {
+                        if (item.FarmerID.Equals(item2.Phonenumber))
+                        {
+                            <label >Farm name: @item2.FarmName</label>
+                            farmname = item2.FarmName;
+                        }
+                    }
+                    <hr>
+                    <label>Your desired amount:</label>
+                    <input class="mb-3" type="text" @bind="myAmount"/>
+                    
+                    <AuthorizeView Roles="Farmer">
+                        <Authorized>
+                            <button class="btn" @onclick="@(() => navMgr.NavigateTo($"/EditProduct/{item.ProductID}"))">Edit Product</button>
+                        </Authorized>
+                        <NotAuthorized >
+                            @if (myAmount <= @item.Amount)
+                            {
+                                <button class="btn" @onclick="() => { AddToBasket(item.ProductID, myAmount, item.Price, farmname); }">Add To Cart</button>
+                            }
+                            else
+                            {
+                                msg = "you cant take more then there is";
+
+                                <button class="btn" @onclick="() => { AddToBasket(item.ProductID, myAmount, item.Price, farmname); }">Add To Cart</button>
+                            }
+
+                            @if (!string.IsNullOrEmpty(msg))
+
+                            {
+                            }
+                            <label class="msg" style="color: green">@msg</label>
+                        </NotAuthorized>
+                    </AuthorizeView>
+                }
+            </div>
         }
-
-    
-
-       
-</div>
-
+    </div>
+}
 @code {
 
     [Parameter]
-    public string type { get; set; }  
+    public string type { get; set; }
+
     private double productPrice { get; set; }
+
     [Parameter]
     public string phoneNumber { get; set; }
 
     private IEnumerable<Product> products;
     private IEnumerable<Farmer> farmers;
     private string msg;
-  
+
     private string productAmount;
 
     private int id;
 
-    
- 
+
     public int myAmount;
-  
+
     public Basket basket = Basket.getInstance();
-    
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -138,17 +128,16 @@ else
             Amount = Convert.ToDouble(productAmount),
             Price = Convert.ToDouble(productPrice),
             Type = type,
-            
         };
-        
-        if (phoneNumber =="all")
+
+        if (phoneNumber == "all")
         {
             products = await productService.getAsync(dto);
             farmers = await userService.GetAllFarmers(new SearchFarmerDto());
         }
         else
         {
-            products = await productService.getByFarmerAsync(phoneNumber,dto);
+            products = await productService.getByFarmerAsync(phoneNumber, dto);
             List<Farmer> x = new List<Farmer>();
             EditFarmerDto editFarmer = await userService.GetFarmerByIdAsync(phoneNumber);
             Farmer farmer = new Farmer
@@ -166,17 +155,13 @@ else
         }
     }
 
-    
+
     private async Task AddToBasket(int id, double amount, double price, string farmName)
     {
-        
-             basket.AddToBasket(new OrderItem(id, type, amount, price, farmName));
-                        myAmount = 0;
-                        msg = "Check your basket!";
-        }
-       
-        
-   
+        basket.AddToBasket(new OrderItem(id, type, amount, price, farmName));
+        myAmount = 0;
+        msg = "Check your basket!";
+    }
+    
 
-}
-}}
+}    

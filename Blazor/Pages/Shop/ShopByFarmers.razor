@@ -5,12 +5,12 @@
 @inject IProductService productService;
 @inject IUserService userService;
 @inject NavigationManager navMgr;
-<div class="filter">
+<div class="filter d-flex justify-content-center mb-4">
     <label class="typeLabel" for="type">Farm name:</label>
-    <input type="text" @bind="farmName"/>
+    <input style="height: 30px; margin-top: 18px" type="text" @bind="farmName"/>
 
     <label class="typeLabel" for="type">Rating:</label>
-    <input type="text" @bind="rating"/>
+    <input style="height: 30px; margin-top: 18px" type="text" @bind="rating"/>
 
     <label class="typeLabel">Pesticides: </label>
     <input type="checkbox" name="pest" @onchange="changePest"/>

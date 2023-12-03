@@ -9,6 +9,10 @@ h1,h3{
     text-align: center;
 }
 
+.filter-label{
+    width: 50px;
+}
+
 .btn{
     background-color: #20c997;
     border-radius: 5px;
@@ -40,4 +44,17 @@ h1,h3{
 .msg{
     margin-top: auto;
     text-align: center;
+}
+
+.noProduct{
+    width: fit-content;
+    margin: auto;
+    text-align: center;
+    
+}
+
+@media (max-width: 1100px) {
+    .card{
+        width: 50%;
+    }
 }

@@ -1,13 +1,13 @@
-﻿
+﻿/*
 body {
     background-image: url('Images/farm1.jpg');
     margin: 0;
     min-width: auto;
     background-position: center;
     background-size: cover;
-}
+}*/
 h1 {
-    padding-top: 100px;
+    padding-top: 40px;
     text-align: center;
     color: #6e7273;
     font-size: 90px;
