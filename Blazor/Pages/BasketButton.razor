@@ -65,17 +65,16 @@
         <AuthorizeView >
             <Authorized>
                 <button class="create-order-btn" @onclick="@CreateOrder">Create Order</button>
-                <label class="msg" style="color: green">@msg</label>
             </Authorized>
             <NotAuthorized >
                 <button class="create-order-btn" @onclick="@DisplayMessege">Create Order</button>
-                <label class="msg" style="color: red">@msg</label>
             </NotAuthorized>
         </AuthorizeView>
         <button class="close-btn" @onclick="@CloseBasket">Close</button>
 
         <button class="continue-shopping-btn" @onclick="@ContinueShopping">Continue shopping</button>
     </div>
+    <label class="msg" style="color: red">@msg</label>
 </Modal>
 
 
@@ -128,9 +127,9 @@
             msg = customerMessege;
             if (customerMessege == "Success!")
             {
+                msg = "Order Created Successfully";
                 navMgr.NavigateTo("/");
             }
-            msg = " IT WORKED";
         }
         catch (Exception e)
         {

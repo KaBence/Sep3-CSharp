@@ -30,13 +30,16 @@
 else if (!products.Any())
 {
     <div class="noProduct">
-        
+
         <h2>No products to display</h2>
         <img src="Images/confused-john-travolta.gif"/>
     </div>
 }
 else
 {
+    <div class="items">
+        <label class="msg" style="color: green">@msg</label>
+    </div>
     <div class="items">
         @foreach (var item in products)
         {
@@ -61,30 +64,26 @@ else
                         }
                     }
                     <hr>
-                    <label>Your desired amount:</label>
-                    <input class="mb-3" type="text" @bind="myAmount"/>
-                    
                     <AuthorizeView Roles="Farmer">
                         <Authorized>
                             <button class="btn" @onclick="@(() => navMgr.NavigateTo($"/EditProduct/{item.ProductID}"))">Edit Product</button>
                         </Authorized>
                         <NotAuthorized >
+                            <label>Your desired amount:</label>
+                            <input class="mb-3" type="text" @bind="myAmount"/>
                             @if (myAmount <= @item.Amount)
                             {
                                 <button class="btn" @onclick="() => { AddToBasket(item.ProductID, myAmount, item.Price, farmname); }">Add To Cart</button>
                             }
                             else
                             {
-                                msg = "you cant take more then there is";
+                                msg = "You cant take more then there is";
 
                                 <button class="btn" @onclick="() => { AddToBasket(item.ProductID, myAmount, item.Price, farmname); }">Add To Cart</button>
                             }
-
                             @if (!string.IsNullOrEmpty(msg))
-
                             {
                             }
-                            <label class="msg" style="color: green">@msg</label>
                         </NotAuthorized>
                     </AuthorizeView>
                 }
@@ -92,28 +91,23 @@ else
         }
     </div>
 }
+
 @code {
 
     [Parameter]
     public string type { get; set; }
-
-    private double productPrice { get; set; }
 
     [Parameter]
     public string phoneNumber { get; set; }
 
     private IEnumerable<Product> products;
     private IEnumerable<Farmer> farmers;
-    private string msg;
-
-    private string productAmount;
-
-    private int id;
-
-
-    public int myAmount;
-
     public Basket basket = Basket.getInstance();
+    private double productPrice { get; set; }
+    private string productAmount;
+    private int id;
+    public int myAmount;
+    private string msg;
 
 
     protected override async Task OnInitializedAsync()
@@ -160,8 +154,8 @@ else
     {
         basket.AddToBasket(new OrderItem(id, type, amount, price, farmName));
         myAmount = 0;
-        msg = "Check your basket!";
+        msg = "Item added to your basket!";
     }
-    
 
-}    
+
+}

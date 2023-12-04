@@ -44,6 +44,7 @@ h1,h3{
 .msg{
     margin-top: auto;
     text-align: center;
+    background-color: white;
 }
 
 .noProduct{
