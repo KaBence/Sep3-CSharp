@@ -218,7 +218,10 @@ public class DTOFactory
         {
             OrderID = orderItem.OrderId,
             Amount = orderItem.Amount,
-            ProductID = orderItem.ProductId
+            ProductID = orderItem.ProductId,
+            FarmerName = orderItem.FarmName,
+            Price = orderItem.Price,
+            Type = orderItem.Type
         };
     }
     
@@ -521,6 +524,22 @@ public class DTOFactory
         {
             Approve = order.approve,
             OrderId = order.orderId
+        };
+    }
+
+    public static getAllOrderItemsFromOrderRequest CreateGetAllOrderItemsFromOrderRequest(int orderId)
+    {
+        return new getAllOrderItemsFromOrderRequest
+        {
+            OrderId = orderId
+        };
+    }
+
+    public static getAllOrderItemsByGroupRequest CreateGetAllOrderItemsByGroupRequest(int orderId)
+    {
+        return new getAllOrderItemsByGroupRequest
+        {
+            OrderId = orderId
         };
     }
 
