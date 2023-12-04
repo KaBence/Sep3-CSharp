@@ -1,0 +1,35 @@
+.choice {
+    margin: 20px;
+    background-color: #f5f5f5; /* Light gray background color */
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.field {
+    display: flex;
+    align-items: center;
+}
+
+
+.col-3 {
+    margin-right: 10px;
+}
+
+/* Style for the radio buttons (you may customize further) */
+input[type="radio"] {
+    margin-right: 5px;
+}
+
+/* Add your styles for Pending, Accepted, and Declined components here */
+/* For example: */
+.Pending, .Accepted, .Declined {
+    /* Add your component-specific styles here */
+    margin-top: 20px;
+    background-color: #ffffff; /* White background color */
+    padding: 15px;
+    border: 1px solid #ddd; /* Light gray border */
+    border-radius: 8px;
+}
+h3{
+    text-align: center;
+}

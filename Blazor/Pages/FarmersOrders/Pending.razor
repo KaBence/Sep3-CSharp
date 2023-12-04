@@ -1,0 +1,90 @@
+﻿@page "/Pending/{phoneNumber}"
+@using Blazor.Services
+@using global::Shared.DTOs.Basics
+@using global::Shared.Models
+@using HttpClients.ClientInterfaces
+@using Sep
+@using UIComponents
+@inject IAuthService authService
+@inject IReceiptService receiptService
+@inject NavigationManager navMgr
+<h3>Pending</h3>
+<table>
+    <thead>
+    <tr>
+        <th>Order ID</th>
+        <th>Customer ID</th>
+        <th>Payment method</th>
+        <th>Additional comments</th>
+        <th>Price</th>
+        <th>See All info</th>
+        
+    </tr>
+    </thead>
+    @if (receiptService.GetPendingReceiptsByFarmer(role) != null)
+    {
+        @foreach (var item in Receipts)
+        {
+            <tr>
+                <td>@item.Receipt.OrderID</td>
+                <td>@item.Receipt.CustomerID</td>
+                <td>@item.Receipt.PaymentMethod</td>
+                <td>@item.Receipt.Text</td>
+                <td>@item.Receipt.price</td>
+              
+                <td>
+                    <button class="close-btn" @onclick="@OpenItem">See the order items</button>
+                    <Modal ShowModal="isOpen">
+                        <h1> Here are the order items</h1>
+                        
+                        
+                        
+                        
+                        <button class="close-btn" @onclick="@Accept">Accept</button>
+                        <button class="close-btn" @onclick="@Decline">Decline</button>
+                        <button class="close-btn" @onclick="@CloseView">Close</button>
+                    </Modal>
+                   
+                </td>
+            </tr>
+        }
+    }
+
+</table>
+<tbody>
+
+</tbody>
+@code {
+    public bool isOpen = false;
+    private IEnumerable<SendReceiptDto> Receipts = new List<SendReceiptDto>();
+    public string role;
+   
+    protected override async Task OnInitializedAsync()
+    {
+        role=authService.GetAuthAsync().Result.Identity.Name;
+        Receipts = await receiptService.GetPendingReceiptsByFarmer(role);
+    }
+
+    public void OpenItem()
+    {
+        isOpen = true;
+        StateHasChanged();
+    }
+
+    public void CloseView()
+    {
+        isOpen = false;
+        StateHasChanged();
+    }
+
+    public void Accept()
+    {
+        
+    }
+
+    public void Decline()
+    {
+        
+    }
+    
+}

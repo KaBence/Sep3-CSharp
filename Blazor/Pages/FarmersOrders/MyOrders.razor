@@ -1,0 +1,39 @@
+﻿@page "/MyOrders"
+@using Blazor.Services
+@inject IAuthService authService
+<h3>MyOrders</h3>
+<div class="choice">
+    <div class="field">
+        <label class="col-3">Search By:</label>
+        <input type="radio" name="pest" checked="true" onchange="@(() => changeChoice(0))"/>
+        <label class="col-3">PendingOrders</label>
+        <input type="radio" name="pest" onchange="@(() => changeChoice(1))"/>
+        <label class="col-3">AcceptedOrders</label>
+        <input type="radio" name="pest" onchange="@(() => changeChoice(2))"/>
+        <label class="col-3">DeclinedOrders</label>
+    </div>
+</div>
+@if (choice==0)
+    {
+        <Pending />
+    }
+@if(choice==1)
+{
+    <Accepted/>
+}
+@if(choice==2)
+{
+    <Declined/>
+}
+
+
+@code {
+   
+    private int choice;
+    
+    private void changeChoice(int newChoice)
+    {
+        choice = newChoice;
+       
+    }
+}
