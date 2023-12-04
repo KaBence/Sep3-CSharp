@@ -5,6 +5,7 @@ using Application.LogicInterfaces;
 using HttpClients.ClientInterfaces;
 using Shared.DTOs.Create;
 using Shared.DTOs.Update;
+using Shared.Models;
 
 public class OrderHttpClient : IOrderService
 {
@@ -37,5 +38,22 @@ public class OrderHttpClient : IOrderService
             throw new Exception(content);
         }
         return content;
+    }
+
+    public async Task<IEnumerable<OrderItem>> GetAllOrderItemsFromOrder(int orderId)
+    {
+        HttpResponseMessage responseMessage = await client.GetAsync($"Order/Single/{orderId}");
+        string content = await responseMessage.Content.ReadAsStringAsync();
+        if (!responseMessage.IsSuccessStatusCode)
+        {
+            throw new Exception(content);
+        }
+
+        ICollection<OrderItem> items = JsonSerializer.Deserialize<ICollection<OrderItem>>(content,
+            new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            })!;
+        return items;
     }
 }

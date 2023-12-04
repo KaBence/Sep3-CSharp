@@ -1,0 +1,108 @@
+﻿@page "/Declined/{phoneNumber}"
+@using Blazor.Services
+@using global::Shared.DTOs.Basics
+@using global::Shared.Models
+@using HttpClients.ClientInterfaces
+@using UIComponents
+@inject IAuthService authService
+@inject IReceiptService receiptService
+@inject NavigationManager navMgr
+@inject IOrderService orderService
+<h3>Accepted</h3>
+<h3>Declined</h3>
+<table>
+    <thead>
+    <tr>
+        <th>Order ID</th>
+        <th>Customer ID</th>
+        <th>Payment method</th>
+        <th>Additional comments</th>
+        <th>Price</th>
+        <th>See All info</th>
+        
+    </tr>
+    </thead>
+    @if (receiptService.GetRejectedReceiptsByFarmer(role) != null)
+    {
+        @foreach (var item in Receipts)
+        {
+            <tr>
+                <td>@item.Receipt.OrderID</td>
+                <td>@item.Receipt.CustomerID</td>
+                <td>@item.Receipt.PaymentMethod</td>
+                <td>@item.Receipt.Text</td>
+                <td>@item.Receipt.price</td>
+              
+                <td>
+                    <button class="close-btn" @onclick="() => OpenItem(item.Receipt.OrderID)">See the order items</button>
+                    <Modal ShowModal="isOpen">
+                        <h1> Here are the order items</h1>
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Amount</th>
+                                <th>Price per/item</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            
+                            
+                            @foreach (var item2 in Items){
+                                <tr>      
+                                    <td>@item2.Type</td>
+                                    <td>@item2.Amount</td>
+                                    <td>@item2.Price</td>
+                                    </tr>
+                            }
+                            
+                            </tbody>
+                          
+                        </table>
+                        
+                        
+                        
+                       <button class="close-btn" @onclick="@CloseView">Close</button>
+                        <label class="msg" style="color: red">@msg</label>
+                                  
+                    </Modal>
+                   
+                </td>
+            </tr>
+        }
+    }
+
+</table>
+<tbody>
+
+</tbody>
+@code {
+    public bool isOpen = false;
+    private IEnumerable<SendReceiptDto> Receipts = new List<SendReceiptDto>();
+    public IEnumerable<OrderItem> Items=new List<OrderItem>();
+    public string role;
+    public string msg = "";
+ 
+    
+
+    protected override async Task OnInitializedAsync()
+    {
+        role=authService.GetAuthAsync().Result.Identity.Name;
+        Receipts = await receiptService.GetRejectedReceiptsByFarmer(role);
+        
+    }
+
+    private async void OpenItem(int orderId)
+    { Items =await orderService.GetAllOrderItemsFromOrder(orderId);
+        isOpen = true;
+        StateHasChanged();
+       
+    }
+
+    public void CloseView()
+    {
+        isOpen = false;
+        StateHasChanged();
+    }
+
+}
