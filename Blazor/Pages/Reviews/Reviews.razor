@@ -4,6 +4,7 @@
 @using Blazor.Services
 @inject IReviewServices reviewServices;
 @inject IAuthService authServices;
+@inject NavigationManager navMgr;
 
 <div class="container-fluid">
     <AuthorizeView Roles="Farmer">
@@ -56,6 +57,9 @@
                                         </tr>
                                     }
                                 </table>
+                            </div>
+                            <div>
+                                <button class="btn" @onclick="@(() => navMgr.NavigateTo($"/PostComment/{@item.FarmerID}/{@item.CustomerID}/{@item.OrderId}"))">Comment</button>
                             </div>
                         </div>
                     }
