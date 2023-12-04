@@ -2,15 +2,12 @@
 using Application.LogicInterfaces;
 using Shared.DTOs;
 using Shared.DTOs.Basics;
-using Shared.DTOs.Create;
 using Shared.DTOs.Search;
 using Shared.Models;
 
 namespace Application.Logic;
 
 public class FarmerLogic:IFarmerLogic
-
-
 {
     private readonly IFarmerDao FarmerDao;
 
@@ -18,6 +15,7 @@ public class FarmerLogic:IFarmerLogic
     {
         FarmerDao = farmerDao;
     }
+    
     public  async Task<string> CreateAsync(RegisterFarmerDto farmerDto)
     {
         try
@@ -56,7 +54,6 @@ public class FarmerLogic:IFarmerLogic
             Console.WriteLine(e);
             throw;
         }
-
     }
 
    

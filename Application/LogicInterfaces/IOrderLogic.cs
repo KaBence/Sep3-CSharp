@@ -1,7 +1,5 @@
 ﻿using Shared.DTOs.Create;
-using Shared.DTOs.Search;
 using Shared.DTOs.Update;
-using Shared.Models;
 
 namespace Application.LogicInterfaces;
 

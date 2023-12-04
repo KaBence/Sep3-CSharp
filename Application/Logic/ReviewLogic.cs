@@ -1,8 +1,6 @@
 ﻿using Application.DaoInterfaces;
 using Application.LogicInterfaces;
-using Sep;
 using Shared.DTOs.Create;
-using Shared.DTOs.Search;
 using Shared.Models;
 
 namespace Application.Logic;
@@ -15,6 +13,7 @@ public class ReviewLogic: IReviewLogic
     {
         this.reviewDao = reviewDao;
     }
+    
     public async Task<string> CreateAsync(ReviewCreateDto dto)
     {
         try

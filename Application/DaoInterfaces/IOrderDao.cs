@@ -1,6 +1,4 @@
 ﻿using Shared.DTOs.Create;
-using Shared.Models;
-using Shared.DTOs.Search;
 using Shared.DTOs.Update;
 
 namespace Application.DaoInterfaces;

@@ -1,7 +1,4 @@
-﻿using Application.Logic;
-using Sep;
-using Shared.DTOs.Create;
-using Shared.DTOs.Search;
+﻿using Shared.DTOs.Create;
 using Shared.Models;
 
 namespace Application.LogicInterfaces;

@@ -1,10 +1,7 @@
-﻿using System.Runtime.InteropServices;
-using Application.DaoInterfaces;
+﻿using Application.DaoInterfaces;
 using Application.LogicInterfaces;
 using Shared.DTOs.Create;
-using Shared.DTOs.Search;
 using Shared.DTOs.Update;
-using Shared.Models;
 
 namespace Application.Logic;
 

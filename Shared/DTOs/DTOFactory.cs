@@ -231,6 +231,7 @@ public class DTOFactory
             Text = comment.Text,
             FarmerId = comment.FarmerId,
             CustomerId = comment.CustomerId,
+            OrderId = comment.OrderId,
             Username = comment.Username
         };
     }
@@ -242,6 +243,7 @@ public class DTOFactory
             CustomerId = dto.CustomerId,
             FarmerId = dto.FarmerId,
             Text = dto.Text,
+            OrderId = dto.OrderId,
             Username = dto.Username
         };
     }
