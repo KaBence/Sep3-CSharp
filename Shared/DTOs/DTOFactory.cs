@@ -218,7 +218,10 @@ public class DTOFactory
         {
             OrderID = orderItem.OrderId,
             Amount = orderItem.Amount,
-            ProductID = orderItem.ProductId
+            ProductID = orderItem.ProductId,
+            FarmerName = orderItem.FarmName,
+            Price = orderItem.Price,
+            Type = orderItem.Type
         };
     }
     
@@ -528,7 +531,7 @@ public class DTOFactory
     {
         return new getAllOrderItemsFromOrderRequest
         {
-            
+            OrderId = orderId
         };
     }
 
@@ -536,7 +539,7 @@ public class DTOFactory
     {
         return new getAllOrderItemsByGroupRequest
         {
-
+            OrderId = orderId
         };
     }
 
