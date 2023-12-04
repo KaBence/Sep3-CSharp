@@ -27,11 +27,11 @@
             </div>
             <div class="field">
                 <label class="col-5">Picked date:</label>
-                <input class="col-5" type="text" placeholder="DD/MM/YYYY" @bind="tempPickedDate"/>
+                <input class="col-5" type="date" @bind="tempPickedDate"/>
             </div>
             <div class="field">
                 <label class="col-5">Expiration date:</label>
-                <input class="col-5" type="text" placeholder="DD/MM/YYYY" @bind="tempExpirationDate"/>
+                <input class="col-5" type="date" @bind="tempExpirationDate"/>
             </div>
             <div class="field">
                 <label class="col-5">Amount:</label>
@@ -65,8 +65,8 @@
     private string? type = "";
     private double? amount;
     private double? price;
-    private string? tempPickedDate;
-    private string? tempExpirationDate;
+    private DateTime tempPickedDate;
+    private DateTime tempExpirationDate;
     private string? errorLabel = "";
     private string? farmerId;
     private string? pickedDate;
@@ -128,8 +128,10 @@
         errorLabel = msg;
     }
 
-    private string getDate(string date)
+    private string getDate(DateTime date)
     {
+        return date.Year + "-" + date.Month + "-" + date.Day;
+        /*
         if (date == null)
         {
             return "0001-01-01";
@@ -141,14 +143,16 @@
             return "9999-12-12";
         }
         return x[2] + "-" + x[1] + "-" + x[0];
+        */
     }
     
-    private string setDate(string date)
+    private DateTime setDate(string date)
     {
         string[] x = date.Split("-");
         Console.WriteLine(x.Length);
        
-        return x[2] + "/" + x[1] + "/" + x[0];
+        return new DateTime(int.Parse(x[0]), int.Parse(x[1]), int.Parse(x[2]));
+
     }
 
 }
