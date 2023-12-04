@@ -49,8 +49,8 @@ public class OrderController : ControllerBase
         }
     }
 
-    [HttpGet,Route("Single")]
-    public async Task<ActionResult<OrderItem>> GetAllOrderItemsFromOrder(int orderId)
+    [HttpGet,Route("Single/{orderId}")]
+    public async Task<ActionResult<IEnumerable<OrderItem>>> GetAllOrderItemsFromOrder([FromRoute]int orderId)
     {
         try
         {

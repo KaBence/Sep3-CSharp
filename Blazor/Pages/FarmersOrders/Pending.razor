@@ -8,6 +8,7 @@
 @inject IAuthService authService
 @inject IReceiptService receiptService
 @inject NavigationManager navMgr
+@inject IOrderService orderService
 <h3>Pending</h3>
 <table>
     <thead>
@@ -33,10 +34,31 @@
                 <td>@item.Receipt.price</td>
               
                 <td>
-                    <button class="close-btn" @onclick="@OpenItem">See the order items</button>
+                    <button class="close-btn" @onclick="() => OpenItem(item.Receipt.OrderID)">See the order items</button>
                     <Modal ShowModal="isOpen">
                         <h1> Here are the order items</h1>
-                        
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Amount</th>
+                                <th>Price per/item</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            
+                            
+                            @foreach (var item in Items){
+                                <tr>      
+                                    <td>@item.Type</td>
+                                    <td>@item.Amount</td>
+                                    <td>@item.Price</td>
+                                    </tr>
+                            }
+                            
+                            </tbody>
+                          
+                        </table>
                         
                         
                         
@@ -57,18 +79,23 @@
 @code {
     public bool isOpen = false;
     private IEnumerable<SendReceiptDto> Receipts = new List<SendReceiptDto>();
+    public IEnumerable<OrderItem> Items=new List<OrderItem>();
     public string role;
-   
+ 
+    
+
     protected override async Task OnInitializedAsync()
     {
         role=authService.GetAuthAsync().Result.Identity.Name;
         Receipts = await receiptService.GetPendingReceiptsByFarmer(role);
+        
     }
 
-    public void OpenItem()
+    private async void OpenItem(int orderId)
     {
         isOpen = true;
         StateHasChanged();
+        Items =await orderService.GetAllOrderItemsFromOrder(orderId);
     }
 
     public void CloseView()
@@ -77,9 +104,9 @@
         StateHasChanged();
     }
 
-    public void Accept()
+    public void Accept(int orderId)
     {
-        
+        orderService.AcceptOrder(orderId);
     }
 
     public void Decline()
