@@ -19,6 +19,7 @@
             <input class="typeLabel" type="text" @bind="productPrice"/>
             <br/>
             <button class="btn" @onclick="LoadProducts">Filter</button>
+            <button class="btn" @onclick="Clear">Clear</button>
             <br/>
             @if (!string.IsNullOrEmpty(msg))
             {
@@ -104,7 +105,7 @@ else
     private IEnumerable<Farmer> farmers;
     public Basket basket = Basket.getInstance();
     private double productPrice { get; set; }
-    private string productAmount;
+    private double productAmount;
     private int id;
     public int myAmount;
     private string msg;
@@ -157,5 +158,12 @@ else
         msg = "Product Added to your basket!";
     }
 
+
+    private async Task Clear()
+    {
+        productAmount = 0;
+        productPrice = 0;
+        await LoadProducts();
+    }
 
 }
