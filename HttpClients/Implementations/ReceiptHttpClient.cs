@@ -34,13 +34,39 @@ public class ReceiptHttpClient: IReceiptService
 
     }
 
-    public Task<IEnumerable<Receipt>> GetApprovedReceiptsByFArmer(SendReceiptDto dto)
+    public async Task<IEnumerable<SendReceiptDto>> GetAcceptedReceiptsByFarmer(string farmName)
     {
-        throw new NotImplementedException();
+        HttpResponseMessage responseMessage = await client.GetAsync($"Receipt/AcceptedByFarmer/{farmName}");
+        string content = await responseMessage.Content.ReadAsStringAsync();
+        if (!responseMessage.IsSuccessStatusCode)
+        {
+            throw new Exception(content);
+        }
+        ICollection<SendReceiptDto> receipts = JsonSerializer.Deserialize<ICollection<SendReceiptDto>>(content,
+            new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            })!;
+        return receipts;
+
     }
 
-    public Task<IEnumerable<Receipt>> GetRejectedREceiptsByFArmer(SendReceiptDto dto)
+    
+
+    public async Task<IEnumerable<SendReceiptDto>> GetRejectedReceiptsByFarmer(string farmName)
     {
-        throw new NotImplementedException();
+        HttpResponseMessage responseMessage = await client.GetAsync($"Receipt/RejectedByFarmer/{farmName}");
+        string content = await responseMessage.Content.ReadAsStringAsync();
+        if (!responseMessage.IsSuccessStatusCode)
+        {
+            throw new Exception(content);
+        }
+        ICollection<SendReceiptDto> receipts = JsonSerializer.Deserialize<ICollection<SendReceiptDto>>(content,
+            new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            })!;
+        return receipts;
+
     }
 }

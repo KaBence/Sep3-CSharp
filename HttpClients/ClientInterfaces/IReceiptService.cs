@@ -6,7 +6,7 @@ namespace HttpClients.ClientInterfaces;
 public interface IReceiptService
 {
     Task<IEnumerable<SendReceiptDto>> GetPendingReceiptsByFarmer(string farmName);
-    Task<IEnumerable<Receipt>> GetApprovedReceiptsByFArmer(SendReceiptDto dto);
-    Task<IEnumerable<Receipt>> GetRejectedREceiptsByFArmer(SendReceiptDto dto);
+    Task<IEnumerable<SendReceiptDto>> GetAcceptedReceiptsByFarmer(string farmName);
+    Task<IEnumerable<SendReceiptDto>> GetRejectedReceiptsByFarmer(string farmName);
 
 }

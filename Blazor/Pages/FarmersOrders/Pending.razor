@@ -1,6 +1,7 @@
 ﻿@page "/Pending/{phoneNumber}"
 @using Blazor.Services
 @using global::Shared.DTOs.Basics
+@using global::Shared.DTOs.Update
 @using global::Shared.Models
 @using HttpClients.ClientInterfaces
 @using Sep
@@ -62,9 +63,11 @@
                         
                         
                         
-                        <button class="close-btn" @onclick="@Accept">Accept</button>
-                        <button class="close-btn" @onclick="@Decline">Decline</button>
+                        <button class="close-btn" @onclick="() =>Accept(item.Receipt.OrderID)">Accept</button>
+                        <button class="close-btn" @onclick="() =>Decline(item.Receipt.OrderID)">Decline</button>
                         <button class="close-btn" @onclick="@CloseView">Close</button>
+                        <label class="msg" style="color: red">@msg</label>
+                                  
                     </Modal>
                    
                 </td>
@@ -81,6 +84,7 @@
     private IEnumerable<SendReceiptDto> Receipts = new List<SendReceiptDto>();
     public IEnumerable<OrderItem> Items=new List<OrderItem>();
     public string role;
+    public string msg = "";
  
     
 
@@ -92,10 +96,10 @@
     }
 
     private async void OpenItem(int orderId)
-    {
+    { Items =await orderService.GetAllOrderItemsFromOrder(orderId);
         isOpen = true;
         StateHasChanged();
-        Items =await orderService.GetAllOrderItemsFromOrder(orderId);
+       
     }
 
     public void CloseView()
@@ -106,12 +110,23 @@
 
     public void Accept(int orderId)
     {
-        orderService.AcceptOrder(orderId);
+        orderService.AcceptOrder(new AcceptOrder
+        {
+            approve = true,
+            orderId = orderId
+        
+        });
+        msg = "Receipt has been sent to customer";
     }
 
-    public void Decline()
+    public void Decline(int orderId)
     {
-        
+        orderService.AcceptOrder(new AcceptOrder
+        {
+            approve = false,
+            orderId = orderId
+        });
+        msg = "Receipt has been sent to customer";
     }
     
 }
