@@ -1,7 +1,10 @@
 ﻿using System.Net.Http.Json;
+using System.Text;
+using System.Text.Json;
 using Application.LogicInterfaces;
 using HttpClients.ClientInterfaces;
 using Shared.DTOs.Create;
+using Shared.DTOs.Update;
 
 public class OrderHttpClient : IOrderService
 {
@@ -20,6 +23,19 @@ public class OrderHttpClient : IOrderService
             throw new Exception(content);
         }
 
+        return content;
+    }
+
+    public async Task<string> AcceptOrder(AcceptOrder order)
+    {
+        string dtoAsJson = JsonSerializer.Serialize(order);
+        StringContent body = new StringContent(dtoAsJson, Encoding.UTF8, "application/json");
+        HttpResponseMessage res = await client.PatchAsync("/order", body);
+        string content = await res.Content.ReadAsStringAsync();
+        if (!res.IsSuccessStatusCode)
+        {
+            throw new Exception(content);
+        }
         return content;
     }
 }
