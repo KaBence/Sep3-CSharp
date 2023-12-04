@@ -82,16 +82,11 @@
     //deal with validation in here
     public bool isOpen = false;
     public Basket basket = Basket.getInstance();
-    //public int basketContent;
     public string payment;
     public string request;
     public double calculatedPrice = 0.0;
     private string role;
     private string msg;
-    private string customerId;
-    private List<OrderItem> OrderItems;
-    private string PaymentMethod;
-    private string Note;
 
 
     private void OpenBasket()
@@ -127,9 +122,10 @@
             msg = customerMessege;
             if (customerMessege == "Success!")
             {
-                msg = "Order Created Successfully";
                 navMgr.NavigateTo("/");
             }
+            msg = "Order Created Successfully";
+            ClearBasket();
         }
         catch (Exception e)
         {
@@ -149,5 +145,12 @@
         CloseBasket();
     }
 
+    public void ClearBasket()
+    {
+        basket.ClearBasket();
+        payment = "";
+        request= "";
+        CloseBasket();
+    }
 
 }
