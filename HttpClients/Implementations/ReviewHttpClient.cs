@@ -28,9 +28,17 @@ public class ReviewHttpClient:IReviewServices
         return content;
     }
 
-    public Task<string> PostComment(CommentCreateDto dto)
+    public async Task<string> PostComment(CommentCreateDto dto)
     {
-        throw new NotImplementedException();
+        HttpResponseMessage responseMessage = await client.PostAsJsonAsync("/comment", dto);
+        string content = await responseMessage.Content.ReadAsStringAsync();
+
+        if (!responseMessage.IsSuccessStatusCode)
+        {
+            throw new Exception(content);
+        }
+
+        return content;
     }
 
     public async Task<IEnumerable<Review>> GetReviewsByFarmer(string farmer)

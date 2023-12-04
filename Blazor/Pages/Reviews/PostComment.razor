@@ -1,0 +1,119 @@
+﻿@page "/PostComment/{farmerId}/{customerId}"
+
+@inject NavigationManager navMgr;
+@inject IReviewServices reviewServices;
+@inject IAuthService authService
+@using System.Runtime.CompilerServices
+@using System.Security.Claims
+@using Blazor.Services
+@using global::Shared.DTOs.Create
+@using global::Shared.Models
+@using HttpClients.ClientInterfaces
+<AuthorizeView>
+    <NotAuthorized>
+        <div class="card">
+            <h3>You are not logged in as a customer!</h3>
+        </div>
+    </NotAuthorized>
+    <Authorized>
+        @if (role.Equals("Customer"))
+        {
+            <div class="card">
+                <h2>Post comment</h2>
+                <label>Farmer: @farmerId </label>
+                <div class="idk">
+                    <label>Comment:</label>
+                    <textarea id="comment" name="comment" required @bind="text"></textarea>
+                </div >
+
+                @if (!string.IsNullOrEmpty(errorLabel))
+                {
+                    <div class="field">
+                        <label style="color: red">
+                            @errorLabel
+                        </label>
+                    </div>
+                }
+
+                <div class="idk">
+                    <button class="btn" @onclick="@(() => navMgr.NavigateTo("/Reviews"))">Cancel</button>
+                    <button class="btn" @onclick="Submit">Post</button>
+                </div>
+            </div>
+        }
+        else if (role.Equals("Farmer"))
+        {
+            <div class="card">
+                <h2>Post comment</h2>
+                <label>Customer: @customerId </label>
+                <div class="idk">
+                    <label>Comment:</label>
+                    <textarea id="comment" name="comment" required @bind="text"></textarea>
+                </div >
+
+                @if (!string.IsNullOrEmpty(errorLabel))
+                {
+                    <div class="field">
+                        <label style="color: red">
+                            @errorLabel
+                        </label>
+                    </div>
+                }
+
+                <div class="idk">
+                    <button class="btn" @onclick="@(() => navMgr.NavigateTo("/ReviewsFarmer"))">Cancel</button>
+                    <button class="btn" @onclick="Submit">Post</button>
+                </div>
+            </div>
+        }
+    </Authorized>
+</AuthorizeView>
+
+
+@code {
+    private string text;
+    [Parameter]
+    public string farmerId { get; set; }
+    [Parameter]
+    public string customerId { get; set; }
+    private string username = "";
+    private string role ;
+    
+    private string errorLabel;
+
+    protected override async Task OnInitializedAsync()
+    {
+        role = authService.GetAuthAsync().Result.Claims.First(claim => claim.Type.Equals(ClaimTypes.Role)).Value;
+    }
+
+    private async Task Submit()
+    {
+        errorLabel = "";
+        try
+        {
+            username = authService.GetAuthAsync().Result.Identity!.Name;
+            
+
+            CommentCreateDto commentCreateDto = new CommentCreateDto
+            {
+                Text = text,
+                CustomerId = customerId,
+                FarmerId = farmerId,
+                Username = username
+            };
+
+            string customerMessage = await reviewServices.PostComment(commentCreateDto);
+            errorLabel = customerMessage;
+            if (customerMessage == "Success!")
+            {
+                navMgr.NavigateTo("/Reviews");
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+}
