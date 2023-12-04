@@ -1,4 +1,5 @@
-﻿using Shared.DTOs.Create;
+﻿using Shared.DTOs;
+using Shared.DTOs.Create;
 using Shared.DTOs.Search;
 using Shared.Models;
 
@@ -15,4 +16,7 @@ public interface IOrderLogic
     Task DeleteAsync(int id);
 
     Task UpdateAsync(string status);
+
+    Task<IEnumerable<OrderItem>> GetOrderItemFromOrder(int orderId);
+    Task<IEnumerable<OrderItem>> GetOrderItemFromGroup(int orderId);
 }

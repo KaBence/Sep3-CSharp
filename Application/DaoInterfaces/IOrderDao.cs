@@ -1,4 +1,5 @@
-﻿using Shared.DTOs.Create;
+﻿using Shared.DTOs;
+using Shared.DTOs.Create;
 using Shared.Models;
 using Shared.DTOs.Search;
 namespace Application.DaoInterfaces;
@@ -11,4 +12,8 @@ public interface IOrderDao
 
     Task UpdateAsync(string status);
     Task DeleteAsync(int orderId);
+    
+    
+    Task<IEnumerable<OrderItem>> GetOrderItemFromOrder(int orderId);
+    Task<IEnumerable<OrderItem>> GetOrderItemFromGroup(int orderId);
 }

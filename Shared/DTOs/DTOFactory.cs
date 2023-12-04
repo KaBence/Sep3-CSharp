@@ -512,6 +512,22 @@ public class DTOFactory
         };
     }
 
+    public static getAllOrderItemsFromOrderRequest CreateGetAllOrderItemsFromOrderRequest(int orderId)
+    {
+        return new getAllOrderItemsFromOrderRequest
+        {
+            
+        };
+    }
+
+    public static getAllOrderItemsByGroupRequest CreateGetAllOrderItemsByGroupRequest(int orderId)
+    {
+        return new getAllOrderItemsByGroupRequest
+        {
+
+        };
+    }
+
 
     //** Receipts **\\ 
 

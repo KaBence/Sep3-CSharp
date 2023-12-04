@@ -1,6 +1,8 @@
 ﻿using Application.LogicInterfaces;
 using Microsoft.AspNetCore.Mvc;
+using Shared.DTOs;
 using Shared.DTOs.Create;
+using Shared.Models;
 
 namespace WebAPI.Controllers;
 
@@ -22,6 +24,36 @@ public class OrderController : ControllerBase
         try
         {
             string order = await orderLogic.CreateAsync(dto);
+            return Ok(order);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return StatusCode(500, e.Message);
+        }
+    }
+
+    [HttpGet,Route("Single")]
+    public async Task<ActionResult<OrderItem>> GetAllOrderItemsFromOrder(int orderId)
+    {
+        try
+        {
+            IEnumerable<OrderItem> order = await orderLogic.GetOrderItemFromOrder(orderId);
+            return Ok(order);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return StatusCode(500, e.Message);
+        }
+    }
+    
+    [HttpGet,Route("Group")]
+    public async Task<ActionResult<IEnumerable<OrderItem>>> GetAllOrderItemFromGroup(int orderId)
+    {
+        try
+        {
+            IEnumerable<OrderItem> order = await orderLogic.GetOrderItemFromGroup(orderId);
             return Ok(order);
         }
         catch (Exception e)

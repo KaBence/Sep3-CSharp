@@ -1,6 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 using Application.DaoInterfaces;
 using Application.LogicInterfaces;
+using Shared.DTOs;
 using Shared.DTOs.Create;
 using Shared.DTOs.Search;
 using Shared.Models;
@@ -39,5 +40,15 @@ public class OrderLogic:IOrderLogic
     public Task UpdateAsync(string status)
     {
         throw new NotImplementedException();
+    }
+
+    public async Task<IEnumerable<OrderItem>> GetOrderItemFromOrder(int orderId)
+    {
+        return await orderDao.GetOrderItemFromOrder(orderId);
+    }
+
+    public async Task<IEnumerable<OrderItem>> GetOrderItemFromGroup(int orderId)
+    {
+        return await orderDao.GetOrderItemFromGroup(orderId);
     }
 }
