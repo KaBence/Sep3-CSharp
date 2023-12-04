@@ -35,7 +35,7 @@ public class OrderController : ControllerBase
     }
     
     [HttpPatch]
-    public async Task<ActionResult<string>> acceptOrder(AcceptOrder order)
+    public async Task<ActionResult<string>> AcceptOrder(AcceptOrder order)
     {
         try
         {
