@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Shared.DTOs;
 using Shared.DTOs.Create;
+using Shared.DTOs.Update;
 using Shared.Models;
 
 namespace WebAPI.Controllers;
@@ -30,6 +31,21 @@ public class OrderController : ControllerBase
         {
             Console.WriteLine(e);
             return StatusCode(500, e.Message);
+        }
+    }
+    
+    [HttpPatch]
+    public async Task<ActionResult<string>> acceptOrder(AcceptOrder order)
+    {
+        try
+        {
+            string update = await orderLogic.UpdateAsync(order);
+            return Ok(update);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
         }
     }
 
