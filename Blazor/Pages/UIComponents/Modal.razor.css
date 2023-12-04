@@ -22,4 +22,11 @@
     min-width: 300px;
     border-radius: 25px;
     box-shadow: 0 5px 30px 15px #3f3f3f;
+    animation-name: popup;
+    animation-duration: 0.5s;
+}
+
+@keyframes popup {
+    from{margin: 5% auto;opacity: 0}
+    to{margin: 10% auto;opacity: 1}
 }

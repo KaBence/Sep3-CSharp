@@ -8,7 +8,6 @@ public class Basket
     private Basket()
     {
         list = new List<OrderItem>();
-        
     }
 
     public static Basket getInstance()
@@ -36,5 +35,10 @@ public class Basket
     public void deleteFromBasket(OrderItem item)
     {
         list.Remove(item);
+    }
+
+    public void ClearBasket()
+    {
+        list.Clear();
     }
 }

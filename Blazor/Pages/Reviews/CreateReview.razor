@@ -1,13 +1,14 @@
-﻿@page "/CreateReview/{farmerId}"
+﻿@page "/CreateReview/{farmerId}/{orderId:int}"
 
-@inject NavigationManager navMgr;
-@inject IReviewServices reviewServices;
-@inject IAuthService authService
-@using System.Runtime.CompilerServices
 @using Blazor.Services
 @using global::Shared.DTOs.Create
 @using global::Shared.Models
 @using HttpClients.ClientInterfaces
+
+@inject NavigationManager navMgr;
+@inject IReviewServices reviewServices;
+@inject IAuthService authService
+
 <AuthorizeView>
     <NotAuthorized>
         <div class="card">
@@ -48,10 +49,12 @@
 @code {
     [Parameter]
     public string farmerId { get; set; }
+    [Parameter]
+    public int orderId { get; set; }
     private string text;
     private double star;
     private string customerId = "";
-    private String errorLabel;
+    private string errorLabel;
     
     private async Task Submit()
     {
@@ -65,6 +68,7 @@
                 Text = text,
                 CustomerId = customerId,
                 FarmerId = farmerId,
+                OrderId = orderId,
                 Star = star,
                 Comments = new List<Comment>()
             };
