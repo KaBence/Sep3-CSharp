@@ -2,6 +2,7 @@
 @using global::Shared.Models
 @using HttpClients.ClientInterfaces
 @inject IReviewServices reviewServices;
+@inject NavigationManager navMgr;
 
 <div class="container-fluid">
     <AuthorizeView Roles="Farmer">
@@ -48,6 +49,9 @@
                                     }
                                 </table>
                             </div>
+                        </div>
+                        <div>
+                            <button class="btn" @onclick="@(() => navMgr.NavigateTo($"/PostComment/{@item.FarmerID}/{@item.CustomerID}/{@item.OrderId}"))">Comment</button>
                         </div>
                     }
                 </div>

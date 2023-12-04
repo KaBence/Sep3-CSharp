@@ -59,7 +59,7 @@
                                 </table>
                             </div>
                             <div>
-                                <button class="btn" @onclick="@(() => navMgr.NavigateTo("/PostComment"))">Comment</button>
+                                <button class="btn" @onclick="@(() => navMgr.NavigateTo($"/PostComment/{@item.FarmerID}/{@item.CustomerID}/{@item.OrderId}"))">Comment</button>
                             </div>
                         </div>
                     }

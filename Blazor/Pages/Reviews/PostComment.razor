@@ -1,4 +1,4 @@
-﻿@page "/PostComment/{farmerId}/{customerId}"
+﻿@page "/PostComment/{farmerId}/{customerId}/{orderId:int}"
 
 @inject NavigationManager navMgr;
 @inject IReviewServices reviewServices;
@@ -20,6 +20,7 @@
         {
             <div class="card">
                 <h2>Post comment</h2>
+                <label>Order: @orderId</label>
                 <label>Farmer: @farmerId </label>
                 <div class="idk">
                     <label>Comment:</label>
@@ -45,6 +46,7 @@
         {
             <div class="card">
                 <h2>Post comment</h2>
+                <label>Order: @orderId</label>
                 <label>Customer: @customerId </label>
                 <div class="idk">
                     <label>Comment:</label>
@@ -76,6 +78,8 @@
     public string farmerId { get; set; }
     [Parameter]
     public string customerId { get; set; }
+    [Parameter]
+    public int orderId { get; set; }
     private string username = "";
     private string role ;
     
@@ -99,14 +103,22 @@
                 Text = text,
                 CustomerId = customerId,
                 FarmerId = farmerId,
-                Username = username
+                Username = username,
+                OrderId = orderId
             };
 
             string customerMessage = await reviewServices.PostComment(commentCreateDto);
             errorLabel = customerMessage;
             if (customerMessage == "Success!")
             {
-                navMgr.NavigateTo("/Reviews");
+                if (role.Equals("Customer"))
+                {
+                    navMgr.NavigateTo("/Reviews"); 
+                }
+                else if (role.Equals("Farmer"))
+                {
+                    navMgr.NavigateTo($"/ReviewsFarmer/{farmerId}");
+                }
             }
         }
         catch (Exception e)
