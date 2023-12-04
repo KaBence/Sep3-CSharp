@@ -21,8 +21,6 @@ builder.Services.AddScoped<IFarmerDao, FarmerDao>();
 builder.Services.AddScoped<IFarmerLogic, FarmerLogic>();
 builder.Services.AddScoped<IOrderDao, OrderDao>();
 builder.Services.AddScoped<IOrderLogic, OrderLogic>();
-builder.Services.AddScoped<IOrderItemDao, OrderItemDao>();
-builder.Services.AddScoped<IOrderItemLogic, OrderItemLogic>();
 builder.Services.AddScoped<IProductDao, ProductDao>();
 builder.Services.AddScoped<IProductLogic, ProductLogic>();
 builder.Services.AddScoped<IReceiptDao, ReceiptDao>();

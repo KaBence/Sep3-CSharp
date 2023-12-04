@@ -1,8 +1,8 @@
-﻿using System.Runtime.InteropServices;
-using Application.DaoInterfaces;
+﻿using Application.DaoInterfaces;
 using Application.LogicInterfaces;
+using Shared.DTOs;
 using Shared.DTOs.Create;
-using Shared.DTOs.Search;
+using Shared.DTOs.Update;
 using Shared.Models;
 
 namespace Application.Logic;
@@ -21,23 +21,18 @@ public class OrderLogic:IOrderLogic
         return await orderDao.CreateAsync(dto);
     }
 
-    public Task<IEnumerable<Order>> GetAsync(SearchOrderDto searchParameters)
+    public async Task<string> UpdateAsync(AcceptOrder order)
     {
-        throw new NotImplementedException();
+        return await orderDao.UpdateAsync(order);
     }
 
-    public Task<Order?> GetByIdAsync(int id, int customerId)
+    public async Task<IEnumerable<OrderItem>> GetOrderItemFromOrder(int orderId)
     {
-        throw new NotImplementedException();
+        return await orderDao.GetOrderItemFromOrder(orderId);
     }
 
-    public Task DeleteAsync(int id)
+    public async Task<IEnumerable<OrderItem>> GetOrderItemFromGroup(int orderId)
     {
-        throw new NotImplementedException();
-    }
-
-    public Task UpdateAsync(string status)
-    {
-        throw new NotImplementedException();
+        return await orderDao.GetOrderItemFromGroup(orderId);
     }
 }

@@ -49,10 +49,6 @@ public class ReceiptController: ControllerBase
     }
     
     
-    
-    
-    
-    
     //getAccepted  by farmer
     [HttpGet("AcceptedByFarmer/{farmerId:required}")]
     public async Task<ActionResult<IEnumerable<SendReceiptDto>>> getAcceptedReciepts([FromRoute] string farmerId)

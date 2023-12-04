@@ -4,6 +4,7 @@ using Sep;
 using Shared.DTOs.Basics;
 using Shared.DTOs.Create;
 using Shared.DTOs.Search;
+using Shared.DTOs.Update;
 
 namespace Shared.DTOs;
 
@@ -217,7 +218,10 @@ public class DTOFactory
         {
             OrderID = orderItem.OrderId,
             Amount = orderItem.Amount,
-            ProductID = orderItem.ProductId
+            ProductID = orderItem.ProductId,
+            FarmerName = orderItem.FarmName,
+            Price = orderItem.Price,
+            Type = orderItem.Type
         };
     }
     
@@ -230,6 +234,7 @@ public class DTOFactory
             Text = comment.Text,
             FarmerId = comment.FarmerId,
             CustomerId = comment.CustomerId,
+            OrderId = comment.OrderId,
             Username = comment.Username
         };
     }
@@ -241,6 +246,7 @@ public class DTOFactory
             CustomerId = dto.CustomerId,
             FarmerId = dto.FarmerId,
             Text = dto.Text,
+            OrderId = dto.OrderId,
             Username = dto.Username
         };
     }
@@ -509,6 +515,31 @@ public class DTOFactory
             Note = dto.Note,
             PaymentMethod = dto.PaymentMethod
             
+        };
+    }
+
+    public static farmersApprovalRequest acceptOrder(AcceptOrder order)
+    {
+        return new farmersApprovalRequest
+        {
+            Approve = order.approve,
+            OrderId = order.orderId
+        };
+    }
+
+    public static getAllOrderItemsFromOrderRequest CreateGetAllOrderItemsFromOrderRequest(int orderId)
+    {
+        return new getAllOrderItemsFromOrderRequest
+        {
+            OrderId = orderId
+        };
+    }
+
+    public static getAllOrderItemsByGroupRequest CreateGetAllOrderItemsByGroupRequest(int orderId)
+    {
+        return new getAllOrderItemsByGroupRequest
+        {
+            OrderId = orderId
         };
     }
 

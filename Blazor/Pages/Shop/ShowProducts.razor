@@ -19,6 +19,11 @@
             <input class="typeLabel" type="text" @bind="productPrice"/>
             <br/>
             <button class="btn" @onclick="LoadProducts">Filter</button>
+            <br/>
+            @if (!string.IsNullOrEmpty(msg))
+            {
+                <label class="msg" style="color: green;font-size: 25px">@msg</label>
+            }
         </div>
     </NotAuthorized>
 </AuthorizeView>
@@ -79,12 +84,7 @@ else
 
                                 <button class="btn" @onclick="() => { AddToBasket(item.ProductID, myAmount, item.Price, farmname); }">Add To Cart</button>
                             }
-
-                            @if (!string.IsNullOrEmpty(msg))
-
-                            {
-                            }
-                            <label class="msg" style="color: green">@msg</label>
+                            
                         </NotAuthorized>
                     </AuthorizeView>
                 }
@@ -160,7 +160,7 @@ else
     {
         basket.AddToBasket(new OrderItem(id, type, amount, price, farmName));
         myAmount = 0;
-        msg = "Check your basket!";
+        msg = "Product Added to your basket!";
     }
     
 
