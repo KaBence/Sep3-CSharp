@@ -4,6 +4,7 @@ using Sep;
 using Shared.DTOs.Basics;
 using Shared.DTOs.Create;
 using Shared.DTOs.Search;
+using Shared.DTOs.Update;
 
 namespace Shared.DTOs;
 
@@ -509,6 +510,15 @@ public class DTOFactory
             Note = dto.Note,
             PaymentMethod = dto.PaymentMethod
             
+        };
+    }
+
+    public static farmersApprovalRequest acceptOrder(AcceptOrder order)
+    {
+        return new farmersApprovalRequest
+        {
+            Approve = order.approve,
+            OrderId = order.orderId
         };
     }
 

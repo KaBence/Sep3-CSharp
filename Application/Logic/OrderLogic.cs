@@ -3,6 +3,7 @@ using Application.DaoInterfaces;
 using Application.LogicInterfaces;
 using Shared.DTOs.Create;
 using Shared.DTOs.Search;
+using Shared.DTOs.Update;
 using Shared.Models;
 
 namespace Application.Logic;
@@ -21,23 +22,8 @@ public class OrderLogic:IOrderLogic
         return await orderDao.CreateAsync(dto);
     }
 
-    public Task<IEnumerable<Order>> GetAsync(SearchOrderDto searchParameters)
+    public async Task<string> UpdateAsync(AcceptOrder order)
     {
-        throw new NotImplementedException();
-    }
-
-    public Task<Order?> GetByIdAsync(int id, int customerId)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task DeleteAsync(int id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task UpdateAsync(string status)
-    {
-        throw new NotImplementedException();
+        return await orderDao.UpdateAsync(order);
     }
 }
