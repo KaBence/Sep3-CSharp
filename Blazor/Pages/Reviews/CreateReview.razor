@@ -1,7 +1,8 @@
-﻿@inject NavigationManager navMgr;
+﻿@page "/CreateReview/{farmerId}"
+
+@inject NavigationManager navMgr;
 @inject IReviewServices reviewServices;
 @inject IAuthService authService
-@page "/CreateReview/{farmerId}"
 @using System.Runtime.CompilerServices
 @using Blazor.Services
 @using global::Shared.DTOs.Create
