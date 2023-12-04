@@ -2,12 +2,9 @@
 using Application.LogicInterfaces;
 using Shared.DTOs;
 using Shared.DTOs.Basics;
-using Shared.DTOs.Create;
-using Shared.DTOs.Search;
 using Shared.Models;
 
 namespace Application.Logic;
-
 
 public class CustomerLogic:ICustomerLogic
 {
@@ -17,6 +14,7 @@ public class CustomerLogic:ICustomerLogic
     {
         CustomerDao = customerDao;
     }
+    
     public async Task<string> CreateAsync(RegisterCustomerDto customerDto)
     {
         try
@@ -56,6 +54,5 @@ public class CustomerLogic:ICustomerLogic
             Console.WriteLine(e);
             throw;
         }
-      
     }
 }
