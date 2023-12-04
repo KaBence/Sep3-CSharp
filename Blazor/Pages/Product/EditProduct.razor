@@ -118,7 +118,8 @@
         msg = "";
         try
         {
-           msg = await productService.DeleteAsync(id);    
+           msg = await productService.DeleteAsync(id);  
+            navMgr.NavigateTo("/MyProfile");
         }
         catch (Exception e)
         {           
