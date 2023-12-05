@@ -22,6 +22,10 @@ public class OrderDao : IOrderDao
         try
         {
             var response = client.createNewOrder(request);
+            if (response.Resp.Contains("Error:"))
+            {
+                throw new Exception(response.Resp);
+            }
             return response.Resp;
         }
         catch (RpcException e)
