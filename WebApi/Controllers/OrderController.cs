@@ -64,7 +64,7 @@ public class OrderController : ControllerBase
         }
     }
     
-    [HttpGet,Route("Group")]
+    [HttpGet,Route("Group/{orderId}")]
     public async Task<ActionResult<IEnumerable<OrderItem>>> GetAllOrderItemFromGroup(int orderId)
     {
         try

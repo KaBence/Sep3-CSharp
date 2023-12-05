@@ -1,0 +1,61 @@
+﻿@using global::Shared.Models
+@using HttpClients.ClientInterfaces
+@inject IOrderService orderService
+@namespace UIComponents
+<h1> Here are the order items</h1>
+@if (Items == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <div class="back">
+        <table class="table">
+                <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Amount</th>
+                    <th>Price per/item</th>
+                    <th>FarmerName</th>
+                </tr>
+                </thead>
+                <tbody>
+        
+        
+                @foreach (var item2 in Items)
+                {
+                    <tr>
+                        <td>@item2.Type</td>
+                        <td>@item2.Amount</td>
+                        <td>@item2.Price</td>
+                        <td>@item2.FarmerName</td>
+                    </tr>
+                }
+        
+                </tbody>
+        
+            </table>
+    </div>
+}
+
+
+<button class="btn" @onclick="() => onChange.InvokeAsync()">Close</button>
+<label class="msg" style="color: red">@msg</label>
+
+
+@code {
+    private IEnumerable<OrderItem> Items=new List<OrderItem>();
+    private string msg = "";
+    
+    [Parameter]
+    public EventCallback onChange { get; set; }
+
+    [Parameter] 
+    public int OrderId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Items = await orderService.GetAllOrderItemsFromGroup(OrderId);
+    }
+
+}

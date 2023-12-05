@@ -69,4 +69,20 @@ public class ReceiptHttpClient: IReceiptService
         return receipts;
 
     }
+
+    public async Task<IEnumerable<CustomerSendReceiptDto>> getCustomerReceipts(string customerId)
+    {
+        HttpResponseMessage responseMessage = await client.GetAsync($"Receipt/ByCustomer/{customerId}");
+        string content = await responseMessage.Content.ReadAsStringAsync();
+        if (!responseMessage.IsSuccessStatusCode)
+        {
+            throw new Exception(content);
+        }
+        ICollection<CustomerSendReceiptDto> receipts = JsonSerializer.Deserialize<ICollection<CustomerSendReceiptDto>>(content,
+            new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            })!;
+        return receipts;
+    }
 }

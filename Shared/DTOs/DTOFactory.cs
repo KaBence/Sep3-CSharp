@@ -181,7 +181,8 @@ public class DTOFactory
             PaymentMethod = x.PaymentMethod,
             price = x.Price,
             Processed = x.Processed,
-            Text = x.Text
+            Text = x.Text,
+            status = x.Status
         };
     }
 

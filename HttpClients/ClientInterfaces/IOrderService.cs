@@ -10,4 +10,5 @@ public interface IOrderService
 
     Task<string> AcceptOrder(AcceptOrder order);
     Task<IEnumerable<OrderItem>> GetAllOrderItemsFromOrder(int orderId);
+    Task<IEnumerable<OrderItem>> GetAllOrderItemsFromGroup(int orderId);
 }

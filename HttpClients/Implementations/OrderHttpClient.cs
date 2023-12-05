@@ -56,4 +56,21 @@ public class OrderHttpClient : IOrderService
             })!;
         return items;
     }
+    
+    public async Task<IEnumerable<OrderItem>> GetAllOrderItemsFromGroup(int orderId)
+    {
+        HttpResponseMessage responseMessage = await client.GetAsync($"Order/Group/{orderId}");
+        string content = await responseMessage.Content.ReadAsStringAsync();
+        if (!responseMessage.IsSuccessStatusCode)
+        {
+            throw new Exception(content);
+        }
+
+        ICollection<OrderItem> items = JsonSerializer.Deserialize<ICollection<OrderItem>>(content,
+            new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            })!;
+        return items;
+    }
 }

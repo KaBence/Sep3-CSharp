@@ -21,13 +21,15 @@ public class ReceiptDao: IReceiptDao
         var client = new SepService.SepServiceClient(chanel);
         var request = DTOFactory.CreateGetReceiptsByCustomerRequest(customerId);
         try
-        {
-            var response = client.getCustomersReceipt(request);
+        { 
+            getReceiptsByCustomerResponse response = client.getCustomersReceipt(request);
             List<Receipt> receipts = new List<Receipt>();
             List<string> farmerNames = new List<string>();
             List<CustomerSendReceiptDto> dto = new List<CustomerSendReceiptDto>();
             foreach (var item in response.Receipts)
             {
+                receipts = new List<Receipt>();
+                farmerNames = new List<string>();
                 foreach (var item2 in item.Receipts)
                 {
                     receipts.Add(DTOFactory.toReceipt(item2));

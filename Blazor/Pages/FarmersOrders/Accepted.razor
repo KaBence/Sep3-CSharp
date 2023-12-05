@@ -76,11 +76,11 @@
 
 </tbody>
 @code {
-    public bool isOpen = false;
+    private bool isOpen = false;
     private IEnumerable<SendReceiptDto> Receipts = new List<SendReceiptDto>();
-    public IEnumerable<OrderItem> Items=new List<OrderItem>();
-    public string role;
-    public string msg = "";
+    private IEnumerable<OrderItem> Items=new List<OrderItem>();
+    private string role;
+    private string msg = "";
  
     
 
@@ -92,7 +92,8 @@
     }
 
     private async void OpenItem(int orderId)
-    { Items =await orderService.GetAllOrderItemsFromOrder(orderId);
+    { 
+        Items =await orderService.GetAllOrderItemsFromOrder(orderId);
         isOpen = true;
         StateHasChanged();
        

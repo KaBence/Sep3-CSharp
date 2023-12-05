@@ -18,7 +18,7 @@ public class ReceiptController: ControllerBase
     
 
     [HttpGet("ByCustomer/{customerId:required}")]
-    public async Task<ActionResult<IEnumerable<CustomerSendReceiptDto>>> getAllReceiptsByCustomer([FromRoute] string customerId)
+    public async Task<ActionResult<IEnumerable<CustomerSendReceiptDto>>> GetAllReceiptsByCustomer([FromRoute] string customerId)
     {
         try
         {

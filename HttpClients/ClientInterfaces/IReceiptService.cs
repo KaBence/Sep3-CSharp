@@ -9,4 +9,6 @@ public interface IReceiptService
     Task<IEnumerable<SendReceiptDto>> GetAcceptedReceiptsByFarmer(string farmName);
     Task<IEnumerable<SendReceiptDto>> GetRejectedReceiptsByFarmer(string farmName);
 
+    Task<IEnumerable<CustomerSendReceiptDto>> getCustomerReceipts(string customerId);
+
 }

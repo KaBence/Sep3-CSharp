@@ -1,27 +1,122 @@
-﻿@page "/MyReceiptsPlaceReview"
-<h3>MyReceiptsPlaceReview</h3>
+﻿
+@page "/MyReceipts"
+@using HttpClients.ClientInterfaces
+@using Blazor.Services
+@using global::Shared.DTOs.Basics
+@using global::Shared.Models
+@inject IReceiptService receiptService;
+@inject IAuthService authService;
+@using UIComponents
+
+
+
+<h3>MyReceipts</h3>
 
 <h1 class="h1">Your receipts</h1>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Farm</th>
-                        <th>Total</th>   
-                        <th>PaymentDate</th>
-                        <th>Status?</th>
-                        <th>View details</th>
-                    </tr>
-                </thead>
-                <tbody>
-                
- 
+@if (dtos==null)
+{
+  <p>Loading...</p>  
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Farmers</th>
+            <th>Total Price</th>   
+            <th>Date Of Creation</th>
+            <th>Status?</th>
+            <th>View details</th>
+            <th>Leave Review</th>
+        </tr>
+        </thead>
+        <tbody>
+        
+        @foreach (CustomerSendReceiptDto item in dtos)
+        {
+            
+            <tr>
+                @{
+                    List<string> farmerIds=new List<string>();
+                    <td>
+                        @foreach (string item2 in item.farmNames)
+                        {
+                            @item2
+                            <br/>
+                        }
+                    </td>
+                    <td>@item.combinedPrice</td>
+                    <td>@item.dateOfCreation</td>
+                    <td>
+                        
+                        @foreach (Receipt item2 in item.Receipts)
+                        {
+                            @item2.status
 
-                </tbody>
-            </table>
+                            tempOrderId = item2.OrderID;
+                            farmerIds.Add(item2.FarmerID);
+                            <br/>
+                        }
 
+                    </td>
+                    <td>
+                        <button class="btn" @onclick="() => showOrderItems(tempOrderId)">View Order Items</button>
+                    </td>
+                    <td>
+                        <button class="btn" @onclick="() => showCreateReview(tempOrderId,farmerIds)">Leave a review</button>
+                    </td>
+                }
+            </tr>
+        }
+        
+        </tbody>
+    </table>
+
+}
+
+<Modal ShowModal="showModal">
+    @if (IsCreateReview)
+    {
+        <CreateReview farmerId="@SelectedfarmerIds" orderId="@tempOrderId" onChange="@Proceed"/>
+    }
+    else
+    {
+        <ShowOrderItems onChange="@Proceed" OrderId="tempOrderId"/>
+    }
+</Modal>
+            
 @code {
-    public string FarmerId { get; set; }
-    public string FarmName { get; set; }
-    public double Total { get; set; }
-    
+    private bool IsCreateReview = true;
+    private string customerId { get; set; }
+    private IEnumerable<CustomerSendReceiptDto> dtos;
+    private List<string> SelectedfarmerIds=new List<string>();
+    private bool showModal = false;
+    private int tempOrderId;
+
+    protected override async Task OnInitializedAsync()
+    {
+        customerId = authService.GetAuthAsync().Result.Identity!.Name!;
+        dtos = await receiptService.getCustomerReceipts(customerId);
+    }
+
+    private void Proceed()
+    {
+        showModal = false;
+    }
+
+    private void showOrderItems(int orderId)
+    {
+        showModal = true;
+        IsCreateReview = false;
+        tempOrderId = orderId;
+    }
+
+    private void showCreateReview(int orderId,List<string> farmerIds )
+    {
+        showModal = true;
+        IsCreateReview = true;
+        tempOrderId = orderId;
+        SelectedfarmerIds = farmerIds;
+    }
+
 }
