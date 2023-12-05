@@ -2,6 +2,7 @@
 @using global::Shared.Models
 @using HttpClients.ClientInterfaces
 @using Blazor.Services
+@using UIComponents
 @inject IReviewServices reviewServices;
 @inject IAuthService authServices;
 @inject NavigationManager navMgr;
@@ -59,7 +60,7 @@
                                 </table>
                             </div>
                             <div>
-                                <button class="btn" @onclick="@(() => navMgr.NavigateTo($"/PostComment/{@item.FarmerID}/{@item.CustomerID}/{@item.OrderId}"))">Comment</button>
+                                <button class="btn" @onclick="@(() => PostComment(item.FarmerID,item.CustomerID,item.OrderId))">Comment</button>
                             </div>
                         </div>
                     }
@@ -70,11 +71,20 @@
     </AuthorizeView>
 </div >
 
+<Modal ShowModal="showModal">
+    <PostComment customerId="@CustomerId" farmerId="@FarmerId" orderId="@OrderId" onChange="@proceed"></PostComment>
+</Modal>
+
 @code
 {
 
     private IEnumerable<Review> reviews = new List<Review>();
     private string farmer = "";
+
+    private bool showModal = false;
+    private string FarmerId = "";
+    private string CustomerId = "";
+    private int OrderId = 0;
 
     private async Task GetReviews()
     {
@@ -87,5 +97,19 @@
             reviews = null;
             farmer = "";
         }
+    }
+
+    private void PostComment(string farmerId, string customerId, int orderId)
+    {
+        showModal = true;
+        FarmerId = farmerId;
+        CustomerId = customerId;
+        OrderId = orderId;
+    }
+
+    private async void proceed()
+    {
+        showModal = false;
+        await GetReviews();
     }
 }

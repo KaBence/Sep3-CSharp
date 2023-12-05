@@ -80,6 +80,9 @@
     public string customerId { get; set; }
     [Parameter]
     public int orderId { get; set; }
+    [Parameter]
+    public EventCallback onChange { get; set; }
+    
     private string username = "";
     private string role ;
     
@@ -111,7 +114,7 @@
             errorLabel = customerMessage;
             if (customerMessage == "Success!")
             {
-                if (role.Equals("Customer"))
+                /*if (role.Equals("Customer"))
                 {
                     navMgr.NavigateTo("/Reviews"); 
                 }
@@ -119,6 +122,8 @@
                 {
                     navMgr.NavigateTo($"/ReviewsFarmer/{farmerId}");
                 }
+                */
+                await onChange.InvokeAsync();
             }
         }
         catch (Exception e)

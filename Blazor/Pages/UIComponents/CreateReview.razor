@@ -67,7 +67,7 @@
     private double star;
     private string customerId = "";
     private string errorLabel;
-    private string selectedFarmer;
+    private string selectedFarmer="";
     private string selectedFarmName;
 
     protected async override Task OnInitializedAsync()
@@ -86,7 +86,7 @@
             {
                 Text = text,
                 CustomerId = customerId,
-                FarmerId = selectedFarmer.Split("-")[0],
+                FarmerId = selectedFarmer,
                 OrderId = orderId,
                 Star = star,
                 Comments = new List<Comment>()
