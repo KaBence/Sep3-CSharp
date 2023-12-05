@@ -1,6 +1,5 @@
 ﻿using Application.LogicInterfaces;
 using Microsoft.AspNetCore.Mvc;
-using Shared.DTOs;
 using Shared.DTOs.Create;
 using Shared.DTOs.Update;
 using Shared.Models;

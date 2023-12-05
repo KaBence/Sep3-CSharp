@@ -1,11 +1,11 @@
-﻿@using Denied
-
+﻿
 <CascadingAuthenticationState>
 <Router AppAssembly="@typeof(App).Assembly">
     <Found Context="routeData">
         <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
             <NotAuthorized>
-                <Denied/>
+                <img width="600px" src="Images/YouShallNotPass.png"/>
+                <p>Access Denied</p>
             </NotAuthorized>
         </AuthorizeRouteView>
         <FocusOnNavigate RouteData="@routeData" Selector="h1"/>

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using Application.LogicInterfaces;
+﻿using Application.LogicInterfaces;
 using Microsoft.AspNetCore.Mvc;
 using Shared.DTOs.Create;
 using Shared.DTOs.Search;

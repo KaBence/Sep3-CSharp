@@ -50,12 +50,12 @@ public class CustomerController: ControllerBase
         
     }
 
-   [HttpGet("{phoneNumer:required}")]
-    public async Task<ActionResult<Customer>> GetAsync([FromRoute]string phoneNumer)
+   [HttpGet("{phoneNumber:required}")]
+    public async Task<ActionResult<Customer>> GetAsync([FromRoute]string phoneNumber)
     {
         try
         {
-            CustomerBasicDto result = await customerLogic.GetByIdAsync(phoneNumer);
+            CustomerBasicDto result = await customerLogic.GetByIdAsync(phoneNumber);
             return Ok(result);
         }
         catch (Exception e)
