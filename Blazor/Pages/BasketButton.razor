@@ -16,7 +16,7 @@
 
 <img class="icon" src="icons/basket.png" @onclick="OpenBasket"/>
 <Modal ShowModal="isOpen">
-    <h1 class="h1">Your selected items</h1>
+    <h1 class="h1">Your selected Products</h1>
     <table class="table">
         <thead>
         <tr>
@@ -40,7 +40,7 @@
 
                     <td>@item.FarmerName</td>
                     <td>
-                        <img src="icons/rubbish.png" class="funnel" @onclick="@(() => basket.deleteFromBasket(@item))"/>
+                        <img src="icons/rubbish.png" class="bin" @onclick="@(() => basket.deleteFromBasket(@item))"/>
                     </td>
                 </tr>
                 calculatedPrice += item.Price * item.Amount;
@@ -75,6 +75,8 @@
         <button class="continue-shopping-btn" @onclick="@ContinueShopping">Continue shopping</button>
     </div>
     <label class="msg" style="color: red">@msg</label>
+    
+    
 </Modal>
 
 
@@ -107,7 +109,13 @@
 
     public async void CreateOrder()
     {
-        role = authService.GetAuthAsync().Result.Identity.Name;
+        role = authService.GetAuthAsync().Result.Identity!.Name!;
+
+        if (string.IsNullOrEmpty(payment))
+        {
+            msg = "Please write a payment method";
+            return;
+        }
 
         try
         {
@@ -129,8 +137,8 @@
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
-            msg = $"Error: {e.Message}";
+            msg = e.Message;
+            Console.WriteLine(e.Message);
         }
     }
 

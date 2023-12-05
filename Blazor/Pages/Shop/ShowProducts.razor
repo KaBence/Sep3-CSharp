@@ -74,17 +74,7 @@ else
                         <NotAuthorized >
                             <label>Your desired amount:</label>
                             <input class="mb-3" type="text" @bind="myAmount"/>
-                            @if (myAmount <= @item.Amount)
-                            {
-                                <button class="btn" @onclick="() => { AddToBasket(item.ProductID, myAmount, item.Price, farmname); }">Add To Cart</button>
-                            }
-                            else
-                            {
-                                msg = "You cant take more then there is";
-
-                                <button class="btn" @onclick="() => { AddToBasket(item.ProductID, myAmount, item.Price, farmname); }">Add To Cart</button>
-                            }
-                            
+                            <button class="btn" @onclick="() => { AddToBasket(item.ProductID,item.Amount, myAmount, item.Price, farmname); }">Add To Cart</button>
                         </NotAuthorized>
                     </AuthorizeView>
                 }
@@ -151,11 +141,20 @@ else
     }
 
 
-    private async Task AddToBasket(int id, double amount, double price, string farmName)
+    private void AddToBasket(int id,double originalAmount, double amount, double price, string farmName)
     {
-        basket.AddToBasket(new OrderItem(id, type, amount, price, farmName));
-        myAmount = 0;
-        msg = "Product Added to your basket!";
+        if (amount<=originalAmount&& amount>0)
+        {
+            basket.AddToBasket(new OrderItem(id, type, amount, price, farmName));
+            myAmount = 0;
+            msg = "Product Added to your basket!";
+        }
+        else
+        {
+            msg = "You cant take more than there is";
+            myAmount = 0;
+        }
+        
     }
 
 

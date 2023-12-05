@@ -33,6 +33,10 @@
     margin-bottom: 8px;
 }
 
+.bin{
+    width: 40px;
+}
+
 
 .button-container {
     display: flex;
@@ -55,6 +59,7 @@
 .msg{
     margin-top: auto;
     text-align: center;
+    width: 100%;
 }
 
 .create-order-btn:hover, .close-btn:hover, .continue-shopping-btn:hover {
