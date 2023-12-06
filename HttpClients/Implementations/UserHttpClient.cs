@@ -62,7 +62,6 @@ public class UserHttpClient: IUserService
 
     public async Task<string> EditCustomer(EditCustomerDto dto)
     {
-        //Console.WriteLine(dto.FirstName);
         string dtoAsJson = JsonSerializer.Serialize(dto);
         StringContent body = new StringContent(dtoAsJson, Encoding.UTF8, "application/json");
 

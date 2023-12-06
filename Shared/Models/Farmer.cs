@@ -9,14 +9,4 @@ public class Farmer
     public bool Pesticides { get; set; }
     public string FarmName { get; set; }
     public double Rating { get; set; }
-
-    public string toString()
-    {
-        if (Pesticides)
-        {
-            return $"{FarmName}: {Rating}, using Pesticides";
-        }
-
-        return $"{FarmName}: {Rating}, not using Pesticides";
-    }
 }

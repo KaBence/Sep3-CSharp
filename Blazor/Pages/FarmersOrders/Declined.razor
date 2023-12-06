@@ -35,35 +35,7 @@
                 <td>
                     <button class="close-btn" @onclick="() => OpenItem(item.Receipt.OrderID)">See the order items</button>
                     <Modal ShowModal="isOpen">
-                        <h1> Here are the order items</h1>
-                        <table>
-                            <thead>
-                            <tr>
-                                <th>Type</th>
-                                <th>Amount</th>
-                                <th>Price per/item</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            
-                            
-                            @foreach (var item2 in Items){
-                                <tr>      
-                                    <td>@item2.Type</td>
-                                    <td>@item2.Amount</td>
-                                    <td>@item2.Price</td>
-                                    </tr>
-                            }
-                            
-                            </tbody>
-                          
-                        </table>
-                        
-                        
-                        
-                       <button class="close-btn" @onclick="@CloseView">Close</button>
-                        <label class="msg" style="color: red">@msg</label>
-                                  
+                        <ShowOrderItems onChange="@CloseView" OrderId="tempOrderId"/>
                     </Modal>
                    
                 </td>
@@ -81,6 +53,7 @@
     public IEnumerable<OrderItem> Items=new List<OrderItem>();
     public string role;
     public string msg = "";
+    private int tempOrderId;
  
     
 
@@ -92,7 +65,9 @@
     }
 
     private async void OpenItem(int orderId)
-    { Items =await orderService.GetAllOrderItemsFromOrder(orderId);
+    { 
+        //Items =await orderService.GetAllOrderItemsFromOrder(orderId);
+        tempOrderId = orderId;
         isOpen = true;
         StateHasChanged();
        

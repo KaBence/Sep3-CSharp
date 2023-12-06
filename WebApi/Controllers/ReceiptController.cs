@@ -13,7 +13,6 @@ public class ReceiptController: ControllerBase
     {
         this.receiptLogic = receiptLogic;
     }
-    //getAllByCustomer
     
 
     [HttpGet("ByCustomer/{customerId:required}")]
@@ -30,7 +29,7 @@ public class ReceiptController: ControllerBase
             return StatusCode(500, e.Message);
         }
     }
-    //getPending by farmer
+    
     [HttpGet("PendingByFarmer/{farmerId:required}")]
     public async Task<ActionResult<IEnumerable<SendReceiptDto>>> getPendingRecieptsForFarmer(
         [FromRoute] string farmerId)
@@ -47,8 +46,6 @@ public class ReceiptController: ControllerBase
         }
     }
     
-    
-    //getAccepted  by farmer
     [HttpGet("AcceptedByFarmer/{farmerId:required}")]
     public async Task<ActionResult<IEnumerable<SendReceiptDto>>> getAcceptedReciepts([FromRoute] string farmerId)
     {
@@ -64,7 +61,6 @@ public class ReceiptController: ControllerBase
         }
     }
     
-    //getRejecting  by farmer
     [HttpGet("RejectedByFarmer/{farmerId:required}")]
     public async Task<ActionResult<IEnumerable<SendReceiptDto>>> getRejectedReciepts([FromRoute] string farmerId)
     {

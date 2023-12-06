@@ -11,30 +11,30 @@ else
 {
     <div class="back">
         <table class="table">
-                <thead>
+            <thead>
+            <tr>
+                <th>Type</th>
+                <th>Amount</th>
+                <th>Price per/item</th>
+                <th>FarmerName</th>
+            </tr>
+            </thead>
+            <tbody>
+
+
+            @foreach (var item2 in Items)
+            {
                 <tr>
-                    <th>Type</th>
-                    <th>Amount</th>
-                    <th>Price per/item</th>
-                    <th>FarmerName</th>
+                    <td>@item2.Type</td>
+                    <td>@item2.Amount</td>
+                    <td>@item2.Price</td>
+                    <td>@item2.FarmerName</td>
                 </tr>
-                </thead>
-                <tbody>
-        
-        
-                @foreach (var item2 in Items)
-                {
-                    <tr>
-                        <td>@item2.Type</td>
-                        <td>@item2.Amount</td>
-                        <td>@item2.Price</td>
-                        <td>@item2.FarmerName</td>
-                    </tr>
-                }
-        
-                </tbody>
-        
-            </table>
+            }
+
+            </tbody>
+
+        </table>
     </div>
 }
 
@@ -44,13 +44,13 @@ else
 
 
 @code {
-    private IEnumerable<OrderItem> Items=new List<OrderItem>();
+    private IEnumerable<OrderItem> Items = new List<OrderItem>();
     private string msg = "";
-    
+
     [Parameter]
     public EventCallback onChange { get; set; }
 
-    [Parameter] 
+    [Parameter]
     public int OrderId { get; set; }
 
     protected override async Task OnInitializedAsync()

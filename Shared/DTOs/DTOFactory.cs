@@ -7,8 +7,6 @@ using Shared.DTOs.Search;
 using Shared.DTOs.Update;
 
 namespace Shared.DTOs;
-
-
 public class DTOFactory
 {
     //** Creating The Dtos **\\ 
@@ -116,6 +114,7 @@ public class DTOFactory
 
 
     //** Products **\\ 
+    
 
     public static DtoProduct toDtoProduct(ProductCreateDto x)
     {
@@ -144,8 +143,11 @@ public class DTOFactory
             Type = dto.Type
         };
     }
+    
 
     //** Orders **\\
+    
+    
     public static DtoOrder toDtoOrder(OrderCreateDto order)
     {
         return new DtoOrder
@@ -153,22 +155,10 @@ public class DTOFactory
             CustomerId = order.CustomerID,
         };
     }
+    
 
     //** Receipts **\\ 
-
-    public static DtoReceipt toDtoReceipt(ReceiptCreateDto x)
-    {
-        return new DtoReceipt
-        {
-            
-            Price = x.Price,
-            PaymentMethod = x.PaymentMethod,
-            PaymentDate = x.PaymentDate,
-            Text = x.Text,
-            FarmerId = x.FarmerId,
-            CustomerId = x.CustomerId
-        };
-    }
+    
 
     public static Receipt toReceipt(DtoReceipt x)
     {
@@ -187,20 +177,9 @@ public class DTOFactory
     }
 
     
-   
-
-    public static Order toOrder(DtoOrder order)
-    {
-        return new Order
-        {
-            CustomerID = order.CustomerId,
-            Date = order.Date,
-            OrderID = order.OrderId,
-            Status = order.Status
-        };
-    }
-
     //** OrderItems **\\
+    
+    
     public static DtoOrderItem toDtoOrderItem(OrderItem orderItem)
     {
         return new DtoOrderItem
@@ -226,7 +205,10 @@ public class DTOFactory
         };
     }
     
+    
     //** Comments **\\
+    
+    
     public static Comment toComment(DtoComment comment)
     {
         return new Comment
@@ -251,7 +233,11 @@ public class DTOFactory
             Username = dto.Username
         };
     }
+    
+    
     //** Reviews **\\
+    
+    
     public static DtoReview toDtoReview(ReviewCreateDto review)
     {
         return new DtoReview
@@ -281,45 +267,6 @@ public class DTOFactory
             Comments = comments
         };
     }
-    
-    /*
-     
-    /*
-      public static createOrderRequest CreateOrderRequest(OrderCreateDto dto)
-    {
-        RepeatedField<DtoOrderItem> orderItems = new RepeatedField<DtoOrderItem>();
-        for (int i = 0; i < dto.OrderItems.Count; i++)
-        {
-            orderItems.Add(toDtoOrderItem(dto.OrderItems[i]));
-        }
-
-        return new createOrderRequest
-        {
-            /*
-            NewOrder = toDtoOrder(dto),
-            OrderItems = { orderItems },
-            Note = dto.Note,
-            PaymentMethod = dto.PaymentMethod
-            * /
-        };
-    }
-     */
-    
-
-  
-
-
-
-
-    /* public static ProductSearchParameters ToProductSearchParameters(SearchProductDto x)
-     {
-         return new ProductSearchParameters
-         {
-             Amount = x.Amount,
-             Price = x.Price,
-             Type = x.Type ?? ""
-         };
-     }*/
 
     //** Creating the requests ** \\
 
@@ -372,7 +319,7 @@ public class DTOFactory
 
         return new getAllFarmersRequest
         {
-            Pesticides = pestTemp, //will this not make a problem with filtering?
+            Pesticides = pestTemp,
             FarmName = dto.FarmName ?? "",
             Rating = dto.Rating ?? 0
         };
@@ -430,7 +377,11 @@ public class DTOFactory
             Price = dto.Price ?? 0.0
         };
     }
-//receipts start
+    
+    
+    //**receipts**\\ 
+    
+    
     public static getReceiptsByCustomerRequest CreateGetReceiptsByCustomerRequest(string customerId)
     {
         return new getReceiptsByCustomerRequest
@@ -462,7 +413,7 @@ public class DTOFactory
             Farmer = farmerID
         };
     }
-//receipts end
+    //**Product**\\
     public static getProductByIdRequest CreateGetProductByIdRequest(int id)
     {
         return new getProductByIdRequest
@@ -543,35 +494,6 @@ public class DTOFactory
             OrderId = orderId
         };
     }
-
-
-    //** Receipts **\\ 
-
-/*
-    public static getAllReceiptsByFarmerRequest CreateGetAllReceiptsByFarmerRequest(string farmer)
-    {
-        return new getAllReceiptsByFarmerRequest
-        {
-            Farmer = farmer
-        };
-    }
-
-    public static getAllReceiptsByCustomerRequest CreteGetAllReceiptsByCustomerRequest(string customer)
-    {
-        return new getAllReceiptsByCustomerRequest
-        {
-            Customer = customer
-        };
-    }
-
-    public static farmersApprovalRequest CreateFarmerApprovalRequest(bool approve)
-    {
-        return new farmersApprovalRequest
-        {
-            Approve = approve
-        };
-    }
-    */
     
     //** Comment **\\
     public static putCommentRequest PostCommentRequest(DtoComment x)

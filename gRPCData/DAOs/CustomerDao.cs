@@ -13,7 +13,6 @@ public class CustomerDao:ICustomerDao
 {
     public async Task<string> CreateAsync(RegisterCustomerDto alien)
     {
-        // to return the string
         using var chanel = GrpcChannel.ForAddress("http://localhost:1337",new GrpcChannelOptions
         {
             Credentials = ChannelCredentials.Insecure

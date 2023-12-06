@@ -47,27 +47,28 @@
                             </tr>
                             </thead>
                             <tbody>
-                            
-                            
-                            @foreach (var item in Items){
-                                <tr>      
+
+
+                            @foreach (var item in Items)
+                            {
+                                <tr>
                                     <td>@item.Type</td>
                                     <td>@item.Amount</td>
                                     <td>@item.Price</td>
-                                    </tr>
+                                </tr>
                             }
-                            
+
                             </tbody>
-                          
+
                         </table>
-                        
-                        
-                        
-                        <button class="close-btn" @onclick="() =>Accept(item.Receipt.OrderID)">Accept</button>
-                        <button class="close-btn" @onclick="() =>Decline(item.Receipt.OrderID)">Decline</button>
+
+
+
+                        <button class="close-btn" @onclick="() => Accept(item.Receipt.OrderID)">Accept</button>
+                        <button class="close-btn" @onclick="() => Decline(item.Receipt.OrderID)">Decline</button>
                         <button class="close-btn" @onclick="@CloseView">Close</button>
                         <label class="msg" style="color: red">@msg</label>
-                                  
+                        
                     </Modal>
                    
                 </td>
@@ -96,7 +97,8 @@
     }
 
     private async void OpenItem(int orderId)
-    { Items =await orderService.GetAllOrderItemsFromOrder(orderId);
+    { 
+        Items =await orderService.GetAllOrderItemsFromOrder(orderId);
         isOpen = true;
         StateHasChanged();
        

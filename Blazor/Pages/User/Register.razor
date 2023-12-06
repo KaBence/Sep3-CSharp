@@ -54,10 +54,6 @@
                     <input class="col-5" type="text" @bind="farmName"/>
                 </div>
             }
-
-
-
-
             @if (!string.IsNullOrEmpty(errorLabel))
             {
                 <div class="field">
@@ -126,7 +122,6 @@
             }
             else
             {
-    //should the rating be deleted from the dto so it would not make problems here?
                 RegisterFarmerDto farmerDto = new RegisterFarmerDto(phoneNumber, password, repeatpassword, firstName, lastName, address, pesticides, farmName);
                 string farmerMessage = await userService.Register(farmerDto);
                 errorLabel = farmerMessage;

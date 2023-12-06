@@ -10,13 +10,11 @@ public class JwtAuthService:IAuthService
 {
     
     private readonly HttpClient client;
-    private readonly IUserService userService;
     public static string? Jwt { get; private set; } = "";
 
-    public JwtAuthService(HttpClient client, IUserService userService)
+    public JwtAuthService(HttpClient client)
     {
         this.client = client;
-        this.userService = userService;
     }
 
     public async Task LoginAsync(LoginDto dto)

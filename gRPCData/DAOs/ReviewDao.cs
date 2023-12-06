@@ -16,8 +16,6 @@ public class ReviewDao: IReviewDao
         using var chanel= GrpcChannel.ForAddress("http://localhost:1337",new GrpcChannelOptions
         {
             Credentials = ChannelCredentials.Insecure
-            
-             
         });
         var client = new SepService.SepServiceClient(chanel);
         var request = DTOFactory.CreatePostReviewRequest(DTOFactory.toDtoReview(alien));

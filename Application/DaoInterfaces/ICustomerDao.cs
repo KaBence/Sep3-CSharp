@@ -1,7 +1,5 @@
-﻿using Sep;
-using Shared.DTOs;
+﻿using Shared.DTOs;
 using Shared.Models;
-using Shared.DTOs.Search;
 namespace Application.DaoInterfaces;
 
 public interface ICustomerDao

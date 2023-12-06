@@ -48,7 +48,7 @@
     private List<Farmer> filtered = new List<Farmer>();
 
 
-    protected async override Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
         filtered = (List<Farmer>)await userService.GetAllFarmers(new SearchFarmerDto(null, null, null));
     }

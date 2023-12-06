@@ -1,9 +1,7 @@
-﻿using Application.Logic;
-using Application.LogicInterfaces;
+﻿using Application.LogicInterfaces;
 using Microsoft.AspNetCore.Mvc;
 using Shared.DTOs;
 using Shared.DTOs.Basics;
-using Shared.DTOs.Search;
 using Shared.Models;
 
 namespace WebAPI.Controllers; 

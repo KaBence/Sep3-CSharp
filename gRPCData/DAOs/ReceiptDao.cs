@@ -72,7 +72,6 @@ public class ReceiptDao: IReceiptDao
         try
         {
             var response = client.getPendingFarmersReceipt(request);
-          //  SendReceiptDto sendReceiptDto = new SendReceiptDto();
             List<SendReceiptDto> pendingReceipts = new List<SendReceiptDto>();
             foreach (var item in response.Receipts)
             {

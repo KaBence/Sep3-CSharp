@@ -38,7 +38,6 @@ public class ProductLogic:IProductLogic
     public async Task<Product> GetByIdAsync(int id)
     {
         return await productDao.GetByIdAsync(id);
-        
     }
 
     public async Task<IEnumerable<Product>> GetByFarmerAsync(string phoneNumber,SearchProductDto dto)
