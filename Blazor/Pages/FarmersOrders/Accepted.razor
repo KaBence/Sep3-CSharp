@@ -35,7 +35,7 @@
                 <td>
                     <button class="close-btn" @onclick="() => OpenItem(item.Receipt.OrderID)">See the order items</button>
                     <Modal ShowModal="isOpen">
-                        <ShowOrderItems OrderId="tempOrderId" onChange="@CloseView" isGroup="true"/>
+                        <ShowOrderItems OrderId="tempOrderId" onChange="@CloseView" isGroup="false"/>
                     </Modal>
                    
                 </td>
