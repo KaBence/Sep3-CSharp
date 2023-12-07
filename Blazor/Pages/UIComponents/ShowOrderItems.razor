@@ -52,10 +52,16 @@ else
 
     [Parameter]
     public int OrderId { get; set; }
+    
+    [Parameter]
+    public bool isGroup { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        Items = await orderService.GetAllOrderItemsFromGroup(OrderId);
+        if (isGroup)
+            Items = await orderService.GetAllOrderItemsFromGroup(OrderId);
+        else
+            Items = await orderService.GetAllOrderItemsFromOrder(OrderId);
     }
 
 }
