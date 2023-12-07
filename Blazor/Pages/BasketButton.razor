@@ -107,18 +107,13 @@
         msg = "";
     }
 
-    public async void CreateOrder()
-    {
+    public async void CreateOrder(){
         role = authService.GetAuthAsync().Result.Identity!.Name!;
-
-        if (string.IsNullOrEmpty(payment))
-        {
+        if (string.IsNullOrEmpty(payment)){
             msg = "Please write a payment method";
             return;
         }
-
-        try
-        {
+        try{
             OrderCreateDto dto = new OrderCreateDto
             {
                 CustomerID = role,
@@ -128,15 +123,13 @@
             };
             string customerMessege = await orderService.CreateOrderAsync(dto);
             msg = customerMessege;
-            if (customerMessege == "Success!")
-            {
+            if (customerMessege == "Success!"){
                 navMgr.NavigateTo("/");
             }
             msg = "Order Created Successfully";
             ClearBasket();
         }
-        catch (Exception e)
-        {
+        catch (Exception e){
             msg = e.Message;
             Console.WriteLine(e.Message);
         }

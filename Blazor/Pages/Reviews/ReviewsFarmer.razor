@@ -1,6 +1,7 @@
 ﻿@page "/ReviewsFarmer/{farmer}"
 @using global::Shared.Models
 @using HttpClients.ClientInterfaces
+@using UIComponents
 @inject IReviewServices reviewServices;
 @inject NavigationManager navMgr;
 
@@ -28,7 +29,7 @@
                 <div class="items col-12 row">
                     @foreach (var item in reviews)
                     {
-                        <div class="card col-12 col-md-2">
+                        <div class="card col-xl-3 col-md-12">
                             <h1>Farmer: @item.FarmerID</h1>
                             <label>Overall: @item.Star/5</label>
                             <label>@item.Text</label>
@@ -51,7 +52,7 @@
                             </div>
                         </div>
                         <div>
-                            <button class="btn" @onclick="@(() => navMgr.NavigateTo($"/PostComment/{@item.FarmerID}/{@item.CustomerID}/{@item.OrderId}"))">Comment</button>
+                            <button class="btn" @onclick="@(() => PostComment(item.FarmerID,item.CustomerID,item.OrderId))">Comment</button>
                         </div>
                     }
                 </div>
@@ -61,12 +62,21 @@
     </AuthorizeView>
 </div >
 
+<Modal ShowModal="showModal">
+    <PostComment customerId="@CustomerId" farmerId="@FarmerId" orderId="@OrderId" onChange="@proceed"></PostComment>
+</Modal>
+
 @code
 {
     [Parameter]
     public string farmer { set; get; }
 
     private IEnumerable<Review> reviews = new List<Review>();
+    
+    private bool showModal = false;
+    private string FarmerId = "";
+    private string CustomerId = "";
+    private int OrderId = 0;
 
 
     protected override async Task OnInitializedAsync()
@@ -80,5 +90,21 @@
             reviews = null;
             farmer = "";
         }
+    }
+    
+    private void PostComment(string farmerId, string customerId, int orderId)
+    {
+        showModal = true;
+        FarmerId = farmerId;
+        CustomerId = customerId;
+        OrderId = orderId;
+    }
+
+    
+    private async void proceed()
+    {
+        navMgr.NavigateTo("/MyProfile");
+        showModal = false;
+        
     }
 }

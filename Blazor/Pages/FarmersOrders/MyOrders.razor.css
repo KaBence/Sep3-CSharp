@@ -20,16 +20,6 @@ input[type="radio"] {
     margin-right: 5px;
 }
 
-/* Add your styles for Pending, Accepted, and Declined components here */
-/* For example: */
-.Pending, .Accepted, .Declined {
-    /* Add your component-specific styles here */
-    margin-top: 20px;
-    background-color: #ffffff; /* White background color */
-    padding: 15px;
-    border: 1px solid #ddd; /* Light gray border */
-    border-radius: 8px;
-}
 h3{
     text-align: center;
 }

@@ -35,7 +35,7 @@
                 }
 
                 <div class="idk">
-                    <button class="btn" @onclick="@(() => navMgr.NavigateTo("/Reviews"))">Cancel</button>
+                    <button class="btn" @onclick="@(() => onChange.InvokeAsync())">Cancel</button>
                     <button class="btn" @onclick="Submit">Post</button>
                 </div>
             </div>
@@ -61,7 +61,7 @@
                 }
 
                 <div class="idk">
-                    <button class="btn" @onclick="@(() => navMgr.NavigateTo("/ReviewsFarmer"))">Cancel</button>
+                    <button class="btn" @onclick="@(() => onChange.InvokeAsync())">Cancel</button>
                     <button class="btn" @onclick="Submit">Post</button>
                 </div>
             </div>
