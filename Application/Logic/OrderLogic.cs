@@ -10,14 +10,11 @@ namespace Application.Logic;
 public class OrderLogic:IOrderLogic
 {
     private readonly IOrderDao orderDao;
-
-    public OrderLogic(IOrderDao orderDao)
-    {
+    public OrderLogic(IOrderDao orderDao) {
         this.orderDao = orderDao;
     }
 
-    public async Task<string> CreateAsync(OrderCreateDto dto)
-    {
+    public async Task<string> CreateAsync(OrderCreateDto dto) {
         return await orderDao.CreateAsync(dto);
     }
 

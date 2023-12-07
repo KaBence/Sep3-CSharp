@@ -11,25 +11,20 @@ namespace gRPCData.DAOs;
 
 public class OrderDao : IOrderDao
 {
-    public async Task<string> CreateAsync(OrderCreateDto order)
-    {
-        using var chanel= GrpcChannel.ForAddress("http://localhost:1337",new GrpcChannelOptions
-        {
+    public async Task<string> CreateAsync(OrderCreateDto order) {
+        using var chanel= GrpcChannel.ForAddress("http://localhost:1337",new GrpcChannelOptions {
             Credentials = ChannelCredentials.Insecure
         });
         var client = new SepService.SepServiceClient(chanel);
         var request = DTOFactory.CreateOrderRequest(order);
-        try
-        {
+        try {
             var response = client.createNewOrder(request);
-            if (response.Resp.Contains("Error:"))
-            {
+            if (response.Resp.Contains("Error:")) {
                 throw new Exception(response.Resp);
             }
             return response.Resp;
         }
-        catch (RpcException e)
-        {
+        catch (RpcException e) {
             Console.WriteLine($"gRPC Error: {e.Status}");
             throw;
         }
