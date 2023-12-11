@@ -1,11 +1,12 @@
 ﻿using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
-using Application.LogicInterfaces;
 using HttpClients.ClientInterfaces;
 using Shared.DTOs.Create;
 using Shared.DTOs.Update;
 using Shared.Models;
+
+namespace HttpClients.Implementations;
 
 public class OrderHttpClient : IOrderService
 {
