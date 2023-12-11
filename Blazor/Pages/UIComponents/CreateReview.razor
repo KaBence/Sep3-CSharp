@@ -21,7 +21,7 @@
             <select @bind="selectedFarmer">
                 @foreach(string item in GoodFarmerId)
                 {
-                    <option value="@item">@item</option>
+                    <option value="@item" selected>@item</option>
                 }
             </select>
             <div class="idk">
@@ -63,7 +63,7 @@
 
     private List<string> GoodFarmerId;
 
-    private string text;
+    private string text="";
     private double star;
     private string customerId = "";
     private string errorLabel;

@@ -64,14 +64,16 @@
                     <button class="btn" @onclick="@(() => onChange.InvokeAsync())">Cancel</button>
                     <button class="btn" @onclick="Submit">Post</button>
                 </div>
+                
             </div>
+            
         }
     </Authorized>
 </AuthorizeView>
 
 
 @code {
-    private string text;
+    private string text="";
     [Parameter]
     public string farmerId { get; set; }
     [Parameter]
@@ -112,22 +114,17 @@
             errorLabel = customerMessage;
             if (customerMessage == "Success!")
             {
-                /*if (role.Equals("Customer"))
-                {
-                    navMgr.NavigateTo("/Reviews"); 
-                }
-                else if (role.Equals("Farmer"))
-                {
-                    navMgr.NavigateTo($"/ReviewsFarmer/{farmerId}");
-                }
-                */
                 await onChange.InvokeAsync();
+            }
+            else
+            {
+                
             }
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
-            throw;
+            errorLabel = e.Message;
         }
     }
 

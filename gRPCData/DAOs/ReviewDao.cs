@@ -72,6 +72,10 @@ public class ReviewDao: IReviewDao
         try
         {
             var response = client.postComment(request);
+            if (response.Resp.Contains("Error"))
+            {
+                throw new Exception(response.Resp);
+            }
             string created = response.Resp;
             return created;
         }
